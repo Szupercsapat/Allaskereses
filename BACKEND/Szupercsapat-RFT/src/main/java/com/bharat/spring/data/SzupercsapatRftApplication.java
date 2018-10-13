@@ -8,5 +8,7 @@ public class SzupercsapatRftApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SzupercsapatRftApplication.class, args);
+
+	//asdasdasd proba komment
 	}
 }
