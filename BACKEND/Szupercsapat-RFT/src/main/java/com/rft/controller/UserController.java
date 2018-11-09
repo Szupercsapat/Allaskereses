@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +25,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -207,8 +213,20 @@ public class UserController {
 			//https://stackoverflow.com/a/47411493
 		}
 		//TODO redirect to login page
-		headers.setLocation(URI.create("https://en.m.wikipedia.org/wiki/Success"));
+		headers.setLocation(URI.create("https://en.m.wikipedia.org/wiki/Success"));https://en.wikipedia.org/wiki/Login
 		return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
 	}
 	
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public ResponseEntity<Object> logout (HttpServletRequest request, HttpServletResponse response) {
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    HttpHeaders headers = new HttpHeaders();
+	    
+	    if (auth != null){    
+	        new SecurityContextLogoutHandler().logout(request, response, auth);
+	    }
+	  //TODO redirect to login page
+	  		headers.setLocation(URI.create("https://en.wikipedia.org/wiki/Login"));
+	  		return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
+	}
 }
