@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.rft.entities.JobOfferer;
@@ -45,11 +44,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	EmailUtil emailSender;
 
-	@Value("${server.port}")
-	private String port;
-	
-	@Value("${server.contextPath}")
-	private String serverContext;
+	private static int port=8080;
+	private static String serverContext="/rft";
 	
 	@Override
 	public List<User> findAll() {
@@ -120,7 +116,7 @@ public class UserServiceImpl implements UserService {
 
 	private String getRegistrationText(String username,String activationCode) {
 		StringBuilder sb = new StringBuilder();
-		String link="localhost:"+port+serverContext+"/user"+"/registered/activation/"+activationCode;
+		String link="localhost:"+port+serverContext+"/registered/activation/"+activationCode;
 
 		sb.append("<h1>" + "Üdvözöljük " + username + "!" + "</h1></br>");
 		sb.append("<p>" + "Köszöntjük oldalunkon." + "</p>");

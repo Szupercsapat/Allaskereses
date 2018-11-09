@@ -100,14 +100,6 @@ CREATE TABLE `job_seeker_job_category` (
   CONSTRAINT `category_id_foreig` FOREIGN KEY (`category_id`) REFERENCES `job_category` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `school` (
-  school_id int(11) NOT NULL AUTO_INCREMENT,
-  seeker_id int(11) DEFAULT NULL,
-  `name` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (school_id),
-  KEY seeker_id (seeker_id),
-  CONSTRAINT `seeker_id_forein_sch` FOREIGN KEY (seeker_id) REFERENCES job_seeker (id)
-);
 
 insert into role(name) values('ROLE_ADMIN');
 insert into role(name) values('ROLE_USER');
@@ -118,9 +110,6 @@ select * from job_offerer;
 select * from job_seeker;
 select * from job_category;
 select * from user_activation;
-select * from job_offerer_job_category;
-select * from job_seeker_job_category;
-select * from school;
 
 use rft;
 
@@ -131,7 +120,6 @@ drop table job_seeker;
 drop table job_category;
 drop table user_role;
 drop table user_activation;
-drop table school;
 drop table user;
 
 select * from job_category;
