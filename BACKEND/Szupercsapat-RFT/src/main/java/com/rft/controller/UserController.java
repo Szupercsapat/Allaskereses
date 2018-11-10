@@ -55,6 +55,7 @@ import com.rft.services.UserService;
 //kell ide CrossOrigin, így minden fv-t tudunk frontendről hívni CORS-al
 @CrossOrigin
 @RestController
+@RequestMapping("/user")
 public class UserController {
 	@Autowired
 	UserService userService;
@@ -146,6 +147,17 @@ public class UserController {
 		return new ResponseEntity<>("File is uploaded successfully", HttpStatus.OK);
 	}
 	
+	
+	/*
+	//angular
+	//https://stackoverflow.com/questions/39863317/how-to-force-angular2-to-post-using-x-www-form-urlencoded
+	@PostMapping( "/register" )
+	public ResponseEntity<Object> someControllerMethod( @RequestParam Map<String, String> body ) throws Exception {
+
+	   System.out.println(body.get("username") +"\n\n\n");
+	   return new ResponseEntity<>("Registered", HttpStatus.OK);
+	}*/
+	
 	/***
 	 * https://stackoverflow.com/questions/24551915/how-to-get-form-data-as-a-map-in-spring-mvc-controller
 	 * !Make sure the Content-type is application/x-www-form-urlencoded!
@@ -153,10 +165,10 @@ public class UserController {
 	 * @return
 	 * @throws Exception
 	 */
-	
 	//osztályba belraktam elvileg nem kell, de külön metódusokra is lehet rakni
+	
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes =MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> register(@RequestBody User user) throws Exception {
 
 		System.out.println(user.getUsername());

@@ -17,6 +17,9 @@ public class JobCategory extends EntityBase{
 	@ManyToMany(mappedBy = "categories")
 	Set<JobOfferer> offerers;
 	
+	@ManyToMany(mappedBy = "categories")
+	Set<Job> jobs;
+	
 	@Column(name="job_name")
 	private String jobName;
 	
@@ -74,6 +77,14 @@ public class JobCategory extends EntityBase{
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public Set<Job> getJobs() {
+		return jobs;
+	}
+
+	public void setJobs(Set<Job> jobs) {
+		this.jobs = jobs;
 	}
 	
 }

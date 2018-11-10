@@ -108,12 +108,6 @@ public class JobSeeker extends EntityBase {
 		this.profileImage = profileImage;
 	}
 
-	@Override
-	public String toString() {
-		return "JobSeeker [categories=" + categories + ", user=" + user + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", aboutMe=" + aboutMe + ", profileImage=" + Arrays.toString(profileImage) + "]";
-	}
-
 	public Set<School> getSchools() {
 		return schools;
 	}

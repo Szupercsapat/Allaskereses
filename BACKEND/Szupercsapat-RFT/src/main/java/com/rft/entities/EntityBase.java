@@ -18,7 +18,7 @@ public class EntityBase {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected Long id;
+	protected Integer id;
 	@JsonIgnore
 	@CreationTimestamp //https://www.thoughts-on-java.org/persist-creation-update-timestamps-hibernate/
 	@Column(updatable = false)
@@ -27,11 +27,11 @@ public class EntityBase {
 	@UpdateTimestamp
 	protected Date modified;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

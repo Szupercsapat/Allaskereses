@@ -33,6 +33,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 		.authenticated()
 		.antMatchers("/find/*")
 		.authenticated()
+		.antMatchers("/profile/test")
+		.authenticated()
 		.antMatchers(HttpMethod.GET,"/users")
 		.hasRole("ADMIN")
 		.antMatchers(HttpMethod.POST,"/upload")

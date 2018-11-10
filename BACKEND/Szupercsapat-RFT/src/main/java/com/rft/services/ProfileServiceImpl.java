@@ -57,24 +57,15 @@ public class ProfileServiceImpl implements ProfileService {
 	private SchoolRepository schoolRepository;
 	@Autowired
 	private WorkPlaceRepository workPlaceRepository;
-
-	@Override
-	public void checkIfActivated(User user) {
-		if (!user.isActivated())
-			throw new UserIsNotActivatedException("User is not activated.");
-	}
-
+	@Autowired
+	private UserService userService;
+	
 	@Override
 	public void updateSeekerProfile(JobSeekerDTO seekerDTO) {
 
-		if (seekerDTO.getUsername() == null)
-			throw new UsernameMissingForProfileUpdateException("Username is missing for profile update!");
-		User user = userRepository.findByUsername(seekerDTO.getUsername());
-		if (user == null)
-			throw new UserDoesNotExistsException("The username given does not exists!");
-
-		checkIfActivated(user);
+		User user=userService.checkUserValues(seekerDTO.getUsername());
 		JobSeeker seekerFromDb = seekerRepository.findByUser(user);
+		
 		mapSchoolsForSeeker(seekerDTO, seekerFromDb);
 		mapWorkPlacesForSeeker(seekerDTO, seekerFromDb);
 		mapNonNullFieldsForSeeker(seekerDTO, seekerFromDb);
@@ -85,28 +76,28 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public void updateOffererProfile(JobOffererDTO offererDTO) {
 
-		if (offererDTO.getUsername() == null)
-			throw new UsernameMissingForProfileUpdateException("Username is missing for profile update!");
-		User user = userRepository.findByUsername(offererDTO.getUsername());
-		if (user == null)
-			throw new UserDoesNotExistsException("The username given does not exists!");
-
-		checkIfActivated(user);
+		User user=userService.checkUserValues(offererDTO.getUsername());
 		JobOfferer offererFromDb = offererRepository.findByUser(user);
+		
 		mapNonNullFieldsForOfferer(offererDTO, offererFromDb);
 		updateOffererCategories(offererDTO, offererFromDb);
 		offererRepository.save(offererFromDb);
 	}
-
+	
 	private void updateOffererCategories(JobOffererDTO offererDTO, JobOfferer offererFromDb) {
 		if (offererDTO.getCategories() == null)
 			return;
 
 		for (int categoryId : offererDTO.getCategories()) {
-			JobCategory category = categoryRepository.findById(categoryId);
-			if (category != null) {
-				if (!offererFromDb.getCategories().contains(category)) {
-					offererFromDb.addCategory(category);
+			if (categoryId < 0) {
+				JobCategory category = categoryRepository.findById(categoryId * (-1));
+				offererFromDb.removeCategory(category);
+			} else {
+				JobCategory category = categoryRepository.findById(categoryId);
+				if (category != null) {
+					if (!offererFromDb.getCategories().contains(category)) {
+						offererFromDb.addCategory(category);
+					}
 				}
 			}
 		}
@@ -117,10 +108,15 @@ public class ProfileServiceImpl implements ProfileService {
 			return;
 
 		for (int categoryId : seekerDTO.getCategories()) {
-			JobCategory category = categoryRepository.findById(categoryId);
-			if (category != null) {
-				if (!seekerFromDb.getCategories().contains(category)) {
-					seekerFromDb.addCategory(category);
+			if (categoryId < 0) {
+				JobCategory category = categoryRepository.findById(categoryId * (-1));
+				seekerFromDb.removeCategory(category);
+			} else {
+				JobCategory category = categoryRepository.findById(categoryId);
+				if (category != null) {
+					if (!seekerFromDb.getCategories().contains(category)) {
+						seekerFromDb.addCategory(category);
+					}
 				}
 			}
 		}
@@ -211,7 +207,7 @@ public class ProfileServiceImpl implements ProfileService {
 	private void saveImageForOfferer(String username, MultipartFile imageFile) {
 
 		User user = userRepository.findByUsername(username);
-		checkIfActivated(user);
+		userService.checkIfActivated(user);
 
 		if (user == null)
 			throw new UserDoesNotExistsException("The given user by the username: " + username + " does not exists!");
@@ -227,7 +223,7 @@ public class ProfileServiceImpl implements ProfileService {
 
 	private void saveImageForSeeker(String username, MultipartFile imageFile) {
 		User user = userRepository.findByUsername(username);
-		checkIfActivated(user);
+		userService.checkIfActivated(user);
 
 		if (user == null)
 			throw new UserDoesNotExistsException("The given user by the username: " + username + " does not exists!");
@@ -271,12 +267,13 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public byte[] getCVinPDF(JobSeekerDTO seekerDTO) {
 		User user = userRepository.findByUsername(seekerDTO.getUsername());
-		if(user == null)
-			throw new UserDoesNotExistsException("The given user by the username: " + seekerDTO.getUsername() + " does not exists!");
-		checkIfActivated(user);
-		
+		if (user == null)
+			throw new UserDoesNotExistsException(
+					"The given user by the username: " + seekerDTO.getUsername() + " does not exists!");
+		userService.checkIfActivated(user);
+
 		JobSeeker seeker = user.getJobSeeker();
-		return GeneratePDF.getPDF(seeker,getDefaultProfileImage());
+		return GeneratePDF.getPDF(seeker, getDefaultProfileImage());
 	}
 
 	private byte[] getDefaultProfileImage() {

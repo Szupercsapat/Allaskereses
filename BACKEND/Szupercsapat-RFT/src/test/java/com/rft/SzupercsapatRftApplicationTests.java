@@ -1,3 +1,7 @@
+package com.rft;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -5,7 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.rft.entities.User;
+import com.rft.entities.Job;
 import com.rft.entities.JobCategory;
+import com.rft.entities.JobOfferer;
 import com.rft.entities.JobSeeker;
 import com.rft.entities.School;
 import com.rft.entities.User;
@@ -83,7 +89,7 @@ public class SzupercsapatRftApplicationTests {
 		
 		WorkPlace workPlace2 = new WorkPlace();
 		workPlace2.setFromYear(2008);
-		workPlace2.setToYear(20013);
+		workPlace2.setToYear(20014);
 		workPlace2.setName("Microsoft");
 		workPlace2.setSeeker(seeker);
 		
@@ -94,6 +100,34 @@ public class SzupercsapatRftApplicationTests {
 		seeker.setWorkPlaces(workPlaces);
 		seekerRepository.save(seeker);
 	}
+	
+	@Test
+	public void createJobs()
+	{
+		User user = userRepository.findByUsername("user");
+		JobOfferer offerer = offererRepository.findByUser(user);
+		
+		Job job1 = new Job();
+		job1.setDescription("Description");
+		job1.setName("job1");
+		job1.setOfferer(offerer);
+		
+		Job job2 = new Job();
+		job2.setDescription("Description");
+		job2.setName("job2");
+		job2.setOfferer(offerer);
+		
+		offerer.addJob(job1);
+		offerer.addJob(job2);
+		
+		offererRepository.save(offerer);
+	}
+	
+	@Test void addCategoriesToJobs()
+	{
+		
+	}
+	
 }
 
 

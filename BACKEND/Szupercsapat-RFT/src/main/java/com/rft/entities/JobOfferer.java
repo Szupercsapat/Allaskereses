@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -23,6 +24,9 @@ public class JobOfferer extends EntityBase{
 	joinColumns = @JoinColumn(name="offerer_id", referencedColumnName="id"),
 	inverseJoinColumns=@JoinColumn(name="category_id",referencedColumnName="id"))
 	private Set<JobCategory> categories;
+	
+	@OneToMany(mappedBy = "offerer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Job> jobs;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="user_id")
@@ -102,5 +106,26 @@ public class JobOfferer extends EntityBase{
 
 	public void setProfileImage(byte[] profileImage) {
 		this.profileImage = profileImage;
+	}
+
+	public Set<Job> getJobs() {
+		return jobs;
+	}
+
+	public void setJobs(Set<Job> jobs) {
+		this.jobs = jobs;
+	}
+	
+	public void addJob(Job job)
+	{
+		if(jobs==null)
+			jobs = new HashSet<Job>();
+		jobs.add(job);
+	}
+	public void removeJob(Job job)
+	{
+		if(jobs==null)
+			return;
+		jobs.remove(job);
 	}
 }

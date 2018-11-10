@@ -17,7 +17,11 @@ import com.rft.entities.User;
 import com.rft.entities.UserActivation;
 import com.rft.exceptions.ActivationExpiredException;
 import com.rft.exceptions.EmailAddressAlreadyRegisteredException;
+import com.rft.exceptions.UserDoesNotExistsException;
+import com.rft.exceptions.UserIsNotActivatedException;
 import com.rft.exceptions.UserameAlreadyRegisteredException;
+import com.rft.exceptions.UsernameIsMissingException;
+import com.rft.exceptions.UsernameMissingForProfileUpdateException;
 import com.rft.exceptions.WrongActivationCodeException;
 import com.rft.repos.JobOffererRepository;
 import com.rft.repos.JobSeekerRepository;
@@ -56,6 +60,24 @@ public class UserServiceImpl implements UserService {
 		return (List<User>) userRepository.findAll();
 	}
 
+	@Override
+	public void checkIfActivated(User user) {
+		if (!user.isActivated())
+			throw new UserIsNotActivatedException("User is not activated.");
+	}
+	
+	public User checkUserValues(String username)
+	{
+		if (username == null)
+			throw new UsernameIsMissingException("Username is missing !");
+		User user = userRepository.findByUsername(username);
+		if (user == null)
+			throw new UserDoesNotExistsException("The username given does not exists!");
+		
+		checkIfActivated(user);
+		return user;
+	}
+	
 	@Override
 	public void register(String username, String email, String password) {
 		checkIfAlreadyInDb(username, email);

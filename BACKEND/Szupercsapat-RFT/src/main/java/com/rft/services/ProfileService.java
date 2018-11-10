@@ -13,7 +13,6 @@ public interface ProfileService {
 
 	void updateSeekerProfile(JobSeekerDTO seekerDTO);
 	void updateOffererProfile(JobOffererDTO offererDTO);
-	void checkIfActivated(User user);
 	void saveImage(String profileType, String username, MultipartFile imageFile);
 	byte[] getProfileImage(String username, String profileType);
 	byte[] getCVinPDF(JobSeekerDTO seekerDTO);

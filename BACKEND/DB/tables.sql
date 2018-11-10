@@ -101,13 +101,58 @@ CREATE TABLE `job_seeker_job_category` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `school` (
-  school_id int(11) NOT NULL AUTO_INCREMENT,
-  seeker_id int(11) DEFAULT NULL,
-  `name` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (school_id),
-  KEY seeker_id (seeker_id),
-  CONSTRAINT `seeker_id_forein_sch` FOREIGN KEY (seeker_id) REFERENCES job_seeker (id)
-);
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `seeker_id` int(11) DEFAULT NULL,
+  `from_year` int DEFAULT NULL,
+  `to_year` int DEFAULT NULL,
+  `name` varchar(200) default null,
+    CREATED    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  modified    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `seeker_id` (`seeker_id`),
+  CONSTRAINT `job_seeker_ibfk_1` FOREIGN KEY (`seeker_id`) REFERENCES `job_seeker` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `work_place` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `seeker_id` int(11) DEFAULT NULL,
+  `from_year` int DEFAULT NULL,
+  `to_year` int DEFAULT NULL,
+  `name` varchar(200) default null,
+    CREATED    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  modified    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `seeker_id` (`seeker_id`),
+  CONSTRAINT `job_seeker_ibfk_2` FOREIGN KEY (`seeker_id`) REFERENCES `job_seeker` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `job` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `offerer_id` int(11) DEFAULT NULL,
+  `name` varchar(200) default null,
+  `desc` text default null,
+    CREATED    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  modified    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `offerer_id` (`offerer_id`),
+  FOREIGN KEY (`offerer_id`) REFERENCES `job_offerer` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `job_job_category` (
+	`job_id` int(11) NOT NULL,
+	`category_id` int(11) NOT NULL,
+   CREATED    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   modified    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`job_id`) REFERENCES `job` (`id`),
+  FOREIGN KEY (`category_id`) REFERENCES `job_category` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+insert into job_category(job_name,parent_id,about,active) values('IT',null,'Információ technológia.',0);
+insert into job_category(job_name,parent_id,about,active) values('Könnyű-Fizikai',null,'Ülő/álló munka, komoly fizikai megterhelés nélkül.',0);
+insert into job_category(job_name,parent_id,about,active) values('Programozó',3,'Számítógép-programozás (vagy egyszerűen programozás) egy vagy több absztrakt algoritmus megvalósítását jelenti egy bizonyos programozási nyelven.',0);
+insert into job_category(job_name,parent_id,about,active) values('C-sharp programozó',5,'Információ technológia.',1);
+
 
 insert into role(name) values('ROLE_ADMIN');
 insert into role(name) values('ROLE_USER');
@@ -121,6 +166,9 @@ select * from user_activation;
 select * from job_offerer_job_category;
 select * from job_seeker_job_category;
 select * from school;
+select * from work_place;
+select * from job;
+select * from job_job_category;
 
 use rft;
 
@@ -132,13 +180,12 @@ drop table job_category;
 drop table user_role;
 drop table user_activation;
 drop table school;
+drop table work_place;
+drop table job;
+drop table job_job_category;
 drop table user;
 
 select * from job_category;
-insert into job_category(job_name,parent_id,about,active) values('IT',null,'Információ technológia.',0);
-insert into job_category(job_name,parent_id,about,active) values('Könnyű-Fizikai',null,'Ülő/álló munka, komoly fizikai megterhelés nélkül.',0);
-insert into job_category(job_name,parent_id,about,active) values('Programozó',3,'Számítógép-programozás (vagy egyszerűen programozás) egy vagy több absztrakt algoritmus megvalósítását jelenti egy bizonyos programozási nyelven.',0);
-insert into job_category(job_name,parent_id,about,active) values('C-sharp programozó',5,'Információ technológia.',1);
 
 
 

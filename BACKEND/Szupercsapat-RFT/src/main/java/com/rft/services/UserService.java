@@ -10,4 +10,6 @@ public interface UserService {
 	List<User> findAll();
 	void register(String username,String email,String password);
 	void activateUser(String activationCode);
+	void checkIfActivated(User user);
+	User checkUserValues(String username);
 }

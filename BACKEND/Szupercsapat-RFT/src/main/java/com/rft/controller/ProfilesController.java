@@ -37,6 +37,12 @@ public class ProfilesController {
 
 	@Autowired
 	private ProfileService profileService;
+	
+	@GetMapping("/test")
+	public String authTest()
+	{
+		return "You logged in successfully";
+	}
 
 	@RequestMapping(value = "/updateSeeker",method = RequestMethod.POST)
 	public ResponseEntity<String> updateSeeker(@RequestBody JobSeekerDTO seekerDTO) throws Exception { //https://stackoverflow.com/a/18525961
