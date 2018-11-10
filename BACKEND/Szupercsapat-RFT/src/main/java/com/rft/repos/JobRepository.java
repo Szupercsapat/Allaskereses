@@ -12,4 +12,5 @@ import java.util.Set;
 
 public interface JobRepository extends JpaRepository<Job, Integer> {
 	List<Job> findByCategories(Set categories);
+	Job findById(Integer id);
 }

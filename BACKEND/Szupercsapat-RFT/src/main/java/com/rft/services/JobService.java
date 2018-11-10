@@ -6,6 +6,7 @@ import com.rft.entities.DTOs.JobDTO;
 
 public interface JobService {
 	void addJob(JobDTO jobDTO);
-	void removeJob(JobDTO jobDTO);
-	void updateJob(JobDTO jobDTO);
+	void removeJob(Integer jobId);
+	void updateJob(int jobId,JobDTO jobDTO);
+	void removeAllJobs();
 }

@@ -3,6 +3,7 @@ package com.rft.entities.DTOs;
 import java.util.List;
 
 public class JobDTO {
+	Integer jobId;
 	String username;
 	String name;
 	String description;
@@ -30,6 +31,12 @@ public class JobDTO {
 	}
 	public void setCategories(List<Integer> categories) {
 		this.categories = categories;
+	}
+	public Integer getJobId() {
+		return jobId;
+	}
+	public void setJobId(Integer jobId) {
+		this.jobId = jobId;
 	}
 	
 }
