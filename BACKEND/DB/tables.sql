@@ -130,7 +130,7 @@ CREATE TABLE `job` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `offerer_id` int(11) DEFAULT NULL,
   `name` varchar(200) default null,
-  `desc` text default null,
+  `description` text default null,
     CREATED    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   modified    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -181,8 +181,8 @@ drop table user_role;
 drop table user_activation;
 drop table school;
 drop table work_place;
-drop table job;
 drop table job_job_category;
+drop table job;
 drop table user;
 
 select * from job_category;
