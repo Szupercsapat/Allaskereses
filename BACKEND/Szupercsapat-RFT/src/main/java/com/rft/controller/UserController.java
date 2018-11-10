@@ -31,6 +31,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,10 +66,6 @@ public class UserController {
 	// @Autowired
 	// private ProjectionFactory projectionFactory;
 
-	@RequestMapping("/hello/{name}")
-	public String hello(@PathVariable("name") String name) {
-		return "Hello " + name;
-	}
 	/*
 	 * @RequestMapping( value = "/helloka/findall", method = RequestMethod.GET
 	 * //,produces = { MimeTypeUtils.APPLICATION_JSON_VALUE }, //headers =
@@ -110,6 +107,7 @@ public class UserController {
 	 * projectionFactory.createProjection(PartialProbaProjection.class, proba)); }
 	 */
 
+	/*
 	@RequestMapping(value = "/process", method = RequestMethod.POST)
 	public Map<String, Object> process(@RequestBody Map<String, Object> payload) throws Exception {
 
@@ -122,31 +120,7 @@ public class UserController {
 			entry.setValue(i + "# hey");
 		}
 		return payload;
-	}
-
-	// get and save image, return an image via bytearray shit or some shit
-	@GetMapping(value = "/getimage")
-	public @ResponseBody byte[] getImage() throws IOException {
-
-		File initialFile = new File("src/main/resources/Scarlett_Johansson_Césars_2014.jpg");
-		InputStream targetStream = new FileInputStream(initialFile);
-
-		byte[] targetArray = new byte[targetStream.available()];
-		targetStream.read(targetArray);
-
-		return targetArray;
-	}
-
-	@RequestMapping(value = "/upload", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-		File convertFile = new File("C:\\kepek\\" + file.getOriginalFilename());
-		convertFile.createNewFile();
-		FileOutputStream fout = new FileOutputStream(convertFile);
-		fout.write(file.getBytes());
-		fout.close();
-		return new ResponseEntity<>("File is uploaded successfully", HttpStatus.OK);
-	}
-	
+	}*/
 	
 	/*
 	//angular
@@ -229,16 +203,15 @@ public class UserController {
 		return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
 	}
 	
-	@RequestMapping(value="/logout", method = RequestMethod.GET)
-	public ResponseEntity<Object> logout (HttpServletRequest request, HttpServletResponse response) {
-	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    HttpHeaders headers = new HttpHeaders();
-	    
-	    if (auth != null){    
-	        new SecurityContextLogoutHandler().logout(request, response, auth);
-	    }
-	  //TODO redirect to login page
-	  		headers.setLocation(URI.create("https://en.wikipedia.org/wiki/Login"));
-	  		return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
+	@DeleteMapping("/{username}")
+	public void deleteOne(@PathVariable("username") String username)
+	{
+		userService.removeUser(username);
+	}
+	
+	@DeleteMapping
+	public void deleteAll()
+	{
+		userService.removeAllUsers();
 	}
 }

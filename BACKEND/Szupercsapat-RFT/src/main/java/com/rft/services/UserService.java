@@ -12,4 +12,6 @@ public interface UserService {
 	void activateUser(String activationCode);
 	void checkIfActivated(User user);
 	User checkUserValues(String username);
+	void removeUser(String username);
+	void removeAllUsers();
 }

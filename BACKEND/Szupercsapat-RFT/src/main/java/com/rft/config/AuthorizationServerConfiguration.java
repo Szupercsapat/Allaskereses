@@ -57,6 +57,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 				.withClient(clientName)
 				.authorizedGrantTypes("password", "refresh_token")
 				.scopes("read", "write")
+				.accessTokenValiditySeconds(60)
+				.refreshTokenValiditySeconds(60*10)
 				.secret(bCryptPasswordEncoder().encode(clientSecret)) //https://stackoverflow.com/a/49683857
 				.resourceIds(RESOURCE_ID);
 	}

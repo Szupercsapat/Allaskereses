@@ -55,6 +55,20 @@ public class UserServiceImpl implements UserService {
 	@Value("${server.contextPath}")
 	private String serverContext;
 	
+	
+	@Override
+	public void removeUser(String username) { //mielőtt törölnénk, lehet h logoutolni kell ha bent van, csak admin törölhet, de admin jogút nem, tehát magát sem
+		
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeAllUsers() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@Override
 	public List<User> findAll() {
 		return (List<User>) userRepository.findAll();

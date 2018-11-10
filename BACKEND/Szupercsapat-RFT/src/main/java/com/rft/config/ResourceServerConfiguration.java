@@ -27,17 +27,13 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 		.authorizeRequests()
 		.antMatchers("/admin/*")
 		.hasRole("ADMIN")
-		.antMatchers("/hello/*")
+		.antMatchers("/profile/*")
 		.authenticated()
-		.antMatchers("/helloka/findall")
+		.antMatchers("/user/logout")
 		.authenticated()
-		.antMatchers("/find/*")
-		.authenticated()
-		.antMatchers("/profile/test")
-		.authenticated()
-		.antMatchers(HttpMethod.GET,"/users")
+		.antMatchers(HttpMethod.DELETE,"/user/*")
 		.hasRole("ADMIN")
-		.antMatchers(HttpMethod.POST,"/upload")
+		.antMatchers(HttpMethod.DELETE,"/user")
 		.hasRole("ADMIN");
 	}
 
