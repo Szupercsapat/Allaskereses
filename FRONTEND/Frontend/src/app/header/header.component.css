@@ -1,0 +1,24 @@
+.navbar-brand {
+  font-size: 35px;
+}
+
+.navbar-header {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.vl {
+  border-left: 2px solid gray;
+  height: 30px;
+}
+.vl2 {
+  border-left: 2px solid gray;
+  height: 40px;
+}
+
+.card {
+  background-color:rgb(247, 247, 247);
+  padding: 20px 25px 30px;
+  margin: 0 auto 25px;
+  margin-top: 50px;
+}
