@@ -1,5 +1,7 @@
 package com.rft.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,16 +29,22 @@ import com.rft.services.CustomUserDetailsService;
 @Order(2)
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-	@Value("${resource_id}") //https://stackoverflow.com/a/30528430
+	@Value("${resource_id}") // https://stackoverflow.com/a/30528430
 	private String RESOURCE_ID;
-	
+
 	@Value("${client_name}")
 	private String clientName;
-	
+
 	@Value("${client_secret}")
 	private String clientSecret;
 
-	TokenStore tokenStore = new InMemoryTokenStore();
+	@Autowired
+	private DataSource dataSource;
+	
+	@Autowired
+	private TokenStore tokenStore;
+
+	//TokenStore tokenStore = new InMemoryTokenStore();
 
 	@Autowired
 	@Qualifier("authenticationManagerBean")
@@ -53,13 +61,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory()
-				.withClient(clientName)
-				.authorizedGrantTypes("password", "refresh_token")
-				.scopes("read", "write")
-				.accessTokenValiditySeconds(60)
-				.refreshTokenValiditySeconds(60*10)
-				.secret(bCryptPasswordEncoder().encode(clientSecret)) //https://stackoverflow.com/a/49683857
+		clients.inMemory().withClient(clientName).authorizedGrantTypes("password", "refresh_token")
+				.scopes("read", "write").accessTokenValiditySeconds(60*2)
+				.refreshTokenValiditySeconds(Integer.MAX_VALUE)
+				.secret(bCryptPasswordEncoder().encode(clientSecret)) // https://stackoverflow.com/a/49683857
 				.resourceIds(RESOURCE_ID);
 	}
 
@@ -68,9 +73,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 	 */
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-	    oauthServer.passwordEncoder(bCryptPasswordEncoder());
+		oauthServer.passwordEncoder(bCryptPasswordEncoder());
 	}
-	
+
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
