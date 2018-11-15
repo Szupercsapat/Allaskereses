@@ -33,21 +33,21 @@ public class SeekerController {
 		return "You logged in successfully";
 	}
 	
-	@RequestMapping(value = "/update",method = RequestMethod.POST)
+	@RequestMapping(value = "/update",method = RequestMethod.PUT)
 	public ResponseEntity<String> update(@RequestBody JobSeekerDTO seekerDTO) throws Exception { //https://stackoverflow.com/a/18525961
 		seekerService.updateProfile(seekerDTO);
 		return new ResponseEntity<>("Updated", HttpStatus.ACCEPTED);
 	}
 	
 	//https://stackoverflow.com/a/16656382
-	@RequestMapping(value="/getCV", method=RequestMethod.GET)
-	public ResponseEntity<byte[]> getCV(@RequestBody JobSeekerDTO seekerDTO) {
+	@RequestMapping(value="/getCV/username/{username}", method=RequestMethod.GET)
+	public ResponseEntity<byte[]> getCV(@PathVariable("username") String username) {
 
-	    byte[] contents = seekerService.getCVinPDF(seekerDTO);
+	    byte[] contents = seekerService.getCVinPDF(username);
 
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.parseMediaType("application/pdf"));
-	    String filename = seekerDTO.getUsername()+".pdf";
+	    String filename = username+".pdf";
 	    headers.setContentDispositionFormData(filename, filename);
 	    headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
 	    ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);

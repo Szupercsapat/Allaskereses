@@ -25,7 +25,7 @@ public class OffererController {
 	@Autowired
 	private JobOffererService offererService;
 	
-	@RequestMapping(value = "/update",method = RequestMethod.POST)
+	@RequestMapping(value = "/update",method = RequestMethod.PUT)
 	public ResponseEntity<String> update(@RequestBody JobOffererDTO offererDTO) throws Exception { 
 		offererService.updateProfile(offererDTO);
 		return new ResponseEntity<>("Updated", HttpStatus.ACCEPTED);

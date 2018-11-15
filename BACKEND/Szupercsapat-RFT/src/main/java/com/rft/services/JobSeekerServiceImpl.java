@@ -155,11 +155,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 	}
 
 	@Override
-	public byte[] getCVinPDF(JobSeekerDTO seekerDTO) {
-		User user = userRepository.findByUsername(seekerDTO.getUsername());
+	public byte[] getCVinPDF(String username) {
+		User user = userRepository.findByUsername(username);
 		if (user == null)
 			throw new UserDoesNotExistsException(
-					"The given user by the username: " + seekerDTO.getUsername() + " does not exists!");
+					"The given user by the username: " + username + " does not exists!");
 		userService.checkIfActivated(user);
 
 		JobSeeker seeker = user.getJobSeeker();
