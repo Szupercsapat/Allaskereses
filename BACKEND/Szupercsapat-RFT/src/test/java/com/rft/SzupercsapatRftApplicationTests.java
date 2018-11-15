@@ -15,6 +15,7 @@ import com.rft.entities.Job;
 import com.rft.entities.JobCategory;
 import com.rft.entities.JobOfferer;
 import com.rft.entities.JobSeeker;
+import com.rft.entities.RefreshTokenEntity;
 import com.rft.entities.School;
 import com.rft.entities.User;
 import com.rft.entities.WorkPlace;
@@ -22,10 +23,12 @@ import com.rft.repos.AccessTokenRepository;
 import com.rft.repos.JobCategoryRepository;
 import com.rft.repos.JobOffererRepository;
 import com.rft.repos.JobSeekerRepository;
+import com.rft.repos.RefreshTokenRepository;
 import com.rft.repos.RoleRepository;
 import com.rft.repos.SchoolRepository;
 import com.rft.repos.UserRepository;
 import com.rft.repos.WorkPlaceRepository;
+import com.rft.services.UserService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -46,8 +49,12 @@ public class SzupercsapatRftApplicationTests {
 	@Autowired
 	WorkPlaceRepository workPlaceRepository;
 	@Autowired
-	AccessTokenRepository tokenRepository;
-	/*
+	AccessTokenRepository accTokenRepository;
+	@Autowired
+	RefreshTokenRepository refTokenRepository;
+	@Autowired
+	UserService userService;
+	
 	@Test
 	public void addSchoolsToSeeker()
 	{
@@ -126,18 +133,22 @@ public class SzupercsapatRftApplicationTests {
 		offerer.addJob(job2);
 		
 		offererRepository.save(offerer);
-	}*/
+	}
 	
 	@Test
 	public void checkTokens()
 	{
-		List<AccessTokenEntity> findAll = tokenRepository.findAll();
+		List<AccessTokenEntity> findAll = accTokenRepository.findAll();
 		for(AccessTokenEntity token : findAll)
 		{
-			System.out.println("\n\n\n"+token.getUserame()+"\n\n\n");
+			RefreshTokenEntity refToken = refTokenRepository.findByTokenId(token.getRefreshToken());
+			
+			if(refToken !=null)
+				System.out.println("\n\n\n"+"------- ref token id: " + refToken.getTokenId()+"\n\n\n");
+			
+			System.out.println("\n\n\n"+token.getUsername()+"\n\n\n");
 		}
 	}
-	
 }
 
 

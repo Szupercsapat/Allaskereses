@@ -31,10 +31,10 @@ public class JobController {
 		jobService.removeJob(jobId);
 	}
 	
-	@DeleteMapping
-	public void deleteAll()
+	@DeleteMapping("/user/{username}")
+	public void deleteAll(@PathVariable("username") String username)
 	{
-		jobService.removeAllJobs();
+		jobService.removeAllJobs(username);
 	}
 	
 	@PutMapping("/{jobId}")

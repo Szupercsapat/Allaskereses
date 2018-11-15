@@ -14,4 +14,5 @@ public interface UserService {
 	User checkUserValues(String username);
 	void removeUser(String username);
 	void removeAllUsers();
+	void createAdmin(String username,String email,String password);
 }

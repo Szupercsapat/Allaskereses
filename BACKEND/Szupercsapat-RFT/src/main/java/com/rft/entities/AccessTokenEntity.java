@@ -15,7 +15,7 @@ public class AccessTokenEntity {
 	@Column(name = "authentication_id")
 	String authenticationId;
 	@Column(name = "user_name")
-	String userame;
+	String username;
 	@Column(name = "client_id")
 	String clientId;
 	byte[] authentication;
@@ -39,11 +39,11 @@ public class AccessTokenEntity {
 	public void setAuthenticationId(String authenticationId) {
 		this.authenticationId = authenticationId;
 	}
-	public String getUserame() {
-		return userame;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserame(String userame) {
-		this.userame = userame;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getClientId() {
 		return clientId;

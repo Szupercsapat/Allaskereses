@@ -77,10 +77,23 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public void removeAllJobs() {
-		for (int jobId : jobRepository.findAll().stream().mapToInt(j -> j.getId()).toArray()) {
+	public void removeAllJobs(JobOfferer offerer) {
+		for (int jobId : jobRepository.findAll().stream().filter(j -> j.getOfferer().equals(offerer))
+				.mapToInt(j -> j.getId()).toArray()) {
 			removeJob(jobId);
 		}
+	}
+
+	@Override
+	public void removeAllJobs(String username) {
+		
+		User user = userRepository.findByUsername(username);
+		if (user == null)
+			throw new UserDoesNotExistsException("The given user by the username: " + username + " does not exists!");
+
+		JobOfferer offerer = offererRepository.findByUser(user);
+
+		removeAllJobs(offerer);
 	}
 
 	private JobOfferer getOfferer(String username) {

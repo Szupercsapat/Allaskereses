@@ -3,6 +3,7 @@ package com.rft.services;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -10,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.rft.entities.AccessTokenEntity;
+import com.rft.entities.JobCategory;
 import com.rft.entities.JobOfferer;
 import com.rft.entities.JobSeeker;
+import com.rft.entities.RefreshTokenEntity;
 import com.rft.entities.Role;
 import com.rft.entities.User;
 import com.rft.entities.UserActivation;
@@ -23,8 +27,10 @@ import com.rft.exceptions.UserameAlreadyRegisteredException;
 import com.rft.exceptions.UsernameIsMissingException;
 import com.rft.exceptions.UsernameMissingForProfileUpdateException;
 import com.rft.exceptions.WrongActivationCodeException;
+import com.rft.repos.AccessTokenRepository;
 import com.rft.repos.JobOffererRepository;
 import com.rft.repos.JobSeekerRepository;
+import com.rft.repos.RefreshTokenRepository;
 import com.rft.repos.RoleRepository;
 import com.rft.repos.UserActivationRepository;
 import com.rft.repos.UserRepository;
@@ -48,27 +54,27 @@ public class UserServiceImpl implements UserService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
 	EmailUtil emailSender;
+	@Autowired
+	AccessTokenRepository accTokenRepository;
+	@Autowired
+	RefreshTokenRepository refTokenRepository;
 
 	@Value("${server.port}")
 	private String port;
-	
+
 	@Value("${server.contextPath}")
 	private String serverContext;
-	
-	
+
 	@Override
-	public void removeUser(String username) { //mielőtt törölnénk, lehet h logoutolni kell ha bent van, csak admin törölhet, de admin jogút nem, tehát magát sem
-		
-		// TODO Auto-generated method stub
-		
+	public void removeUser(String username) {
+		deleteUsersToken(username);
 	}
 
 	@Override
 	public void removeAllUsers() {
-		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public List<User> findAll() {
 		return (List<User>) userRepository.findAll();
@@ -79,19 +85,18 @@ public class UserServiceImpl implements UserService {
 		if (!user.isActivated())
 			throw new UserIsNotActivatedException("User is not activated.");
 	}
-	
-	public User checkUserValues(String username)
-	{
+
+	public User checkUserValues(String username) {
 		if (username == null)
 			throw new UsernameIsMissingException("Username is missing !");
 		User user = userRepository.findByUsername(username);
 		if (user == null)
 			throw new UserDoesNotExistsException("The username given does not exists!");
-		
+
 		checkIfActivated(user);
 		return user;
 	}
-	
+
 	@Override
 	public void register(String username, String email, String password) {
 		checkIfAlreadyInDb(username, email);
@@ -114,36 +119,66 @@ public class UserServiceImpl implements UserService {
 		offererRepository.save(offerer);
 		seekerRepository.save(seeker);
 		userActivationRepository.save(userActivation);
+
+		emailSender.sendSimpleMessage(email, "Registration",
+				getRegistrationText(username, userActivation.getActivationString()));
+	}
+	
+	@Override
+	public void createAdmin(String username,String email,String password)
+	{
+		checkIfAlreadyInDb(username, email);
+
+		User admin = new User();
+		Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+
+		admin.setEmail(email);
+		admin.setPassword(bCryptPasswordEncoder.encode(password));
+		admin.setUsername(username);
+		admin.setActivated(true);
 		
-		emailSender.sendSimpleMessage(email, "Registration", getRegistrationText(username,userActivation.getActivationString()));
+		admin.addRole(adminRole);
+
+		userRepository.save(admin);
 	}
 
-	public void activateUser(String activationCode)
-	{
+	public void activateUser(String activationCode) {
 		UserActivation activation = userActivationRepository.findByActivationString(activationCode);
-		
-		if(activation == null)
+
+		if (activation == null)
 			throw new WrongActivationCodeException("The given activation code does not exists");
-		
+
 		Date thisMoment = new Date();
-		
-		if(activation.getExpiration_date().before(thisMoment))
-		{
+
+		if (activation.getExpiration_date().before(thisMoment)) {
 			userActivationRepository.delete(activation);
 			userRepository.delete(activation.getUser().getId());
 			throw new ActivationExpiredException("The activation date has expired!");
 		}
-		
-		//findByID nem ment emiatt ez alatt stream-el oldottam meg
-		//User user = userRepository.findByID(activation.getUser().getId()); 
+
+		// findByID nem ment emiatt ez alatt stream-el oldottam meg
+		// User user = userRepository.findByID(activation.getUser().getId());
 		List<User> lista = userRepository.findAll();
 		User user = lista.stream().filter(e -> e.getId().equals(activation.getUser().getId())).findFirst().get();
 		user.setActivated(true);
-		
+
 		userActivationRepository.delete(activation);
 		userRepository.save(user);
 	}
-	
+
+	private void deleteUsersToken(String username) {
+		List<AccessTokenEntity> accTokens = accTokenRepository.findAll();
+
+		Iterator<AccessTokenEntity> accTokenIterator = accTokens.iterator();
+		while (accTokenIterator.hasNext()) {
+			AccessTokenEntity accToken = accTokenIterator.next();
+			RefreshTokenEntity refToken = refTokenRepository.findByTokenId(accToken.getRefreshToken());
+			refTokenRepository.delete(refToken);
+			accTokenIterator.remove();
+		}
+		
+	}
+
 	private void checkIfAlreadyInDb(String username, String email) {
 		// TODO: error message localization
 
@@ -154,14 +189,14 @@ public class UserServiceImpl implements UserService {
 			throw new EmailAddressAlreadyRegisteredException("Already registered with an email: " + email);
 	}
 
-	private String getRegistrationText(String username,String activationCode) {
+	private String getRegistrationText(String username, String activationCode) {
 		StringBuilder sb = new StringBuilder();
-		String link="localhost:"+port+serverContext+"/user"+"/registered/activation/"+activationCode;
+		String link = "localhost:" + port + serverContext + "/user" + "/registered/activation/" + activationCode;
 
 		sb.append("<h1>" + "Üdvözöljük " + username + "!" + "</h1></br>");
 		sb.append("<p>" + "Köszöntjük oldalunkon." + "</p>");
-		sb.append("</br>"+"A linkre kattintva tudja regisztrációját megerősíteni: " + "</br>" + link);
-		//sb.append("<a href='"+link+"'>"+ "Aktiválás"+"</a>");
+		sb.append("</br>" + "A linkre kattintva tudja regisztrációját megerősíteni: " + "</br>" + link);
+		// sb.append("<a href='"+link+"'>"+ "Aktiválás"+"</a>");
 
 		return sb.toString();
 	}

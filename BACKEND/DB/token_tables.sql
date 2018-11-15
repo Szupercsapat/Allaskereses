@@ -11,7 +11,7 @@ create table oauth_access_token (
 );
 
 create table oauth_refresh_token (
-  token_id VARCHAR(256),
+  token_id VARCHAR(256) primary key,
   token BLOB,
   authentication BLOB
 );
