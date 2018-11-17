@@ -90,8 +90,8 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 		}
 		seekerFromDb.setToNullAllSchools();
 		seekerRepository.save(seekerFromDb);
-		schoolRepository.deleteAll();
 		seekerFromDb.setSchools(schools);
+		schoolRepository.deleteAll();
 	}
 
 	private void checkSchoolFields(School school) {
@@ -116,8 +116,8 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 		}
 		seekerFromDb.setToNullAllWorkPlaces();
 		seekerRepository.save(seekerFromDb);
-		workPlaceRepository.deleteAll();
 		seekerFromDb.setWorkPlaces(workPlaces);
+		workPlaceRepository.deleteAll();
 	}
 
 	private void checkWorkPlaceFields(WorkPlace workPlace) {
