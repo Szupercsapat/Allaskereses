@@ -64,8 +64,10 @@ public class SeekerController {
 		return new ResponseEntity<>("File is uploaded successfully", HttpStatus.ACCEPTED);
 	}
 	
-	@GetMapping(value = "/getProfileImage/username/{username}")
-	public @ResponseBody byte[] getImage(@PathVariable("username") String username) {
+	//https://stackoverflow.com/a/16725508
+	@ResponseBody
+	@RequestMapping(value = "/getProfileImage/username/{username}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+	public byte[] getImage(@PathVariable("username") String username) {
 
 		return seekerService.getProfileImage(username);
 	}

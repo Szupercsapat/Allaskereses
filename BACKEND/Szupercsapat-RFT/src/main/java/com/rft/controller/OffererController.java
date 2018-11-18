@@ -24,25 +24,25 @@ import com.rft.services.JobOffererService;
 public class OffererController {
 	@Autowired
 	private JobOffererService offererService;
-	
-	@RequestMapping(value = "/update",method = RequestMethod.PUT)
-	public ResponseEntity<String> update(@RequestBody JobOffererDTO offererDTO) throws Exception { 
+
+	@RequestMapping(value = "/update", method = RequestMethod.PUT)
+	public ResponseEntity<String> update(@RequestBody JobOffererDTO offererDTO) throws Exception {
 		offererService.updateProfile(offererDTO);
 		return new ResponseEntity<>("Updated", HttpStatus.ACCEPTED);
 	}
-	
-	//https://stackoverflow.com/questions/21329426/spring-mvc-multipart-request-with-json
+
+	// https://stackoverflow.com/questions/21329426/spring-mvc-multipart-request-with-json
 	@RequestMapping(value = "/uploadProfileImage", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<Object> uploadFile(
-			  @RequestPart("username") String username,
-			  @RequestPart("image") MultipartFile imageFile) throws IOException 
-	{	
-		offererService.saveImage(username,imageFile);	
+	public ResponseEntity<Object> uploadFile(@RequestPart("username") String username,
+			@RequestPart("image") MultipartFile imageFile) throws IOException {
+		offererService.saveImage(username, imageFile);
 		return new ResponseEntity<>("File is uploaded successfully", HttpStatus.ACCEPTED);
 	}
-	
-	@GetMapping(value = "/getProfileImage/username/{username}")
-	public @ResponseBody byte[] getImage(@PathVariable("username") String username) {
+
+	// https://stackoverflow.com/a/16725508
+	@ResponseBody
+	@RequestMapping(value = "/getProfileImage/username/{username}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+	public byte[] getImage(@PathVariable("username") String username) {
 
 		return offererService.getProfileImage(username);
 	}

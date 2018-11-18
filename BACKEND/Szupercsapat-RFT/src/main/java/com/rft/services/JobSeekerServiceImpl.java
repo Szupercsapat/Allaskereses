@@ -17,6 +17,7 @@ import com.rft.entities.WorkPlace;
 import com.rft.entities.DTOs.JobSeekerDTO;
 import com.rft.exceptions.BadProfileTypeException;
 import com.rft.exceptions.BadYearException;
+import com.rft.exceptions.ImageSizeIsTooBigException;
 import com.rft.exceptions.UserDoesNotExistsException;
 import com.rft.repos.JobCategoryRepository;
 import com.rft.repos.JobOffererRepository;
@@ -145,6 +146,12 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
 		userService.checkIfActivated(user);
 
+		//max file méret < 64kb
+		if(imageFile.getSize() > Utils.MAX_IMAGEFILE_SIZE)
+			throw new ImageSizeIsTooBigException("The imagesize is more than: "+ Utils.MAX_IMAGEFILE_SIZE/1000 + " KB");
+			
+		System.out.println("\n\n"+imageFile.getContentType()+"\n\n");
+		
 		JobSeeker seeker = seekerRepository.findByUser(user);
 		try {
 			seeker.setProfileImage(imageFile.getBytes());

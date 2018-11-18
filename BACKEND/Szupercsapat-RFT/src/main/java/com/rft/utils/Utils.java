@@ -11,6 +11,8 @@ import com.rft.exceptions.BadYearException;
 
 public class Utils {
 
+	public static int MAX_IMAGEFILE_SIZE=64000;
+	
 	public static byte[] getDefaultProfileImage() {
 		File defaultFile = new File("src/main/resources/images/defaultProfileImage.jpg");
 		InputStream targetStream = null;

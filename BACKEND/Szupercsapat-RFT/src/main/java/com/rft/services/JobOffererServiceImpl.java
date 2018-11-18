@@ -13,6 +13,7 @@ import com.rft.entities.JobSeeker;
 import com.rft.entities.User;
 import com.rft.entities.DTOs.JobOffererDTO;
 import com.rft.exceptions.BadProfileTypeException;
+import com.rft.exceptions.ImageSizeIsTooBigException;
 import com.rft.exceptions.UserDoesNotExistsException;
 import com.rft.repos.JobCategoryRepository;
 import com.rft.repos.JobOffererRepository;
@@ -32,10 +33,10 @@ public class JobOffererServiceImpl implements JobOffererService {
 	private UserService userService;
 	@Autowired
 	private JobService jobService;
-	
+
 	@Override
 	public void updateProfile(JobOffererDTO offererDTO) {
-		
+
 		User user = userService.checkUserValues(offererDTO.getUsername());
 		JobOfferer offererFromDb = offererRepository.findByUser(user);
 
@@ -62,7 +63,7 @@ public class JobOffererServiceImpl implements JobOffererService {
 			}
 		}
 	}
-	
+
 	private void mapNonNullFields(JobOffererDTO offererDTO, JobOfferer offererFromDb) {
 		if (offererDTO.getAboutMe() != null)
 			offererFromDb.setAboutMe(offererDTO.getAboutMe());
@@ -71,7 +72,7 @@ public class JobOffererServiceImpl implements JobOffererService {
 		if (offererDTO.getLastName() != null)
 			offererFromDb.setLastName(offererDTO.getLastName());
 	}
-	
+
 	@Override
 	public void saveImage(String username, MultipartFile imageFile) {
 
@@ -81,7 +82,12 @@ public class JobOffererServiceImpl implements JobOffererService {
 			throw new UserDoesNotExistsException("The given user by the username: " + username + " does not exists!");
 
 		userService.checkIfActivated(user);
-		
+
+		// max file méret < 64kb
+		if (imageFile.getSize() > Utils.MAX_IMAGEFILE_SIZE)
+			throw new ImageSizeIsTooBigException(
+					"The imagesize is more than: " + Utils.MAX_IMAGEFILE_SIZE / 1000 + " KB");
+
 		JobOfferer offerer = offererRepository.findByUser(user);
 		try {
 			offerer.setProfileImage(imageFile.getBytes());
@@ -90,7 +96,7 @@ public class JobOffererServiceImpl implements JobOffererService {
 			// TODO
 		}
 	}
-	
+
 	@Override
 	public byte[] getProfileImage(String username) {
 
@@ -105,64 +111,20 @@ public class JobOffererServiceImpl implements JobOffererService {
 		}
 		return profileImage;
 	}
-	
-	public void removeDescendants(String username)
-	{
+
+	public void removeDescendants(String username) {
 		User user = userRepository.findByUsername(username);
 		if (user == null)
 			throw new UserDoesNotExistsException("The given user by the username: " + username + " does not exists!");
 
 		JobOfferer offerer = offererRepository.findByUser(user);
-		
+
 		Iterator<JobCategory> categoryIterator = offerer.getCategories().iterator();
 		while (categoryIterator.hasNext()) {
 			JobCategory category = categoryIterator.next();
 			categoryIterator.remove();
 		}
-		
+
 		jobService.removeAllJobs(offerer);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
