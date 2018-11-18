@@ -86,5 +86,8 @@ public class JobCategory extends EntityBase{
 	public void setJobs(Set<Job> jobs) {
 		this.jobs = jobs;
 	}
-	
+	public Integer getResourceId()
+	{
+		return id;
+	}
 }

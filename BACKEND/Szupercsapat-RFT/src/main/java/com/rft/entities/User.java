@@ -16,13 +16,17 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User extends EntityBase{
 
 	private String username;
 	private String email;
+	@JsonIgnore
 	private String password;
 
+	@JsonIgnore
 	@ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinTable(name="user_role",
 	joinColumns = @JoinColumn(name="user_id", referencedColumnName="id"),
@@ -100,6 +104,11 @@ public class User extends EntityBase{
 		if(roles == null)
 			roles = new HashSet<Role>();
 		roles.add(role);
+	}
+	
+	public Integer getResourceId()
+	{
+		return id;
 	}
 	
 	@Override

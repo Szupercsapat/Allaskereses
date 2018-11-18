@@ -63,6 +63,17 @@ public class UserController {
 	@Autowired
 	UserRepository userRepo;
 
+	@GetMapping("/usernameByUserId/{id}")
+	public ResponseEntity<String> getUserIdByUsername(@PathVariable("id") Integer id)
+	{
+		User user = userRepo.findById(id);
+		
+		if(user==null)
+			return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+			
+		return new ResponseEntity<>(user.getUsername(), HttpStatus.OK); 
+	}
+	
 	// @Autowired
 	// private ProjectionFactory projectionFactory;
 

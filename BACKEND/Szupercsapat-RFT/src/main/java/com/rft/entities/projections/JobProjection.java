@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.config.Projection;
 import com.rft.entities.Job;
 import com.rft.entities.JobCategory;
 
-@Projection(name="jobProj", types= {Job.class})
+@Projection(name="job", types= {Job.class})
 public interface JobProjection {
 	Integer getId();
 	String getName();

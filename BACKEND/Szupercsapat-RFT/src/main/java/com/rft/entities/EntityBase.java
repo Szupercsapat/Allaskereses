@@ -24,6 +24,7 @@ public class EntityBase {
 	@Column(updatable = false)
 	protected Date created;
 	
+	@JsonIgnore
 	@UpdateTimestamp
 	protected Date modified;
 

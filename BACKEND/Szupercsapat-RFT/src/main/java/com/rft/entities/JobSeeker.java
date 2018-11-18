@@ -134,4 +134,8 @@ public class JobSeeker extends EntityBase {
 			workPlace.setSeeker(null);
 		}
 	}
+	public String Username()
+	{
+		return user.getUsername();
+	}
 }
