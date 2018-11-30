@@ -22,3 +22,14 @@
   margin: 0 auto 25px;
   margin-top: 50px;
 }
+
+a.header-link {
+  font-weight: bold;
+  color: rgb(0, 123, 255);
+}
+
+a.header-link:hover {
+  font-weight: bold;
+  color: rgb(0, 86, 179);
+  text-decoration: underline;
+}

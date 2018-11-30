@@ -2,12 +2,17 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
+import { AuthGuardService } from './auth/auth-guard.service';
+import { HomeComponent } from './home/home.component';
+import { ProfilesComponent } from './profiles/profiles.component';
 
 const appRoutes: Routes = [
-  // { path: '', component: HComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
+  { path: 'profile', component: ProfilesComponent, canActivate: [AuthGuardService] },
   { path: 'register', component: RegistrationComponent },
-  { path: 'logout', redirectTo: '/login'}
+  { path: 'logout', redirectTo: '/login', canActivate: [AuthGuardService]}
   /*{
     path: 'servers',
     //canActivate: [AuthGuard],

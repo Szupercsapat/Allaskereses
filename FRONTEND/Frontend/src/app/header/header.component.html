@@ -2,15 +2,16 @@
   <div class="container-fluid">
     <div class="vl"></div>
     <div class="nav navbar-header">
-        <a href="">Profil</a>
+        <a routerLink="profile">Profil</a>
     </div>
     <div class="vl"></div>
     <div class="nav navbar-header">
-        <a href="">CV készítése</a>
+        <!-- <a class="header-link" (click)="cv()">CV készítése</a> -->
+        <a class="header-link">CV készítése</a>
     </div>
     <div class="vl2"></div>
     <div class="nav navbar-header navbar-brand">
-        <a href="">Szupercsapat</a>
+        <a routerLink="home">Szupercsapat</a>
     </div>
     <div class="vl2"></div>
     <div class="nav navbar-header">
@@ -18,7 +19,7 @@
     </div>
     <div class="vl"></div>
     <div class="nav navbar-header">
-        <a class="header-link" (click)="onLogout()" routerLink="/logout">Kijelentkezés</a>
+        <a class="header-link" (click)="onLogout()">Kijelentkezés</a>
     </div>
     <div class="vl"></div>
   </div>

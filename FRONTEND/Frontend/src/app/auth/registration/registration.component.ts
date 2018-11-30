@@ -1,23 +1,22 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { RegistrationService } from './registration.service';
 import { User } from '../../entity/user.model';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['../../app.component.css']
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnDestroy {
 
   @ViewChild('f') signupForm: NgForm;
 
   private user: User;
+  private subscription: Subscription = new Subscription();
 
   constructor(private regiService: RegistrationService) {}
-
-  ngOnInit() {
-  }
 
   onRegister() {
     this.user = new User(
@@ -33,4 +32,7 @@ export class RegistrationComponent implements OnInit {
     this.signupForm.reset();
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }

@@ -14,13 +14,20 @@ import { HeaderComponent } from './header/header.component';
 import { CookieService } from '../../node_modules/ngx-cookie-service';
 import { LogoutService } from './auth/logout.service';
 import { SessionService } from './auth/session.service';
+import { AuthGuardService } from './auth/auth-guard.service';
+import { HomeComponent } from './home/home.component';
+import { ProfilesComponent } from './profiles/profiles.component';
+import { CVService } from './profiles/cv.service';
+import { ProfileUpdateService } from './profiles/update.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegistrationComponent,
-    HeaderComponent
+    HeaderComponent,
+    HomeComponent,
+    ProfilesComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +35,11 @@ import { SessionService } from './auth/session.service';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [LoginService, LogoutService, RegistrationService, CookieService, SessionService],
+  providers: [
+    LoginService, LogoutService, RegistrationService,
+    CookieService, SessionService, AuthGuardService,
+    CVService, ProfileUpdateService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,146 @@
+<!-- <div class="container">
+  <div class="card card-container">
+        <form>
+          <div id="user-data">
+              <div class="form-group">
+                  <label for="username">Username</label>
+                  <input>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input>
+                  <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email!</span>
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input>
+                </div>
+                <button class="btn btn-primary" type="submit">Update</button>
+          </div>
+        </form>
+  </div>
+</div>
+ -->
+
+ <div class="col-md-9">
+  <div class="card">
+      <div class="card-body">
+          <!-- <form (ngSubmit)="onUpdate()" #f="ngForm"> -->
+        <div class="row">
+          <div class="col">
+              <div class="row">
+                  <div class="col-md-12">
+                      <h4 class="text-lg-center">Your Profile</h4>
+                      <hr>
+                  </div>
+              </div>
+              <div class="row">
+                  <form (ngSubmit)="onUpdate()" #f="ngForm">
+                  <div class="col-md-12">
+                      <div class="form-group row">
+                          <div class="useravatar offset-4">
+                              <img alt="" src="https://t4.ftcdn.net/jpg/02/15/84/43/240_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg">
+                              <div class="col-8">
+                                <button class="btn btn-primary">Feltöltés</button>
+                              </div>
+                          </div>
+                        </div>
+                      <!-- <form (ngSubmit)="onUpdate()" #f="ngForm"> -->
+                        <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
+                              <div class="form-group row">
+                                <label for="username" class="col-4 col-form-label">User Name</label>
+                                <div class="col-8">
+                                  <input id="username" name="username" placeholder="Username" class="form-control here" type="text" ngModel>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="firstname" class="col-4 col-form-label">First Name</label>
+                                <div class="col-8">
+                                  <input id="firstname" name="firstname" placeholder="First Name" class="form-control here" type="text" ngModel>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="lastname" class="col-4 col-form-label">Last Name</label>
+                                <div class="col-8">
+                                  <input id="lastname" name="lastname" placeholder="Last Name" class="form-control here" type="text" ngModel>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="email" class="col-4 col-form-label">Email</label>
+                                <div class="col-8">
+                                  <input id="email" name="email" placeholder="Email" class="form-control here" type="text" ngModel>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="newpass" class="col-4 col-form-label">New Password</label>
+                                <div class="col-8">
+                                  <input id="newpass" name="newpass" placeholder="New Password" class="form-control here" type="text">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <div class="offset-4 col-8">
+                                  <button name="submit" type="submit" class="btn btn-primary">Update My Profile</button>
+                                </div>
+                              </div>
+                        </div>
+                      <!-- </form> -->
+                  </div>
+                </form>
+              </div>
+
+
+          </div> <!-- div col -->
+          <div class="col">
+            <div class="row">
+              <form (ngSubmit)="onUpdate()" #f="ngForm">
+                  <div class="col-md-12"  ngModelGroup="userData" #userData="ngModelGroup">
+                      <label>About me</label>
+                      <textarea name="about" id="about" cols="30" rows="5"  class="form-control here" ngModel></textarea>
+                  </div>
+              </form>
+              <div class="col-md-12">
+                  <label>Sulik:</label>
+
+                  <form (ngSubmit)="onUpdate()" #f="ngForm">
+                  <ul>
+                      <li *ngFor="let school of schools">{{school.name}}</li>
+                    </ul>
+                        <div class="col-8" ngModelGroup="userData" #userData="ngModelGroup">
+                            <label for="">Neve</label>
+                            <input name="schoolName" id="schoolName" type="text" class="form-control here" ngModel>
+                            <label for="">Kezdés</label>
+                            <input name="schoolFromYear" id="schoolFromYear" type="number" class="form-control here" ngModel>
+                            <label for="">Végzés</label>
+                            <input name="schoolToYear" id="schoolToYear" type="number" class="form-control here" ngModel>
+                          </div>
+                    </form>
+                    <button class="btn btn-primary" (click)="addSchool()">Add</button>
+
+              </div>
+              <div class="col-md-12">
+                  <label>Munkahelyek:</label>
+                  <ul>
+                      <li *ngFor="let work of workplaces">{{work.name}}</li>
+                    </ul>
+                    <form (ngSubmit)="onUpdate()" #f="ngForm">
+                        <div class="col-8" ngModelGroup="userData" #userData="ngModelGroup">
+                            <label for="">Neve</label>
+                            <input name="workName" id="workName" type="text" class="form-control here" ngModel>
+                            <label for="">Kezdés</label>
+                            <input name="workFromYear" id="workFromYear" type="number" class="form-control here" ngModel>
+                            <label for="">Végzés</label>
+                            <input name="workToYear" id="workToYear" type="number" class="form-control here" ngModel>
+                        </div>
+                    </form>
+                    <button class="btn btn-primary" (click)="addWork()">Add</button>
+
+              </div>
+            </div>
+          </div>
+
+
+        </div> <!-- dvik row -->
+      <!-- </form> -->
+      </div>
+  </div>
+</div>
