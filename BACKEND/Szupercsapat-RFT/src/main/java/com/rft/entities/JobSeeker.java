@@ -16,6 +16,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "job_seeker")
 public class JobSeeker extends EntityBase {
@@ -44,6 +46,7 @@ public class JobSeeker extends EntityBase {
 	@Column(name = "about_me", length = 1024)
 	private String aboutMe;
 
+	@JsonIgnore
 	@Lob
 	@Column(name = "profile_image")
 	private byte[] profileImage;

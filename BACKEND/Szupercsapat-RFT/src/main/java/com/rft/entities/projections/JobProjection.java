@@ -12,5 +12,4 @@ public interface JobProjection {
 	Integer getId();
 	String getName();
 	String getDescription();
-	Set<JobCategory> getCategories();
 }

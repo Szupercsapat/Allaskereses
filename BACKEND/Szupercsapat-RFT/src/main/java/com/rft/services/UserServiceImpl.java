@@ -5,6 +5,8 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +21,20 @@ import com.rft.entities.RefreshTokenEntity;
 import com.rft.entities.Role;
 import com.rft.entities.User;
 import com.rft.entities.UserActivation;
+import com.rft.entities.DTOs.UserDTO;
 import com.rft.exceptions.ActivationExpiredException;
 import com.rft.exceptions.EmailAddressAlreadyRegisteredException;
+import com.rft.exceptions.MissingUserInformationException;
+import com.rft.exceptions.NewPasswordIsMissingException;
+import com.rft.exceptions.OldPasswordDoesNotMatchException;
+import com.rft.exceptions.OldPasswordIsMissingException;
 import com.rft.exceptions.UserDoesNotExistsException;
 import com.rft.exceptions.UserIsNotActivatedException;
 import com.rft.exceptions.UserameAlreadyRegisteredException;
 import com.rft.exceptions.UsernameIsMissingException;
 import com.rft.exceptions.UsernameMissingForProfileUpdateException;
 import com.rft.exceptions.WrongActivationCodeException;
+import com.rft.exceptions.RoleDoesNotExistsException;
 import com.rft.repos.AccessTokenRepository;
 import com.rft.repos.JobOffererRepository;
 import com.rft.repos.JobSeekerRepository;
@@ -98,48 +106,44 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void register(String username, String email, String password) {
-		checkIfAlreadyInDb(username, email);
+	public void register(UserDTO userDTO) {
+		
+		if( userDTO.getUsername() == null || userDTO.getEmail()  == null || 
+			userDTO.getPassword() == null || userDTO.getRole() == null)
+			throw new MissingUserInformationException("Userinformation is missing");
+		
+		if( userDTO.getUsername().isEmpty() || userDTO.getEmail().isEmpty() || 
+				userDTO.getPassword().isEmpty() || userDTO.getRole().isEmpty())
+				throw new MissingUserInformationException("Userinformation is missing");
+			
+		checkIfAlreadyInDb(userDTO.getUsername(), userDTO.getEmail());
 
+		List<String> validRoles = roleRepository.findAll().stream().map( r-> r.getName() ).collect(Collectors.toList());
+		
+		if( !validRoles.contains(userDTO.getRole()) )
+			throw new RoleDoesNotExistsException("The role does not exists !");
+		
 		User user = new User();
-		Role role = roleRepository.findByName("ROLE_USER");
+		Role role = roleRepository.findByName(userDTO.getRole());
 
-		user.setEmail(email);
-		user.setPassword(bCryptPasswordEncoder.encode(password));
-		user.setUsername(username);
+		user.setEmail(userDTO.getEmail());
+		user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+		user.setUsername(userDTO.getUsername());
 
 		user.addRole(role);
 
 		userRepository.save(user);
 
-		JobOfferer offerer = getDefaultJobOfferer(user);
-		JobSeeker seeker = getDefaultJobSeeker(user);
+		JobOfferer offerer = getDefaultOfferer(user);
+		JobSeeker seeker = getDefaultSeeker(user);
 		UserActivation userActivation = getDefaultUserActivation(user);
 
 		offererRepository.save(offerer);
 		seekerRepository.save(seeker);
 		userActivationRepository.save(userActivation);
 
-		emailSender.sendSimpleMessage(email, "Registration",
-				getRegistrationText(username, userActivation.getActivationString()));
-	}
-	
-	@Override
-	public void createAdmin(String username,String email,String password)
-	{
-		checkIfAlreadyInDb(username, email);
-
-		User admin = new User();
-		Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-
-		admin.setEmail(email);
-		admin.setPassword(bCryptPasswordEncoder.encode(password));
-		admin.setUsername(username);
-		admin.setActivated(true);
-		
-		admin.addRole(adminRole);
-
-		userRepository.save(admin);
+		emailSender.sendSimpleMessage(userDTO.getEmail(), "Registration",
+				getRegistrationText(userDTO.getUsername(), userActivation.getActivationString()));
 	}
 
 	public void activateUser(String activationCode) {
@@ -201,7 +205,7 @@ public class UserServiceImpl implements UserService {
 		return sb.toString();
 	}
 
-	private JobOfferer getDefaultJobOfferer(User user) {
+	private JobOfferer getDefaultOfferer(User user) {
 		JobOfferer offerer = new JobOfferer();
 
 		offerer.setAboutMe("Empty");
@@ -214,7 +218,7 @@ public class UserServiceImpl implements UserService {
 		return offerer;
 	}
 
-	private JobSeeker getDefaultJobSeeker(User user) {
+	private JobSeeker getDefaultSeeker(User user) {
 		JobSeeker seeker = new JobSeeker();
 
 		seeker.setAboutMe("Empty");
@@ -238,5 +242,38 @@ public class UserServiceImpl implements UserService {
 		activation.setUser(user);
 
 		return activation;
+	}
+
+	@Override
+	public void changePassword(UserDTO userDTO) {
+		if(userDTO ==null)
+			throw new UsernameIsMissingException("No data found!");
+		
+		User user = userRepository.findByUsername(userDTO.getUsername());
+		
+		if(user==null)
+			throw new UsernameIsMissingException("Username is missing!");
+		
+		checkIfActivated(user);
+		
+		if(userDTO.getNewPassword() ==null)
+			throw new NewPasswordIsMissingException("No new password was found!");
+		
+		if(userDTO.getPassword() ==null)
+			throw new OldPasswordIsMissingException("No old password was found!");
+		
+		String givenOldPasswordEncripted =  bCryptPasswordEncoder.encode(userDTO.getPassword()); 
+		String givenNewPasswordEncripted = bCryptPasswordEncoder.encode(userDTO.getNewPassword());
+		
+		String oldPasswordEncripted = user.getPassword();
+		
+		if(bCryptPasswordEncoder.matches(userDTO.getPassword(), oldPasswordEncripted))
+		{
+			user.setPassword(givenNewPasswordEncripted);
+			userRepository.save(user);
+			return;
+		}
+		else
+			throw new OldPasswordDoesNotMatchException("The given password does not match with the old one!");
 	}
 }

@@ -1,5 +1,8 @@
 package com.rft.services;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +14,7 @@ import com.rft.entities.Job;
 import com.rft.entities.JobCategory;
 import com.rft.entities.JobOfferer;
 import com.rft.entities.User;
+import com.rft.entities.DTOs.JobCategoryDTO;
 import com.rft.entities.DTOs.JobDTO;
 import com.rft.entities.DTOs.JobOffererDTO;
 import com.rft.exceptions.IdIsMissingException;
@@ -20,6 +24,7 @@ import com.rft.repos.JobCategoryRepository;
 import com.rft.repos.JobOffererRepository;
 import com.rft.repos.JobRepository;
 import com.rft.repos.UserRepository;
+
 
 @Service
 public class JobServiceImpl implements JobService {
@@ -86,7 +91,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public void removeAllJobs(String username) {
-		
+
 		User user = userRepository.findByUsername(username);
 		if (user == null)
 			throw new UserDoesNotExistsException("The given user by the username: " + username + " does not exists!");
@@ -128,5 +133,110 @@ public class JobServiceImpl implements JobService {
 
 			}
 		}
+	}
+
+	private List<JobCategory> mapCategoryDTOtoCategories(JobCategoryDTO categoryDTO) {
+		List<JobCategory> categories = new ArrayList<JobCategory>();
+
+		for (int catId : categoryDTO.getIds()) {
+			JobCategory jobCategory = categoryRepository.findById(catId);
+			if (jobCategory != null)
+				categories.add(jobCategory);
+		}
+
+		return categories;
+	}
+
+	private JobDTO mapJobToJobDTO(Job job) {
+		if (job == null)
+			return null;
+
+		JobDTO dto = new JobDTO();
+
+		dto.setUsername(job.getOfferer().getUser().getUsername());
+		dto.setDescription(job.getDescription());
+		dto.setName(job.getName());
+		dto.setJobId(job.getId());
+
+		List<Integer> catIds = new ArrayList<Integer>();
+
+		for (JobCategory cat : job.getCategories()) {
+			catIds.add(cat.getId());
+		}
+
+		dto.setCategories(catIds);
+
+		return dto;
+	}
+
+	private List<JobDTO> mapJobsToJobDTO(List<Job> jobs) {
+		List<JobDTO> dtos = new ArrayList<JobDTO>();
+
+		for (Job job : jobs) {
+			JobDTO dto = mapJobToJobDTO(job);
+			if (dto != null)
+				dtos.add(dto);
+		}
+
+		return dtos;
+	}
+
+	@Override
+	public List<JobDTO> getAllByCategories(JobCategoryDTO categoryDTO) {
+
+		if (categoryDTO == null)
+			return null;
+		if (categoryDTO.getIds() == null)
+			return null;
+
+		List<JobDTO> jobDtos = new ArrayList<JobDTO>();
+
+		List<JobCategory> categories = mapCategoryDTOtoCategories(categoryDTO);
+
+		List<Job> jobs = new ArrayList<Job>();
+
+		for (Job job : jobRepository.findAll()) {
+			for (JobCategory category : categories) {
+				if (job.getCategories().contains(category)) {
+					jobs.add(job);
+					break;
+				}
+			}
+		}
+
+		jobDtos = mapJobsToJobDTO(jobs);
+
+		return jobDtos;
+	}
+
+	@Override
+	public Integer getJobsByCategoriesCount(JobCategoryDTO categoryDTO) {
+
+		return getAllByCategories(categoryDTO).size();
+	}
+
+	@Override
+	public List<JobDTO> getJobsByCategoriesWithPaging(JobCategoryDTO categoryDTO, Integer page, Integer size) {
+
+		if(page<0 || size < 0)
+			return new ArrayList<JobDTO>();
+		
+		List<JobDTO> dtos = getAllByCategories(categoryDTO);
+		List<JobDTO> pagedDtos = new ArrayList<JobDTO>();
+
+		int count = dtos.size();
+		int firstElement = page * size;
+		int endElement = size + page * size;
+
+		if (firstElement > count)
+			return new ArrayList<JobDTO>();
+
+		for (int i = firstElement; i < endElement; i++) {
+			if (i > count - 1)
+				break;
+			pagedDtos.add(dtos.get(i));
+		}
+
+		return pagedDtos;
 	}
 }

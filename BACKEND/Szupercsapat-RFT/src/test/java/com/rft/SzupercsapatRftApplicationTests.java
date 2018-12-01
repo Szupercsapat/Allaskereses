@@ -1,7 +1,11 @@
 package com.rft;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.rft.entities.User;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 import com.rft.entities.AccessTokenEntity;
 import com.rft.entities.Job;
 import com.rft.entities.JobCategory;
@@ -54,6 +59,9 @@ public class SzupercsapatRftApplicationTests {
 	RefreshTokenRepository refTokenRepository;
 	@Autowired
 	UserService userService;
+	@PersistenceContext
+    private EntityManager em;
+	
 	
 	@Test
 	public void addSchoolsToSeeker()
@@ -149,6 +157,23 @@ public class SzupercsapatRftApplicationTests {
 			System.out.println("\n\n\n"+token.getUsername()+"\n\n\n");
 		}
 	}
+	
+	@Test
+	public void jobQueryTest()
+	{
+		List<Integer> categoryIds= Arrays.asList(3,5);
+		
+		
+		List<Job> jobs = em
+				.createQuery("select j from Job j join j.categories c where c.id in :cIds")
+				.setParameter("cIds", categoryIds)
+				.getResultList();
+		for(Job job : jobs)
+		{
+			System.out.println(job.getId()+"\n");
+		}
+	}
+	
 }
 
 
