@@ -14,17 +14,36 @@ import { Workplace } from '../entity/workplaces.model';
 export class ProfilesComponent implements OnInit, OnDestroy {
 
   @ViewChild('f') signupForm: NgForm;
+  @ViewChild('s') signupForm2: NgForm;
 
   private subscription: Subscription;
 
   private schools: School[] = [];
   private workplaces: Workplace[] = [];
 
+  private actualProfile:  Profile = new Profile ('Nevem', 'Email', 'Kereszt', 'Vezeték', 'fjfghghjtfrjfrtjfrtjgfjfgjtrjtrjgfjfgjfjtrj',
+    [new School(1990, 2000, 'Iskola'), new School(15646, 6456, 'Iskola2')],
+    [new Workplace(1990, 2000, 'Munkahely')]
+  );
+
+  private actualProfile2:  Profile = new Profile ('Nevem2', 'Email2', 'Kereszt2', 'Vezeték2', 'fjfghghjtfrjfrtjfrtjgfjfgjtrjtrjgfjfgjfjtrj',
+    [new School(1990, 2000, 'Iskola'), new School(15646, 6456, 'Iskola2')],
+    [new Workplace(1990, 2000, 'Munkahely')]
+  );
+
+  private profilok: Profile[] = [this.actualProfile, this.actualProfile2];
+
+  private modify = false;
+
   constructor(private updateService: ProfileUpdateService) {}
 
   ngOnInit() {
     console.log('oninit sub');
     this.subscription = new Subscription();
+  }
+
+  onModify() {
+    this.modify = !this.modify;
   }
 
   onUpdate() {
@@ -70,10 +89,12 @@ export class ProfilesComponent implements OnInit, OnDestroy {
 
   addSchool() {
       this.schools.push(new School(
-        this.signupForm.value.userData.schoolFromYear,
-        this.signupForm.value.userData.schoolToYear,
-        this.signupForm.value.userData.schoolName
+        this.signupForm2.value.userData.schoolFromYear,
+        this.signupForm2.value.userData.schoolToYear,
+        this.signupForm2.value.userData.schoolName
       ));
+      console.log(this.signupForm2.value.userData.schoolFromYear);
+      console.log(this.signupForm2.value.userData.schoolName);
   }
 
   addWork() {

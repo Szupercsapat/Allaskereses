@@ -5,9 +5,14 @@
         <a routerLink="profile">Profil</a>
     </div>
     <div class="vl"></div>
-    <div class="nav navbar-header">
+    <div class="nav navbar-header dropdown" ngbDropdown>
         <!-- <a class="header-link" (click)="cv()">CV készítése</a> -->
-        <a class="header-link">CV készítése</a>
+        <!-- <a class="header-link">Keresés</a> -->
+            <a style="cursor: pointer;" class="dropdown-toggle" role="button" ngbDropdownToggle>Keresés <span class="caret"></span></a>
+            <ul class="dropdown-menu" ngbDropdownMenu>
+              <li class="dropdown-item"><a style="cursor: pointer;"  href="#">Profilok</a></li>
+              <li class="dropdown-item"><a style="cursor: pointer;"  href="#">Állásajánlatok</a></li>
+            </ul>
     </div>
     <div class="vl2"></div>
     <div class="nav navbar-header navbar-brand">

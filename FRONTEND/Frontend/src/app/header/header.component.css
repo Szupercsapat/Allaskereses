@@ -33,3 +33,8 @@ a.header-link:hover {
   color: rgb(0, 86, 179);
   text-decoration: underline;
 }
+
+.dropdown {
+  font-weight: bold;
+  color: rgb(0, 123, 255);
+}

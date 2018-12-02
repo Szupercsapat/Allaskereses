@@ -5,12 +5,16 @@ import { RegistrationComponent } from './auth/registration/registration.componen
 import { AuthGuardService } from './auth/auth-guard.service';
 import { HomeComponent } from './home/home.component';
 import { ProfilesComponent } from './profiles/profiles.component';
+import { SearchProfilesComponent } from './search/search-profiles/search-profiles.component';
+import { SearchWorkplacesComponent } from './search/search-workplaces/search-workplaces.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfilesComponent, canActivate: [AuthGuardService] },
+  { path: 'search-profiles', component: SearchProfilesComponent, canActivate: [AuthGuardService] },
+  { path: 'search-workplaces', component: SearchWorkplacesComponent, canActivate: [AuthGuardService] },
   { path: 'register', component: RegistrationComponent },
   { path: 'logout', redirectTo: '/login', canActivate: [AuthGuardService]}
   /*{

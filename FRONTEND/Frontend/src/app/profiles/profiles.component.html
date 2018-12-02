@@ -24,7 +24,7 @@
 
  <div class="col-md-9">
   <div class="card">
-      <div class="card-body">
+      <div class="card-body" *ngIf=modify>
           <!-- <form (ngSubmit)="onUpdate()" #f="ngForm"> -->
         <div class="row">
           <div class="col">
@@ -101,9 +101,9 @@
               <div class="col-md-12">
                   <label>Sulik:</label>
 
-                  <form (ngSubmit)="onUpdate()" #f="ngForm">
+                  <form (ngSubmit)="onUpdate()" #s="ngForm">
                   <ul>
-                      <li *ngFor="let school of schools">{{school.name}}</li>
+                      <li *ngFor="let school of schools">{{school.name}} {{school.fromYear}} - {{school.toYear}}</li>
                     </ul>
                         <div class="col-8" ngModelGroup="userData" #userData="ngModelGroup">
                             <label for="">Neve</label>
@@ -120,7 +120,7 @@
               <div class="col-md-12">
                   <label>Munkahelyek:</label>
                   <ul>
-                      <li *ngFor="let work of workplaces">{{work.name}}</li>
+                      <li *ngFor="let work of workplaces">{{work.name}} {{work.fromYear}} - {{work.toYear}}</li>
                     </ul>
                     <form (ngSubmit)="onUpdate()" #f="ngForm">
                         <div class="col-8" ngModelGroup="userData" #userData="ngModelGroup">
@@ -142,5 +142,61 @@
         </div> <!-- dvik row -->
       <!-- </form> -->
       </div>
+
+
+
+    <div class="card-body" *ngIf=!modify>
+      <div class="row">
+          <div class="col">
+              <div class="row">
+                  <div class="col-md-12">
+                      <h4 class="text-lg-center">Your Profile</h4>
+                      <hr>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-12">
+                    <div class="useravatar offset-4">
+                      <img alt="" src="https://t4.ftcdn.net/jpg/02/15/84/43/240_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg">
+                    </div>
+                  </div>
+                  <div>
+                          <div>
+                            <p>{{actualProfile.username}}</p>
+                          </div>
+                          <div>
+                            <p>{{actualProfile.firstName}}</p>
+                          </div>
+                          <div>
+                            <p>{{actualProfile.lastName}}</p>
+                          </div>
+                          <div>
+                            <p>{{actualProfile.email}}</p>
+                          </div>
+                          <div>
+                            <p>{{actualProfile.aboutMe}}</p>
+                          </div>
+                          <div>
+                            <p>Iskolák:</p>
+                            <ul>
+                              <li *ngFor="let school of actualProfile.schools">{{school.name}} {{school.fromYear}} - {{school.toYear}}</li>
+                            </ul>
+                          </div>
+                          <div>
+                              <p>Munkahelyek:</p>
+                              <ul>
+                                <li *ngFor="let work of actualProfile.workPlaces">{{work.name}} {{work.fromYear}} - {{work.toYear}}</li>
+                              </ul>
+                          </div>
+                  </div>
+              </div>
+          </div>
+
+
+      </div>
+    </div>
+      <button class="btn btn-primary" *ngIf=!modify>CV Készitése</button>
+      <button class="btn btn-primary" *ngIf=!modify (click)="onModify()">Módosítás</button>
+      <button class="btn btn-primary" *ngIf=modify (click)="onModify()">Vissza</button>
   </div>
 </div>
