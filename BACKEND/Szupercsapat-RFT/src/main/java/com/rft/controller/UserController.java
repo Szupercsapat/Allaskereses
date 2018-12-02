@@ -37,7 +37,7 @@ public class UserController {
 	UserRepository userRepo;
 
 	@GetMapping("/usernameByUserId/{id}")
-	public ResponseEntity<String> getUserIdByUsername(@PathVariable("id") Integer id)
+	public ResponseEntity<String> usernameByUserId(@PathVariable("id") Integer id)
 	{
 		User user = userRepo.findById(id);
 		
@@ -47,6 +47,16 @@ public class UserController {
 		return new ResponseEntity<>(user.getUsername(), HttpStatus.OK); 
 	}
 	
+	@GetMapping("/userIdByUsername/{username}")
+	public ResponseEntity<Integer> userIdByUsername(@PathVariable("username") String username)
+	{
+		User user = userRepo.findByUsername(username);
+		
+		if(user==null)
+			return new ResponseEntity<>(0, HttpStatus.NOT_FOUND);
+			
+		return new ResponseEntity<>(user.getId(), HttpStatus.OK); 
+	}
 	
 	@PostMapping(value = "/register")
 	public ResponseEntity<String> register(@RequestBody UserDTO userDTO) throws Exception {
