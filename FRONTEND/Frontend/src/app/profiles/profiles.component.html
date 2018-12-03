@@ -35,17 +35,23 @@
                   </div>
               </div>
               <div class="row">
-                  <form (ngSubmit)="onUpdate()" #f="ngForm">
+                  <!-- <form (ngSubmit)="onUpdate()" #f="ngForm"> -->
                   <div class="col-md-12">
                       <div class="form-group row">
                           <div class="useravatar offset-4">
-                              <img alt="" src="https://t4.ftcdn.net/jpg/02/15/84/43/240_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg">
+                              <!-- <img alt="" src="https://t4.ftcdn.net/jpg/02/15/84/43/240_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"> -->
+                              <img [src]="imageUrl">
                               <div class="col-8">
-                                <button class="btn btn-primary">Feltöltés</button>
+                                <input
+                                  #imageInput
+                                  type="file"
+                                  accept="image/*"
+                                  (change)="processFile(imageInput)"
+                                ><!-- </button> -->
                               </div>
                           </div>
                         </div>
-                      <!-- <form (ngSubmit)="onUpdate()" #f="ngForm"> -->
+                      <form (ngSubmit)="onUpdate()" #f="ngForm">
                         <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
                              <!--  <div class="form-group row">
                                 <label for="username" class="col-4 col-form-label">Username</label>
@@ -92,9 +98,9 @@
                                 </div>
                               </div>
                         </div>
-                      <!-- </form> -->
+                      </form>
                   </div>
-                </form>
+                <!-- </form> -->
               </div>
 
 
@@ -170,7 +176,8 @@
               <div class="row">
                   <div class="col-md-12">
                     <div class="useravatar offset-4">
-                      <img alt="" src="https://t4.ftcdn.net/jpg/02/15/84/43/240_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg">
+                      <!-- <img alt="" src="https://t4.ftcdn.net/jpg/02/15/84/43/240_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"> -->
+                      <img [src]="imageUrl">
                     </div>
                   </div>
                   <div>
@@ -208,7 +215,7 @@
 
       </div>
     </div>
-      <button class="btn btn-primary" *ngIf="!modify && isActual()">CV Készitése</button>
+      <button class="btn btn-primary" *ngIf="!modify && isActual()" (click)="downloadCV()">CV Készitése</button>
       <button class="btn btn-primary" *ngIf="!modify && isActual()" (click)="onModify()">Módosítás</button>
       <button class="btn btn-primary" *ngIf=modify (click)="onModify()">Vissza</button>
   </div>

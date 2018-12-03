@@ -8,6 +8,8 @@ import { Workplace } from '../entity/workplaces.model';
 import { GetProfileService } from './getProfile.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute, Params } from '@angular/router';
+import { ImageSnippet } from '../entity/image.model';
+import { ImageService } from './image.service';
 // import { Router } from '@angular/router';
 
 @Component({
@@ -43,20 +45,28 @@ export class ProfilesComponent implements OnInit, OnDestroy {
   private modify = false;
 
   private user: {
-    id: number
+    id: number,
+    username: string
   };
 
+  private imageUrl: string;
+  private CVUrl: string;
+
   paramsSubscription: Subscription;
+
+  selectedFile: ImageSnippet;
 
   constructor(
     private updateService: ProfileUpdateService,
     private getProfileService: GetProfileService,
     private cookieService: CookieService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private imageService: ImageService
     // private router: Router
   ) {
     this.user = {
-      id: this.route.snapshot.params['id']
+      id: this.route.snapshot.params['id'],
+      username: ''
     };
     this.paramsSubscription = this.route.params
       .subscribe(
@@ -99,6 +109,10 @@ export class ProfilesComponent implements OnInit, OnDestroy {
           this.actualProfile.username = this.getProfileService.username;
           this.actualProfile.email = this.getProfileService.email;
           this.actualProfile.id = this.getProfileService.id;
+
+          this.user.username = this.getProfileService.username;
+          this.imageUrl = 'http://localhost:8080/rft/seeker/getProfileImage/username/' + this.user.username;
+          this.CVUrl = 'http://localhost:8080/rft/seeker/getCV/username/' + this.user.username;
         }
         );
   }
@@ -199,6 +213,31 @@ export class ProfilesComponent implements OnInit, OnDestroy {
     } else {
       return false;
     }
+  }
+
+  processFile(imageInput: any) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+
+      this.imageService.uploadImage(this.selectedFile.file, this.user.username).subscribe(
+        (res) => {
+          console.log(res);
+          window.location.reload();
+        },
+        (err) => {
+          console.log(err);
+        });
+    });
+
+    reader.readAsDataURL(file);
+  }
+
+  downloadCV() {
+    window.open(this.CVUrl);
   }
 
   ngOnDestroy() {

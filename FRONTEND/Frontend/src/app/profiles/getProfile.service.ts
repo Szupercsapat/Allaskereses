@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, ResponseContentType } from '@angular/http';
 import { Observable, Subscription } from 'rxjs';
+// import { DomSanitizer } from '@angular/platform-browser';
 // import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
@@ -10,7 +11,7 @@ export class GetProfileService {
 
   constructor(
     private http: Http,
-    // private cookieService: CookieService
+   // private sanitizer: DomSanitizer
   ) { console.log('profil const'); }
 
   public firstName: string;
@@ -20,6 +21,7 @@ export class GetProfileService {
   public email: string;
   public activated: string;
   public id: string;
+  image: any;
 
   /* asd(): string {
     console.log('asdasdasd');
@@ -95,6 +97,23 @@ export class GetProfileService {
     const obj7 = data.search('_links');
     this.aboutMe = data.slice(obj6 + about + 7, obj7 - 11);*/
   }
+
+  /*downloadFile(data: Response) {
+    console.log(data);
+    // may be you need to use data._body to get data of body
+    const blob = new Blob([data], { type: 'image/jpeg' });
+    const url = window.URL.createObjectURL(blob);
+    window.open(url);
+  }*/
+
+  /*public getProfileImage(username: string) {
+    const imageUrl = 'http://localhost:8080/rft/seeker/getProfileImage/username/' + username;
+
+    //return this.http.get(imageUrl, { responseType: ResponseContentType.ArrayBuffer });
+
+   this.image = this.http.get(imageUrl);
+   console.log(this.image);
+  }*/
 
   public getProfileSeeker(id: number): Observable<Response> {
     const seekerUrl = 'http://localhost:8080/rft/users/' + id + '/jobSeeker';

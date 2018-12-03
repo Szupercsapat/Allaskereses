@@ -24,6 +24,7 @@ import { SearchProfilesComponent } from './search/search-profiles/search-profile
 import { SearchWorkplacesComponent } from './search/search-workplaces/search-workplaces.component';
 import { ActualService } from './shared/actual.service';
 import { GetProfileService } from './profiles/getProfile.service';
+import { ImageService } from './profiles/image.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,7 @@ import { GetProfileService } from './profiles/getProfile.service';
     LoginService, LogoutService, RegistrationService,
     CookieService, SessionService, AuthGuardService,
     CVService, ProfileUpdateService, ActualService,
-    GetProfileService
+    GetProfileService, ImageService
   ],
   bootstrap: [AppComponent]
 })
