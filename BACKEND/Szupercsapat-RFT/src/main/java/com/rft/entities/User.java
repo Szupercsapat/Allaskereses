@@ -50,6 +50,11 @@ public class User extends EntityBase{
 	public void setActivated(boolean activated) {
 		this.activated = activated;
 	}
+	
+	public boolean getActivated() {
+		return activated;
+	}
+
 
 	public String getUsername() {
 		return username;
@@ -110,6 +115,8 @@ public class User extends EntityBase{
 	{
 		return id;
 	}
+	
+	
 	
 	@Override
 	public String toString() {

@@ -1,6 +1,7 @@
 package com.rft.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.rft.entities.DTOs.JobCategoryDTO;
 import com.rft.entities.DTOs.JobOffererDTO;
+import com.rft.entities.DTOs.JobOffererDTOCollectionless;
+import com.rft.entities.DTOs.JobSeekerDTOCollectionless;
 import com.rft.services.JobOffererService;
 
 @RestController
@@ -45,5 +49,23 @@ public class OffererController {
 	public byte[] getImage(@PathVariable("username") String username) {
 
 		return offererService.getProfileImage(username);
+	}
+	
+	@GetMapping("/offerers/page/{page}/size/{size}")
+	public List<JobOffererDTOCollectionless> getOffererDTOs(@PathVariable("page") Integer page,@PathVariable("size") Integer size)
+	{
+		return offererService.getOffererDTOs(page,size);
+	}
+	
+	@GetMapping("/offerer/{offererId}")
+	public JobOffererDTOCollectionless getOffererDTO(@PathVariable("offererId") Integer offererId)
+	{
+		return offererService.getOffererDTO(offererId);
+	}
+	
+	@GetMapping("/categoryIds/{offererId}")
+	public JobCategoryDTO getCategoryIds(@PathVariable("offererId") Integer offererId)
+	{
+		return offererService.getCategoryIds(offererId);
 	}
 }

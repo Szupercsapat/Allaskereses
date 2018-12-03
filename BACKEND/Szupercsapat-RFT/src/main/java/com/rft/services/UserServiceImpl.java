@@ -2,6 +2,7 @@ package com.rft.services;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +22,8 @@ import com.rft.entities.RefreshTokenEntity;
 import com.rft.entities.Role;
 import com.rft.entities.User;
 import com.rft.entities.UserActivation;
+import com.rft.entities.DTOs.JobDTO;
+import com.rft.entities.DTOs.SafeUserDTO;
 import com.rft.entities.DTOs.UserDTO;
 import com.rft.exceptions.ActivationExpiredException;
 import com.rft.exceptions.EmailAddressAlreadyRegisteredException;
@@ -107,22 +110,22 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void register(UserDTO userDTO) {
-		
-		if( userDTO.getUsername() == null || userDTO.getEmail()  == null || 
-			userDTO.getPassword() == null || userDTO.getRole() == null)
+
+		if (userDTO.getUsername() == null || userDTO.getEmail() == null || userDTO.getPassword() == null
+				|| userDTO.getRole() == null)
 			throw new MissingUserInformationException("Userinformation is missing");
-		
-		if( userDTO.getUsername().isEmpty() || userDTO.getEmail().isEmpty() || 
-				userDTO.getPassword().isEmpty() || userDTO.getRole().isEmpty())
-				throw new MissingUserInformationException("Userinformation is missing");
-			
+
+		if (userDTO.getUsername().isEmpty() || userDTO.getEmail().isEmpty() || userDTO.getPassword().isEmpty()
+				|| userDTO.getRole().isEmpty())
+			throw new MissingUserInformationException("Userinformation is missing");
+
 		checkIfAlreadyInDb(userDTO.getUsername(), userDTO.getEmail());
 
-		List<String> validRoles = roleRepository.findAll().stream().map( r-> r.getName() ).collect(Collectors.toList());
-		
-		if( !validRoles.contains(userDTO.getRole()) )
+		List<String> validRoles = roleRepository.findAll().stream().map(r -> r.getName()).collect(Collectors.toList());
+
+		if (!validRoles.contains(userDTO.getRole()))
 			throw new RoleDoesNotExistsException("The role does not exists !");
-		
+
 		User user = new User();
 		Role role = roleRepository.findByName(userDTO.getRole());
 
@@ -180,7 +183,7 @@ public class UserServiceImpl implements UserService {
 			refTokenRepository.delete(refToken);
 			accTokenIterator.remove();
 		}
-		
+
 	}
 
 	private void checkIfAlreadyInDb(String username, String email) {
@@ -246,34 +249,93 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void changePassword(UserDTO userDTO) {
-		if(userDTO ==null)
+		if (userDTO == null)
 			throw new UsernameIsMissingException("No data found!");
-		
+
 		User user = userRepository.findByUsername(userDTO.getUsername());
-		
-		if(user==null)
+
+		if (user == null)
 			throw new UsernameIsMissingException("Username is missing!");
-		
+
 		checkIfActivated(user);
-		
-		if(userDTO.getNewPassword() ==null)
+
+		if (userDTO.getNewPassword() == null)
 			throw new NewPasswordIsMissingException("No new password was found!");
-		
-		if(userDTO.getPassword() ==null)
+
+		if (userDTO.getPassword() == null)
 			throw new OldPasswordIsMissingException("No old password was found!");
-		
-		String givenOldPasswordEncripted =  bCryptPasswordEncoder.encode(userDTO.getPassword()); 
+
+		String givenOldPasswordEncripted = bCryptPasswordEncoder.encode(userDTO.getPassword());
 		String givenNewPasswordEncripted = bCryptPasswordEncoder.encode(userDTO.getNewPassword());
-		
+
 		String oldPasswordEncripted = user.getPassword();
-		
-		if(bCryptPasswordEncoder.matches(userDTO.getPassword(), oldPasswordEncripted))
-		{
+
+		if (bCryptPasswordEncoder.matches(userDTO.getPassword(), oldPasswordEncripted)) {
 			user.setPassword(givenNewPasswordEncripted);
 			userRepository.save(user);
 			return;
-		}
-		else
+		} else
 			throw new OldPasswordDoesNotMatchException("The given password does not match with the old one!");
+	}
+
+	@Override
+	public List<SafeUserDTO> getSafeUserDTOs(Integer page, Integer size) {
+
+		if (page < 0 || size < 0)
+			return new ArrayList<SafeUserDTO>();
+
+		List<SafeUserDTO> dtos = getAllSafeUserDTOs();
+		List<SafeUserDTO> pagedDtos = new ArrayList<SafeUserDTO>();
+
+		int count = dtos.size();
+		int firstElement = page * size;
+		int endElement = size + page * size;
+
+		if (firstElement > count)
+			return new ArrayList<SafeUserDTO>();
+
+		for (int i = firstElement; i < endElement; i++) {
+			if (i > count - 1)
+				break;
+			pagedDtos.add(dtos.get(i));
+		}
+
+		return pagedDtos;
+	}
+
+	private List<SafeUserDTO> getAllSafeUserDTOs() {
+		List<SafeUserDTO> dtos = new ArrayList<SafeUserDTO>();
+
+		userRepository.findAll().stream().forEach(user -> {
+			SafeUserDTO userDTO = new SafeUserDTO();
+			userDTO.setActive(user.getActivated());
+			userDTO.setEmail(user.getEmail());
+			userDTO.setUsername(user.getUsername());
+			userDTO.setId(user.getId());
+			userDTO.setSeekerId(user.getJobSeeker().getId());
+			userDTO.setOffererId(user.getJobOfferer().getId());
+			dtos.add(userDTO);
+		});
+
+		return dtos;
+	}
+
+	@Override
+	public SafeUserDTO getSafeUserDTO(Integer userId) {
+		
+		User user =userRepository.findById(userId);
+		if(user == null)
+			throw new UserDoesNotExistsException("The user does not exists!");
+		
+		SafeUserDTO userDTO = new SafeUserDTO();
+		
+		userDTO.setActive(user.getActivated());
+		userDTO.setEmail(user.getEmail());
+		userDTO.setUsername(user.getUsername());
+		userDTO.setId(user.getId());
+		userDTO.setSeekerId(user.getJobSeeker().getId());
+		userDTO.setOffererId(user.getJobOfferer().getId());
+		
+		return userDTO;
 	}
 }

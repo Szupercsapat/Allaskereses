@@ -1,7 +1,10 @@
 package com.rft.services;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,9 +14,13 @@ import com.rft.entities.JobCategory;
 import com.rft.entities.JobOfferer;
 import com.rft.entities.JobSeeker;
 import com.rft.entities.User;
+import com.rft.entities.DTOs.JobCategoryDTO;
 import com.rft.entities.DTOs.JobOffererDTO;
+import com.rft.entities.DTOs.JobOffererDTOCollectionless;
+import com.rft.entities.DTOs.JobSeekerDTOCollectionless;
 import com.rft.exceptions.BadProfileTypeException;
 import com.rft.exceptions.ImageSizeIsTooBigException;
+import com.rft.exceptions.ProfileDoesNotExistsException;
 import com.rft.exceptions.UserDoesNotExistsException;
 import com.rft.repos.JobCategoryRepository;
 import com.rft.repos.JobOffererRepository;
@@ -126,5 +133,52 @@ public class JobOffererServiceImpl implements JobOffererService {
 		}
 
 		jobService.removeAllJobs(offerer);
+	}
+
+	@Override
+	public JobCategoryDTO getCategoryIds(Integer offererId) {
+		JobOfferer  offerer = offererRepository.findById(offererId);
+		if( offerer == null)
+			throw new ProfileDoesNotExistsException("The profile does not exists!");
+		
+		JobCategoryDTO dto = new JobCategoryDTO();
+		dto.setIds( offerer.getCategories().stream().mapToInt(cat->cat.getId()).boxed().collect(Collectors.toList()));
+		return dto;
+	}
+
+	@Override
+	public JobOffererDTOCollectionless getOffererDTO(Integer offererId) {
+		JobOfferer offerer = offererRepository.findById(offererId);
+		if(offerer == null)
+			throw new ProfileDoesNotExistsException("The profile does not exists!");
+		
+		JobOffererDTOCollectionless dto = new JobOffererDTOCollectionless();
+
+		dto.setAboutMe(offerer.getAboutMe());
+		dto.setFirstName(offerer.getFirstName());
+		dto.setLastName(offerer.getLastName());
+		dto.setUsername(offerer.getUser().getUsername());
+		dto.setId(offerer.getId());
+
+		return dto;
+	}
+
+	@Override
+	public List<JobOffererDTOCollectionless> getOffererDTOs(Integer page, Integer size) {
+		List<JobOffererDTOCollectionless> dtos = new ArrayList<JobOffererDTOCollectionless>();
+
+		offererRepository.findAll().stream().forEach(offerer -> {
+			JobOffererDTOCollectionless offererDTO = new JobOffererDTOCollectionless();
+
+			offererDTO.setAboutMe(offerer.getAboutMe());
+			offererDTO.setFirstName(offerer.getFirstName());
+			offererDTO.setLastName(offerer.getLastName());
+			offererDTO.setUsername(offerer.getUser().getUsername());
+			offererDTO.setId(offerer.getId());
+
+			dtos.add(offererDTO);
+		});
+
+		return dtos;
 	}
 }

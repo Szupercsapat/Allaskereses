@@ -1,6 +1,7 @@
 package com.rft.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.rft.entities.School;
+import com.rft.entities.DTOs.JobCategoryDTO;
 import com.rft.entities.DTOs.JobSeekerDTO;
+import com.rft.entities.DTOs.JobSeekerDTOCollectionless;
+import com.rft.entities.DTOs.SchoolDTO;
+import com.rft.entities.DTOs.WorkPlaceDTO;
 import com.rft.services.JobSeekerService;
 
 @RestController
@@ -70,6 +76,36 @@ public class SeekerController {
 	public byte[] getImage(@PathVariable("username") String username) {
 
 		return seekerService.getProfileImage(username);
+	}
+	
+	@GetMapping("/seekers/page/{page}/size/{size}")
+	public List<JobSeekerDTOCollectionless> getSeekerDTOs(@PathVariable("page") Integer page,@PathVariable("size") Integer size)
+	{
+		return seekerService.getSeekerDTOs(page,size);
+	}
+	
+	@GetMapping("/seeker/{seekerId}")
+	public JobSeekerDTOCollectionless getSeekerDTO(@PathVariable("seekerId") Integer seekerId)
+	{
+		return seekerService.getSeekerDTO(seekerId);
+	}
+	
+	@GetMapping("/schools/{seekerId}")
+	public List<SchoolDTO> getSchools(@PathVariable("seekerId") Integer seekerId)
+	{
+		return seekerService.getSchools(seekerId);
+	}
+	
+	@GetMapping("/workPlaces/{seekerId}")
+	public List<WorkPlaceDTO> getWorkPlaces(@PathVariable("seekerId") Integer seekerId)
+	{
+		return seekerService.getWorkPlaces(seekerId);
+	}
+	
+	@GetMapping("/categoryIds/{seekerId}")
+	public JobCategoryDTO getCategoryIds(@PathVariable("seekerId") Integer seekerId)
+	{
+		return seekerService.getCategoryIds(seekerId);
 	}
 }
 

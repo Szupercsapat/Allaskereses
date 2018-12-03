@@ -1,7 +1,7 @@
 package com.rft.controller;
 
 import java.net.URI;
-
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rft.entities.User;
+import com.rft.entities.DTOs.SafeUserDTO;
 import com.rft.entities.DTOs.UserDTO;
 import com.rft.exceptions.ActivationExpiredException;
 import com.rft.exceptions.MissingUserInformationException;
@@ -100,6 +101,17 @@ public class UserController {
 		return new ResponseEntity<>("Password changed", HttpStatus.CREATED);
 	}
 	
+	@GetMapping("/users/page/{page}/size/{size}")
+	public List<SafeUserDTO> getUserDTOs(@PathVariable("page") Integer page,@PathVariable("size") Integer size)
+	{
+		return userService.getSafeUserDTOs(page,size);
+	}
+	
+	@GetMapping("/user/{userId}")
+	public SafeUserDTO getUserDTO(@PathVariable("userId") Integer userId)
+	{
+		return userService.getSafeUserDTO(userId);
+	}
 	
 	@DeleteMapping("/{username}")
 	public void deleteOne(@PathVariable("username") String username)

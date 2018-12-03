@@ -12,6 +12,7 @@ import com.rft.entities.User;
 public interface JobSeekerRepository extends JpaRepository<JobSeeker, Integer> {
 
 	JobSeeker findByUser(User user);
+	JobSeeker findById(Integer id);
 	
 	@Query("select js from JobSeeker js join js.categories jc where jc.id in :catIds")
 	List<JobSeeker> findByCategories(List<Integer> catIds);
