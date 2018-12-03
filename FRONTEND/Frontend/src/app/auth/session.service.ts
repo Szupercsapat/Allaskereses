@@ -9,8 +9,9 @@ import { Subscription } from 'rxjs/internal/Subscription';
 export class SessionService {
 
   private userUrl = 'http://localhost:8080/rft/oauth/token';
-  private subscription: Subscription = new Subscription();
 
+
+  public sub: Subscription;
   constructor(
     private cookieService: CookieService,
     private http: Http,
@@ -41,24 +42,29 @@ export class SessionService {
     }
     console.log('van auth');
     // const subscription = new Subscription();
-    this.subscription.add(
-      this.refreshSession().subscribe(
+      this.sub = this.refreshSession().subscribe(
         response  => {
-          const data2 = JSON.stringify(response);
-          const object = JSON.parse(data2);
+          const data = JSON.stringify(response);
+          const object = JSON.parse(data);
+          // console.log(object);
           const object2 = object[Object.keys(object)[0]];
+          // console.log(object2);
           const object3 = JSON.parse(object2);
+          // console.log(object3);
           const access_token = object3[Object.keys(object3)[0]];
           const refresh_token = object3[Object.keys(object3)[2]];
+          this.cookieService.delete('access_token');
+          this.cookieService.delete('refresh_token');
           this.cookieService.set('refresh_token', refresh_token);
           const expire = object3[Object.keys(object3)[3]];
           this.cookieService.set('access_token', access_token, expire);
+          console.log('ittvan');
           // this.getProfileService.getProfileSeeker();
         },
         err => { console.log(err); },
-        () => { this.subscription.unsubscribe(); }
-      )
-    );
+        () => {  this.sub.unsubscribe(); console.log('lefutott'); }
+      );
+      // this.sub.unsubscribe();
     return true;
   }
 }

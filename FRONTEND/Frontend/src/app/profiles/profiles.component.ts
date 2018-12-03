@@ -23,9 +23,7 @@ export class ProfilesComponent implements OnInit, OnDestroy {
   @ViewChild('s') signupForm2: NgForm;
   @ViewChild('z') signupForm3: NgForm;
 
-  private subscription: Subscription;
-
-  private categories: number[] = [1, 2, 3, 4];
+  // private categories: number[] = [1, 2, 3, 4];
 
   private schools: School[] = [];
   private workplaces: Workplace[] = [];
@@ -35,12 +33,12 @@ export class ProfilesComponent implements OnInit, OnDestroy {
     [new Workplace(1990, 2000, 'Munkahely')]
   );
 
-  private actualProfile2:  Profile = new Profile ('Nevem2', 'Email2', 'Kereszt2', 'Vezeték2', 'fjfghghjtfrjfrtjfrtjgfjfgjtrjtrjgfjfgjfjtrj',
+  /* private actualProfile2:  Profile = new Profile ('Nevem2', 'Email2', 'Kereszt2', 'Vezeték2', 'fjfghghjtfrjfrtjfrtjgfjfgjtrjtrjgfjfgjfjtrj',
     [new School(1990, 2000, 'Iskola'), new School(15646, 6456, 'Iskola2')],
     [new Workplace(1990, 2000, 'Munkahely')]
-  );
+  );*/
 
-  private profilok: Profile[] = [this.actualProfile, this.actualProfile2];
+  // private profilok: Profile[] = [this.actualProfile, this.actualProfile2];
 
   private modify = false;
 
@@ -52,7 +50,10 @@ export class ProfilesComponent implements OnInit, OnDestroy {
   private imageUrl: string;
   private CVUrl: string;
 
-  paramsSubscription: Subscription;
+  private subscription: Subscription;
+  private paramsSubscription: Subscription;
+  private profileSubscription: Subscription;
+  private imageSubscription: Subscription;
 
   selectedFile: ImageSnippet;
 
@@ -72,16 +73,20 @@ export class ProfilesComponent implements OnInit, OnDestroy {
       .subscribe(
         (params: Params) => {
           this.user.id = params['id'];
-          console.log(this.user.id);
+          console.log('asddasasddsdsaasdda' + this.user.id);
         }
       );
-      this.getProfileService.getProfileSeeker(this.user.id).subscribe(
+      this.profileSubscription = this.getProfileService.getProfileSeeker(this.user.id).subscribe(
       response => {
         const data = JSON.stringify(response);
         const obj = JSON.parse(data);
+        console.log(obj);
         const obj2 = obj[Object.keys(obj)[0]];
         console.log(obj2);
-        this.getProfileService.getJobSeekerData(JSON.stringify(obj2));
+        const obj3 = JSON.parse(obj2);
+        console.log(obj3);
+        // .getProfileService.getJobSeekerData(JSON.stringify(obj2));
+        this.getProfileService.getJobSeekerData(obj3);
       },
       err => { console.log(err); },
       () => {
@@ -93,6 +98,13 @@ export class ProfilesComponent implements OnInit, OnDestroy {
           [new School(1990, 2000, 'Iskola'), new School(15646, 6456, 'Iskola2')],
           [new Workplace(1990, 2000, 'Munkahely')]
         );
+        /*this.actualProfile.username = this.getProfileService.username;
+        // this.actualProfile.email = this.getProfileService.email;
+        this.actualProfile.id = this.getProfileService.id;
+
+        this.user.username = this.getProfileService.username;
+        this.imageUrl = 'http://localhost:8080/rft/seeker/getProfileImage/username/' + this.user.username;
+        this.CVUrl = 'http://localhost:8080/rft/seeker/getCV/username/' + this.user.username;*/
       }
       );
 
@@ -101,7 +113,7 @@ export class ProfilesComponent implements OnInit, OnDestroy {
           const data = JSON.stringify(response);
           const obj = JSON.parse(data);
           const obj2 = obj[Object.keys(obj)[0]];
-          console.log(obj2);
+         // console.log(obj2);
           this.getProfileService.getUserData(JSON.stringify(obj2));
         },
         err => { console.log(err); },
@@ -120,6 +132,9 @@ export class ProfilesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     console.log('oninit sub');
     this.subscription = new Subscription();
+    this.paramsSubscription = new Subscription();
+    this.profileSubscription = new Subscription();
+    this.imageSubscription = new Subscription();
   }
 
   onModify() {
@@ -138,45 +153,14 @@ export class ProfilesComponent implements OnInit, OnDestroy {
   onUpdate() {
 
     this.onChangePassword();
-
-   /* const body = {
-      'username': 'asd',
-      'email': 'asd@dfg',
-      'firstName': 'apad',
-      'lastName': 'fasza',
-      'aboutMe': 'ghfghhdh',
-      'categories': [4, 3],
-      'schools': [
-        { 'fromYear': 1995, 'toYear': 2000, 'name': 'ge' },
-        { 'fromYear': 2000, 'toYear': 2010, 'name': 'ah' }
-      ],
-      'workPlaces': [
-        { 'fromYear': 1995, 'toYear': 2000, 'name': 'wor' },
-        { 'fromYear': 2000, 'toYear': 2010, 'name': 'w' }
-      ]
-    };*/
     const profile = new Profile(
       this.cookieService.get('USERNAME'), this.signupForm.value.userData.email,
       this.signupForm.value.userData.firstname, this.signupForm.value.userData.lastname,
       this.signupForm.value.userData.about,
       this.schools, this.workplaces
     );
-
-    /*console.log('username: ' + this.signupForm.value.userData.about);
-    console.log('fromyear:' + this.signupForm.value.userData.schoolFromYear);
-    console.log('toyear:' + this.signupForm.value.userData.schoolToYear);
-    console.log('name:' + this.signupForm.value.userData.schoolName);*/
-
-    this.updateService.sendUpdate(profile).subscribe(
-      response => console.log(response),
-      error => console.log(error)
-    );
-
-   // this.router.navigateByUrl('profile');
+    this.updateService.sendUpdate(profile);
     this.modify = false;
-    //this.router.navigateByUrl('profile');
-
-    //this.router.navigate(['profile']);
      window.location.reload();
   }
 
@@ -223,7 +207,7 @@ export class ProfilesComponent implements OnInit, OnDestroy {
 
       this.selectedFile = new ImageSnippet(event.target.result, file);
 
-      this.imageService.uploadImage(this.selectedFile.file, this.user.username).subscribe(
+     this.imageSubscription = this.imageService.uploadImage(this.selectedFile.file, this.user.username).subscribe(
         (res) => {
           console.log(res);
           window.location.reload();
@@ -244,6 +228,8 @@ export class ProfilesComponent implements OnInit, OnDestroy {
     console.log('ondest sub');
     this.subscription.unsubscribe();
     this.paramsSubscription.unsubscribe();
+    this.profileSubscription.unsubscribe();
+    this.imageSubscription.unsubscribe();
   }
 
 }

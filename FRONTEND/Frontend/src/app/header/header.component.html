@@ -2,7 +2,8 @@
   <div class="container-fluid">
     <div class="vl"></div>
     <div class="nav navbar-header">
-        <a [routerLink]="['/profile', cookieService.get('ID')]">Profil</a>
+        <!-- <a [routerLink]="['/profile', cookieService.get('ID')]">Profil</a> -->
+        <a class="header-link" (click)="onClick()">Profil</a>
     </div>
     <div class="vl"></div>
     <div class="nav navbar-header dropdown" ngbDropdown>

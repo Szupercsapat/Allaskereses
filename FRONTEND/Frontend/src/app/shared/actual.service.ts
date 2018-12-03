@@ -4,14 +4,14 @@ import { Injectable } from '@angular/core';
 export class ActualService {
 
   private username: string;
-  private id: number;
+  private id: string;
 
   public setActual(username: string, id: number) {
     this.username = username;
-    this.id = id;
+    this.id = id.toString();
   }
 
-  public getID(): number {
+  public getID(): string {
     return this.id;
   }
 

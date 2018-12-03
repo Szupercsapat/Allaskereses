@@ -14,7 +14,7 @@ export class RegistrationComponent implements OnDestroy {
   @ViewChild('f') signupForm: NgForm;
 
   private user: User;
-  private subscription: Subscription = new Subscription();
+  // private subscription: Subscription = new Subscription();
 
   constructor(private regiService: RegistrationService) {}
 
@@ -34,6 +34,6 @@ export class RegistrationComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
   }
 }

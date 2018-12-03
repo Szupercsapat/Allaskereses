@@ -17,7 +17,6 @@ import { SessionService } from './auth/session.service';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { HomeComponent } from './home/home.component';
 import { ProfilesComponent } from './profiles/profiles.component';
-import { CVService } from './profiles/cv.service';
 import { ProfileUpdateService } from './profiles/update.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchProfilesComponent } from './search/search-profiles/search-profiles.component';
@@ -47,8 +46,8 @@ import { ImageService } from './profiles/image.service';
   providers: [
     LoginService, LogoutService, RegistrationService,
     CookieService, SessionService, AuthGuardService,
-    CVService, ProfileUpdateService, ActualService,
-    GetProfileService, ImageService
+    ProfileUpdateService, ActualService, GetProfileService,
+    ImageService
   ],
   bootstrap: [AppComponent]
 })

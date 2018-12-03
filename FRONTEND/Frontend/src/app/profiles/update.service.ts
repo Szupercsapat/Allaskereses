@@ -14,13 +14,7 @@ export class ProfileUpdateService {
     const header = new Headers();
     header.append('Content-Type', 'application/json');
 
-    this.http.post('http://localhost:8080/rft/user/changePassword', body, {headers: header}).subscribe(
-        /*data  => { this.data = JSON.stringify(data);
-          const obj = JSON.parse(this.data);
-          const obj2 = obj[Object.keys(obj)[0]];
-        },*/
-      err => console.log(err)
-    );
+    this.http.post('http://localhost:8080/rft/user/changePassword', body, {headers: header});
   }
 
   sendUpdate(profile: Profile): Observable<Response> {

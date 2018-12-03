@@ -21,15 +21,10 @@ export class GetProfileService {
   public email: string;
   public activated: string;
   public id: string;
-  image: any;
+  public image: any;
 
-  /* asd(): string {
-    console.log('asdasdasd');
-    return this.firstName;
-  }*/
-
-  public getJobSeekerData(data: string) {
-    const obj4 = data.search('firstName');
+  public getJobSeekerData(data: {}) {
+    /*const obj4 = data.search('firstName');
     const first = 'firstName'.length;
     const obj5 = data.search('lastName');
     const last = 'lastName'.length;
@@ -38,7 +33,12 @@ export class GetProfileService {
     const about = 'aboutMe'.length;
     this.lastName = data.slice(obj5 + last + 7, obj6 - 11);
     const obj7 = data.search('_links');
-    this.aboutMe = data.slice(obj6 + about + 7, obj7 - 11);
+    this.aboutMe = data.slice(obj6 + about + 7, obj7 - 11);*/
+    this.id = data[Object.keys(data)[0]];
+    this.username = data[Object.keys(data)[1]];
+    this.firstName = data[Object.keys(data)[2]];
+    this.lastName = data[Object.keys(data)[3]];
+    this.aboutMe = data[Object.keys(data)[4]];
   }
 
   private getSchoolData(data: string) {
@@ -116,7 +116,8 @@ export class GetProfileService {
   }*/
 
   public getProfileSeeker(id: number): Observable<Response> {
-    const seekerUrl = 'http://localhost:8080/rft/users/' + id + '/jobSeeker';
+    // const seekerUrl = 'http://localhost:8080/rft/users/' + id + '/jobSeeker';
+    const seekerUrl = 'http://localhost:8080/rft/seeker/seeker/' + id;
     /*this.sub.add(this.http.get(seekerUrl).subscribe(
       response => {
         const data = JSON.stringify(response);

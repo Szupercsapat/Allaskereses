@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnDestroy, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
 import { NgForm } from '@angular/forms';
 import { User } from '../../entity/user.model';
@@ -13,13 +13,13 @@ import { ActualService } from 'src/app/shared/actual.service';
   templateUrl: './login.component.html',
   styleUrls: ['../../app.component.css']
 })
-export class LoginComponent implements OnDestroy {
+export class LoginComponent implements OnInit, OnDestroy {
 
   @ViewChild('f') signupForm: NgForm;
 
   private user: User;
-  private subscription: Subscription = new Subscription();
-  private sub = new Subscription();
+  private subscription: Subscription;
+   private sub: Subscription;
 
   constructor(
     private loginService: LoginService,
@@ -29,21 +29,25 @@ export class LoginComponent implements OnDestroy {
     private actual: ActualService
   ) {}
 
-  private getID(username: string) {
+  ngOnInit() {
+    this.sub = new Subscription();
+    this.subscription = new Subscription();
+  }
+
+  /*private getID(username: string) {
     // const sub = new Subscription();
-    this.sub.add(this.loginService.getID(username).subscribe(
+    this.sub = this.loginService.getID(username).subscribe(
       response => {
           const data = JSON.stringify(response);
           const obj = JSON.parse(data);
           console.log('ID: ' + obj[Object.keys(obj)[0]]);
-          this.actual.setActual(username, +obj[Object.keys(obj)[0]]);
-          this.cookieService.set('ID', this.actual.getID().toString());
+          this.actual.setActual(username, obj[Object.keys(obj)[0]]);
+          this.cookieService.set('ID', this.actual.getID());
           this.cookieService.set('USERNAME', this.actual.getUsername());
       },
-      err => { console.log(err); },
-      () => { this.sub.unsubscribe(); }
-    ));
-  }
+      err => { console.log(err); }
+    );
+  }*/
 
   onLogin() {
 
@@ -53,7 +57,7 @@ export class LoginComponent implements OnDestroy {
       this.signupForm.value.userData.password,
       ''
     );
-    this.subscription.add(
+    this.subscription =
       this.loginService.onSendLogin(this.user).subscribe(
         response  => {
           const data = JSON.stringify(response);
@@ -68,14 +72,26 @@ export class LoginComponent implements OnDestroy {
           // console.log('refresh_token: ' + refresh_token);
           const expire = obj3[Object.keys(obj3)[3]];
           // console.log('expire: ' + expire);
+          this.cookieService.delete('access_token');
+          this.cookieService.delete('refresh_token');
           this.cookieService.set('access_token', access_token, expire);
           this.cookieService.set('refresh_token', refresh_token);
-          this.getID(this.signupForm.value.userData.username);
+          // this.getID(this.signupForm.value.userData.username);
           this.router.navigate(['home']);
         },
         err => console.log(err)
-      )
-    );
+      );
+      this.sub = this.loginService.getID(this.signupForm.value.userData.username).subscribe(
+        response => {
+            const data = JSON.stringify(response);
+            const obj = JSON.parse(data);
+            console.log('ID: ' + obj[Object.keys(obj)[0]]);
+            this.actual.setActual(this.signupForm.value.userData.username, obj[Object.keys(obj)[0]]);
+            this.cookieService.set('ID', this.actual.getID());
+            this.cookieService.set('USERNAME', this.actual.getUsername());
+        },
+        err => { console.log(err); }
+      );
     delete this.user;
   }
 
@@ -88,6 +104,7 @@ export class LoginComponent implements OnDestroy {
 
   ngOnDestroy() {
     console.log('login unsub');
+    this.sub.unsubscribe();
     this.subscription.unsubscribe();
   }
 }

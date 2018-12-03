@@ -14,12 +14,12 @@ export class RegistrationService {
     const header = new Headers();
     header.append('Content-Type', 'application/json');
 
-    this.http.post(this.userUrl, body, {headers: header}).subscribe(
-      /*data  => { this.data = JSON.stringify(data);
+    this.http.post(this.userUrl, body, {headers: header})/*.subscribe(
+      data  => { this.data = JSON.stringify(data);
         const obj = JSON.parse(this.data);
         const obj2 = obj[Object.keys(obj)[0]];
-      },*/
+      },
       err => console.log(err)
-    );
+    )*/;
   }
 }
