@@ -30,7 +30,7 @@
           <div class="col">
               <div class="row">
                   <div class="col-md-12">
-                      <h4 class="text-lg-center">Your Profile</h4>
+                      <!-- <h4 class="text-lg-center">Your Profile</h4> -->
                       <hr>
                   </div>
               </div>
@@ -163,7 +163,7 @@
           <div class="col">
               <div class="row">
                   <div class="col-md-12">
-                      <h4 class="text-lg-center">Your Profile</h4>
+                      <!-- <h4 class="text-lg-center">Your Profile</h4> -->
                       <hr>
                   </div>
               </div>
@@ -208,8 +208,8 @@
 
       </div>
     </div>
-      <button class="btn btn-primary" *ngIf=!modify>CV Készitése</button>
-      <button class="btn btn-primary" *ngIf=!modify (click)="onModify()">Módosítás</button>
+      <button class="btn btn-primary" *ngIf="!modify && isActual()">CV Készitése</button>
+      <button class="btn btn-primary" *ngIf="!modify && isActual()" (click)="onModify()">Módosítás</button>
       <button class="btn btn-primary" *ngIf=modify (click)="onModify()">Vissza</button>
   </div>
 </div>

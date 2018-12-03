@@ -12,7 +12,7 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
-  { path: 'profile', component: ProfilesComponent, canActivate: [AuthGuardService] },
+  { path: 'profile/:id', component: ProfilesComponent, canActivate: [AuthGuardService] },
   { path: 'search-profiles', component: SearchProfilesComponent, canActivate: [AuthGuardService] },
   { path: 'search-workplaces', component: SearchWorkplacesComponent, canActivate: [AuthGuardService] },
   { path: 'register', component: RegistrationComponent },

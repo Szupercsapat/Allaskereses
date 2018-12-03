@@ -7,6 +7,7 @@ import { School } from '../entity/schools.model';
 import { Workplace } from '../entity/workplaces.model';
 import { GetProfileService } from './getProfile.service';
 import { CookieService } from 'ngx-cookie-service';
+import { ActivatedRoute, Params } from '@angular/router';
 // import { Router } from '@angular/router';
 
 @Component({
@@ -41,13 +42,30 @@ export class ProfilesComponent implements OnInit, OnDestroy {
 
   private modify = false;
 
+  private user: {
+    id: number
+  };
+
+  paramsSubscription: Subscription;
+
   constructor(
     private updateService: ProfileUpdateService,
     private getProfileService: GetProfileService,
     private cookieService: CookieService,
+    private route: ActivatedRoute
     // private router: Router
   ) {
-      this.getProfileService.getProfileSeeker().subscribe(
+    this.user = {
+      id: this.route.snapshot.params['id']
+    };
+    this.paramsSubscription = this.route.params
+      .subscribe(
+        (params: Params) => {
+          this.user.id = params['id'];
+          console.log(this.user.id);
+        }
+      );
+      this.getProfileService.getProfileSeeker(this.user.id).subscribe(
       response => {
         const data = JSON.stringify(response);
         const obj = JSON.parse(data);
@@ -68,7 +86,7 @@ export class ProfilesComponent implements OnInit, OnDestroy {
       }
       );
 
-      this.getProfileService.getProfileUser().subscribe(
+      this.getProfileService.getProfileUser(this.user.id).subscribe(
         response => {
           const data = JSON.stringify(response);
           const obj = JSON.parse(data);
@@ -80,6 +98,7 @@ export class ProfilesComponent implements OnInit, OnDestroy {
         () => {
           this.actualProfile.username = this.getProfileService.username;
           this.actualProfile.email = this.getProfileService.email;
+          this.actualProfile.id = this.getProfileService.id;
         }
         );
   }
@@ -173,9 +192,19 @@ export class ProfilesComponent implements OnInit, OnDestroy {
     this.actualProfile.workPlaces.splice(index, 1);
   }
 
+  isActual() {
+    const num: number = parseInt(this.cookieService.get('ID'), 10);
+    if (+this.user.id === +num ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   ngOnDestroy() {
     console.log('ondest sub');
     this.subscription.unsubscribe();
+    this.paramsSubscription.unsubscribe();
   }
 
 }

@@ -2,6 +2,7 @@ import { School } from './schools.model';
 import { Workplace } from './workplaces.model';
 
 export class Profile {
+  public id: string;
   public username: string;
   public email: string;
   public firstName: string;

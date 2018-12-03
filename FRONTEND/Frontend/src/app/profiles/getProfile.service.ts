@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable, Subscription } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
-import { map } from 'rxjs/operators';
+// import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class GetProfileService {
 
-  private sub = new Subscription();
+ // private sub = new Subscription();
 
   constructor(
     private http: Http,
-    private cookieService: CookieService
+    // private cookieService: CookieService
   ) { console.log('profil const'); }
 
   public firstName: string;
@@ -20,11 +19,12 @@ export class GetProfileService {
   public username: string;
   public email: string;
   public activated: string;
+  public id: string;
 
-  public asd(): string {
+  /* asd(): string {
     console.log('asdasdasd');
     return this.firstName;
-  }
+  }*/
 
   public getJobSeekerData(data: string) {
     const obj4 = data.search('firstName');
@@ -70,12 +70,17 @@ export class GetProfileService {
     const user = 'username'.length;
     const obj5 = data.search('email');
     const email = 'email'.length;
-    console.log(this.username = data.slice(obj4 + user + 7, obj5 - 11));
+    this.username = data.slice(obj4 + user + 7, obj5 - 11);
     const obj6 = data.search('activated');
     const activated = 'activated'.length;
-    console.log(this.email = data.slice(obj5 + email + 7, obj6 - 11));
-    const obj7 = data.search('_links');
-    this.activated = data.slice(obj6 + activated + 7, obj7 - 11);
+    this.email = data.slice(obj5 + email + 7, obj6 - 11);
+    const obj7 = data.search('resourceId');
+    const id = 'resourceId'.length;
+    this.activated = data.slice(obj6 + activated + 5, obj7 - 9);
+    //console.log('Activated: ' + this.activated);
+    const obj8 = data.search('_links');
+    this.id = data.slice(obj7 + id + 5, obj8 - 9);
+    //console.log('ID: ' + this.id);
   }
 
   private getCategoriesData(data: string) {
@@ -91,8 +96,8 @@ export class GetProfileService {
     this.aboutMe = data.slice(obj6 + about + 7, obj7 - 11);*/
   }
 
-  public getProfileSeeker(): Observable<Response> {
-    const seekerUrl = 'http://localhost:8080/rft/users/' + this.cookieService.get('ID') + '/jobSeeker';
+  public getProfileSeeker(id: number): Observable<Response> {
+    const seekerUrl = 'http://localhost:8080/rft/users/' + id + '/jobSeeker';
     /*this.sub.add(this.http.get(seekerUrl).subscribe(
       response => {
         const data = JSON.stringify(response);
@@ -131,8 +136,8 @@ export class GetProfileService {
       }
     );*/
     }
-    public getProfileUser() {
-    const userUrl = 'http://localhost:8080/rft/jobSeekers/' + this.cookieService.get('ID') + '/user';
+    public getProfileUser(id: number) {
+    const userUrl = 'http://localhost:8080/rft/jobSeekers/' + id + '/user';
     return this.http.get(userUrl);
     /*this.http.get(userUrl).subscribe(
       response => {

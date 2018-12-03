@@ -36,8 +36,8 @@ export class LoginComponent implements OnDestroy {
           const data = JSON.stringify(response);
           const obj = JSON.parse(data);
           console.log('ID: ' + obj[Object.keys(obj)[0]]);
-          this.actual.setActual(username, obj[Object.keys(obj)[0]]);
-          this.cookieService.set('ID', this.actual.getID());
+          this.actual.setActual(username, +obj[Object.keys(obj)[0]]);
+          this.cookieService.set('ID', this.actual.getID().toString());
           this.cookieService.set('USERNAME', this.actual.getUsername());
       },
       err => { console.log(err); },

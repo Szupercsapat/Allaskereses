@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="vl"></div>
     <div class="nav navbar-header">
-        <a routerLink="profile">Profil</a>
+        <a [routerLink]="['/profile', cookieService.get('ID')]">Profil</a>
     </div>
     <div class="vl"></div>
     <div class="nav navbar-header dropdown" ngbDropdown>
@@ -10,8 +10,8 @@
         <!-- <a class="header-link">Keresés</a> -->
             <a style="cursor: pointer;" class="dropdown-toggle" role="button" ngbDropdownToggle>Keresés <span class="caret"></span></a>
             <ul class="dropdown-menu" ngbDropdownMenu>
-              <li class="dropdown-item"><a style="cursor: pointer;"  href="#">Profilok</a></li>
-              <li class="dropdown-item"><a style="cursor: pointer;"  href="#">Állásajánlatok</a></li>
+              <li class="dropdown-item"><a style="cursor: pointer;" routerLink="search-profiles">Profilok</a></li>
+              <li class="dropdown-item"><a style="cursor: pointer;" routerLink="search-workplaces">Állásajánlatok</a></li>
             </ul>
     </div>
     <div class="vl2"></div>
