@@ -3,16 +3,18 @@ import { CookieService } from 'ngx-cookie-service';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
+// import { GetProfileService } from '../profiles/getProfile.service';
 
 @Injectable()
-export class SessionService implements OnDestroy {
+export class SessionService {
 
   private userUrl = 'http://localhost:8080/rft/oauth/token';
   private subscription: Subscription = new Subscription();
 
   constructor(
     private cookieService: CookieService,
-    private http: Http
+    private http: Http,
+   // private getProfileService: GetProfileService
   ) {}
 
   refreshSession(): Observable<Response> {
@@ -38,32 +40,25 @@ export class SessionService implements OnDestroy {
       return false;
     }
     console.log('van auth');
+    // const subscription = new Subscription();
     this.subscription.add(
       this.refreshSession().subscribe(
         response  => {
           const data2 = JSON.stringify(response);
           const object = JSON.parse(data2);
           const object2 = object[Object.keys(object)[0]];
-          console.log('object2: ' + object2);
           const object3 = JSON.parse(object2);
-          console.log('object3: ' + object3);
           const access_token = object3[Object.keys(object3)[0]];
-          console.log('token: ' + access_token);
           const refresh_token = object3[Object.keys(object3)[2]];
-          console.log('refresh_token: ' + refresh_token);
           this.cookieService.set('refresh_token', refresh_token);
           const expire = object3[Object.keys(object3)[3]];
-          console.log('expire: ' + expire);
           this.cookieService.set('access_token', access_token, expire);
+          // this.getProfileService.getProfileSeeker();
         },
-          err2 => console.log(err2)
+        err => { console.log(err); },
+        () => { this.subscription.unsubscribe(); }
       )
     );
     return true;
-  }
-
-  ngOnDestroy() {
-    console.log('auth unsub');
-    this.subscription.unsubscribe();
   }
 }

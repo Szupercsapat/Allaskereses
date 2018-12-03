@@ -2,8 +2,8 @@ import { Component, OnDestroy } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { LogoutService } from '../auth/logout.service';
 import { Router } from '@angular/router';
-import { CVService } from '../profiles/cv.service';
-import { Response } from '@angular/http';
+// import { CVService } from '../profiles/cv.service';
+// import { Response } from '@angular/http';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 
@@ -20,7 +20,7 @@ export class HeaderComponent implements OnDestroy {
     private cookieService: CookieService,
     private logoutService: LogoutService,
     private router: Router,
-    private profilesService: CVService
+    // private profilesService: CVService
   ) {}
 
   /*downloadFile(response: Response) {
@@ -74,6 +74,8 @@ export class HeaderComponent implements OnDestroy {
      );
      this.cookieService.delete('access_token');
      this.cookieService.delete('refresh_token');
+     this.cookieService.delete('ID');
+     this.cookieService.delete('USERNAME');
      this.router.navigate(['login']);
   }
 

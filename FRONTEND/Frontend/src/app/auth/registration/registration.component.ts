@@ -22,7 +22,8 @@ export class RegistrationComponent implements OnDestroy {
     this.user = new User(
       this.signupForm.value.userData.username,
       this.signupForm.value.userData.email,
-      this.signupForm.value.userData.password
+      this.signupForm.value.userData.password,
+      'ROLE_USER'
     );
     console.log(this.user.username);
     console.log(this.user.email);

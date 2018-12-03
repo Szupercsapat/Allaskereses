@@ -26,4 +26,9 @@ export class LoginService {
 
   }
 
+  public getID(username: string): Observable<Response> {
+    const url = 'http://localhost:8080/rft/user/userIdByUsername/' + username;
+    return this.http.get(url);
+  }
+
 }

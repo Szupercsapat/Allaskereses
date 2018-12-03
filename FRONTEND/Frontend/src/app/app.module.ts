@@ -22,6 +22,8 @@ import { ProfileUpdateService } from './profiles/update.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchProfilesComponent } from './search/search-profiles/search-profiles.component';
 import { SearchWorkplacesComponent } from './search/search-workplaces/search-workplaces.component';
+import { ActualService } from './shared/actual.service';
+import { GetProfileService } from './profiles/getProfile.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { SearchWorkplacesComponent } from './search/search-workplaces/search-wor
   providers: [
     LoginService, LogoutService, RegistrationService,
     CookieService, SessionService, AuthGuardService,
-    CVService, ProfileUpdateService
+    CVService, ProfileUpdateService, ActualService,
+    GetProfileService
   ],
   bootstrap: [AppComponent]
 })
