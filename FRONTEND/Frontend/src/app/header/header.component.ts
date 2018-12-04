@@ -67,8 +67,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }*/
 
   onClick() {
-    this.router.navigate(['/profile', this.cookieService.get('ID')]);
-    window.location.reload();
+    this.router.navigate(['/profile']);
+    // this.router.navigate(['/profile', this.cookieService.get('ID')]); mirának
+    // window.location.reload(); mirának kommentelve
   }
 
   onLogout() {

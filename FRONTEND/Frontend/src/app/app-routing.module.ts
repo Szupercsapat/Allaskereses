@@ -12,7 +12,8 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
-  { path: 'profile/:id', component: ProfilesComponent, canActivate: [AuthGuardService] },
+  /*{ path: 'profile/:id', component: ProfilesComponent, canActivate: [AuthGuardService] },*/
+  { path: 'profile', component: ProfilesComponent /* mirának*/ },
   { path: 'search-profiles', component: SearchProfilesComponent, canActivate: [AuthGuardService] },
   { path: 'search-workplaces', component: SearchWorkplacesComponent, canActivate: [AuthGuardService] },
   { path: 'register', component: RegistrationComponent },
