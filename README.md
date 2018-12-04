@@ -1,1 +1,2 @@
-# Állaskeresés
+﻿# Állaskeresés
+valami
