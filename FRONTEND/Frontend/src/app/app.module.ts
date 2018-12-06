@@ -18,7 +18,7 @@ import { AuthGuardService } from './auth/auth-guard.service';
 import { HomeComponent } from './home/home.component';
 import { ProfilesComponent } from './profiles/profiles.component';
 import { ProfileUpdateService } from './profiles/update.service';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchProfilesComponent } from './search/search-profiles/search-profiles.component';
 import { SearchWorkplacesComponent } from './search/search-workplaces/search-workplaces.component';
 import { ActualService } from './shared/actual.service';
@@ -40,8 +40,8 @@ import { ImageService } from './profiles/image.service';
     BrowserModule,
     HttpModule,
     FormsModule,
-    AppRoutingModule,
-    NgbModule
+    AppRoutingModule/*,
+    NgbModule*/
   ],
   providers: [
     LoginService, LogoutService, RegistrationService,
