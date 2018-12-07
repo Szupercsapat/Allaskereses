@@ -212,7 +212,7 @@ input.ng-invalid.ng-touched {
         -o-background-size: cover;
   width:auto;
   /*background-image:url('https://www.planwallpaper.com/static/images/8ccb4ec4225b290726ae9be975220ff4.jpg');*/
-  background-image:url('./images/wordcloud2.png');
+  background-image:url('./images/wordcloud2.jpg');
   /*background-position:50% 50%;*/
   /*background: url('images/yourimage.jpg') no-repeat center center fixed; */
 }
