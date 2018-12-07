@@ -20,7 +20,7 @@ font-weight:bold;
 
 .input-group-prepend span{
 width: 50px;
-background-color: #247BC2;
+background-color: #247B;
 color: black;
 border:0 !important;
 }
@@ -49,7 +49,7 @@ margin-right: 5px;
 font-variant:small-caps;
 color: white;
 font-weight:bold;
-background-color: #247BC2;
+background-color: #247B;
 width: 100px;
 }
 
