@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['../../app.component.css']
+  styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnDestroy {
 

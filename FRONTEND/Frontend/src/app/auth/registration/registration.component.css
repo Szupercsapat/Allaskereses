@@ -1,0 +1,48 @@
+.container{
+  height: 100%;
+  align-content: center;
+  }
+
+  .card{
+  height: 370px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 400px;
+  background-color: rgba(0,0,0,0.75);
+  }
+
+
+  .card-header h3{
+  font-variant:small-caps;
+  color: white;
+  font-weight:bold;
+  }
+
+  .input-group-prepend span{
+  width: 50px;
+  background-color: #247BC2;
+  color: black;
+  border:0 !important;
+  }
+
+  input:focus{
+  outline: 0 0 0 0  !important;
+  box-shadow: 0 0 0 0 !important;
+
+  }
+
+  .regist_btn{
+  font-variant:small-caps;
+  color: white;
+  font-weight:bold;
+  background-color: #247BC2;
+  }
+
+  .regist_btn:hover{
+  color: black;
+  background-color: white;
+  }
+
+  .links{
+  color: white;
+  }

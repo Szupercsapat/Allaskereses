@@ -24,6 +24,7 @@ import { SearchWorkplacesComponent } from './search/search-workplaces/search-wor
 import { ActualService } from './shared/actual.service';
 import { GetProfileService } from './profiles/getProfile.service';
 import { ImageService } from './profiles/image.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ImageService } from './profiles/image.service';
     BrowserModule,
     HttpModule,
     FormsModule,
-    AppRoutingModule/*,
+    AppRoutingModule,
+    BrowserAnimationsModule/*,
     NgbModule*/
   ],
   providers: [
