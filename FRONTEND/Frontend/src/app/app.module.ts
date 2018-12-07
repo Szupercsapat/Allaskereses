@@ -18,13 +18,14 @@ import { AuthGuardService } from './auth/auth-guard.service';
 import { HomeComponent } from './home/home.component';
 import { ProfilesComponent } from './profiles/profiles.component';
 import { ProfileUpdateService } from './profiles/update.service';
-// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchProfilesComponent } from './search/search-profiles/search-profiles.component';
 import { SearchWorkplacesComponent } from './search/search-workplaces/search-workplaces.component';
 import { ActualService } from './shared/actual.service';
 import { GetProfileService } from './profiles/getProfile.service';
 import { ImageService } from './profiles/image.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoggedInService } from './shared/loggedin.service';
 
 @NgModule({
   declarations: [
@@ -42,14 +43,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpModule,
     FormsModule,
     AppRoutingModule,
-    BrowserAnimationsModule/*,
-    NgbModule*/
+    BrowserAnimationsModule,
+    NgbModule
   ],
   providers: [
     LoginService, LogoutService, RegistrationService,
     CookieService, SessionService, AuthGuardService,
     ProfileUpdateService, ActualService, GetProfileService,
-    ImageService
+    ImageService, LoggedInService
   ],
   bootstrap: [AppComponent]
 })

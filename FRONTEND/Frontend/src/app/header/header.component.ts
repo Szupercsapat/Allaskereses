@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 // import { CVService } from '../profiles/cv.service';
 // import { Response } from '@angular/http';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { LoggedInService } from '../shared/loggedin.service';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private cookieService: CookieService,
     private logoutService: LogoutService,
     private router: Router,
+    private loggedInService: LoggedInService
     // private profilesService: CVService
   ) {}
 
@@ -67,9 +69,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }*/
 
   onClick() {
-    this.router.navigate(['/profile']);
-    // this.router.navigate(['/profile', this.cookieService.get('ID')]); mirának
-    // window.location.reload(); mirának kommentelve
+    // this.router.navigate(['/profile']);
+     this.router.navigate(['/profile', this.cookieService.get('ID')]);
+     window.location.reload();
   }
 
   onLogout() {
@@ -84,6 +86,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
      this.cookieService.delete('refresh_token');
      this.cookieService.delete('ID');
      this.cookieService.delete('USERNAME');
+     console.log(this.loggedInService.isLoggedIn);
+     this.loggedInService.logOut();
+     console.log(this.loggedInService.isLoggedIn);
      this.router.navigate(['login']);
   }
 

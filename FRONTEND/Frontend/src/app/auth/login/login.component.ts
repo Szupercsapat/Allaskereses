@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { ActualService } from 'src/app/shared/actual.service';
+import { LoggedInService } from 'src/app/shared/loggedin.service';
 
 @Component({
   selector: 'app-login',
@@ -19,14 +20,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private user: User;
   private subscription: Subscription;
-   private sub: Subscription;
+  private sub: Subscription;
 
   constructor(
     private loginService: LoginService,
     private cookieService: CookieService,
     // private session: SessionService,
     private router: Router,
-    private actual: ActualService
+    private actual: ActualService,
+    private loggedInService: LoggedInService
   ) {}
 
   ngOnInit() {
@@ -77,6 +79,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.cookieService.set('access_token', access_token, expire);
           this.cookieService.set('refresh_token', refresh_token);
           // this.getID(this.signupForm.value.userData.username);
+          this.loggedInService.logIn();
+          console.log(this.loggedInService.isLoggedIn);
           this.router.navigate(['home']);
         },
         err => console.log(err)
@@ -95,15 +99,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     delete this.user;
   }
 
-  /* onTest() {
-
-    console.log('isauth: ');
-    console.log(this.session.isAuthenticated());
-
-  } */
-
   ngOnDestroy() {
-    console.log('login unsub');
     this.sub.unsubscribe();
     this.subscription.unsubscribe();
   }
