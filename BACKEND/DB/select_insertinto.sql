@@ -175,3 +175,7 @@ insert into job_category(job_name,parent_id,about,active) values('C-sharp progra
 
 insert into role(name) values('ROLE_ADMIN');
 insert into role(name) values('ROLE_USER');
+
+update user
+set activated = 1
+where id = 3;

@@ -1,0 +1,150 @@
+<!-- <div class="container">
+  <div class="card card-container">
+        <form>
+          <div id="user-data">
+              <div class="form-group">
+                  <label for="username">Username</label>
+                  <input>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input>
+                  <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email!</span>
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input>
+                </div>
+                <button class="btn btn-primary" type="submit">Update</button>
+          </div>
+        </form>
+  </div>
+</div>
+ -->
+
+  <div class="card center">
+    <div class="card-header">
+        <h1>Profilom</h1>
+    </div>
+    <div class="card-body" *ngIf=!modify>
+            <div class="useravatar">
+              <!-- <img alt="" src="https://t4.ftcdn.net/jpg/02/15/84/43/240_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"> -->
+              <img [src]="imageUrl" class="center">
+            </div>
+
+                          <p class="dolt">{{actualProfile.username}}</p>
+                          <p class="dolt">{{actualProfile.firstName}}</p>
+                          <p class="dolt">{{actualProfile.lastName}}</p>
+                          <p class="dolt">{{actualProfile.email}}</p>
+                          <p class="dolt">{{actualProfile.aboutMe}}</p>
+                          <p>Iskolák:</p>
+                              <ul>
+                                <li *ngFor="let school of actualProfile.schools">{{school.name}} {{school.fromYear}} - {{school.toYear}}</li>
+                              </ul>
+                          <p>Munkahelyek:</p>
+                              <ul>
+                                <li *ngFor="let work of actualProfile.workPlaces">{{work.name}} {{work.fromYear}} - {{work.toYear}}</li>
+                              </ul>
+    </div>
+
+      <button class="btn btn-primary" *ngIf="!modify && isActual()" (click)="downloadCV()">CV Készitése</button>
+      <button class="btn btn-primary" *ngIf="!modify && isActual()" (click)="onModify()">Módosítás</button>
+      <button class="btn btn-primary" *ngIf=modify (click)="onModify()">Vissza</button>
+</div>
+<!-- <div class="container">
+  <div class="card card-container">
+        <form>
+          <div id="user-data">
+              <div class="form-group">
+                  <label for="username">Username</label>
+                  <input>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input>
+                  <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email!</span>
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input>
+                </div>
+                <button class="btn btn-primary" type="submit">Update</button>
+          </div>
+        </form>
+  </div>
+</div>
+ -->
+
+ <!-- <div class="col-md-9"> -->
+  <div class="card center">
+    <div class="card-header">
+        <h1>Profilom</h1>
+    </div>
+
+    <div class="card-body" *ngIf=!modify>
+        <!-- <div class="col-md-12"> -->
+            <div class="useravatar">
+              <!-- <img alt="" src="https://t4.ftcdn.net/jpg/02/15/84/43/240_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"> -->
+              <img [src]="imageUrl" class="center">
+            </div>
+          <!-- </div> -->
+                    <div>
+                      <div class="input-group form-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                          </div>
+                          <p>{{actualProfile.username}}</p>
+                      </div>
+                      <div class="input-group form-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                          </div>
+                          <p>{{actualProfile.firstName}}</p>
+                      </div>
+                      <div class="input-group form-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                          </div>
+                          <p>{{actualProfile.lastName}}</p>
+                      </div>
+                      <div class="input-group form-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                          </div>
+                          <p>{{actualProfile.email}}</p>
+                      </div>
+                      <div class="input-group form-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                          </div>
+                          <p>{{actualProfile.aboutMe}}</p>
+                      </div>
+                          <div>
+                              <div class="input-group form-group">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                  </div>
+                                  <p>Iskolák:</p>
+                              </div>
+                              <ul>
+                                <li *ngFor="let school of actualProfile.schools">{{school.name}} {{school.fromYear}} - {{school.toYear}}</li>
+                              </ul>
+                          </div>
+                          <div>
+                              <div class="input-group form-group">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                  </div>
+                                  <p>Munkahelyek:</p>
+                              </div>
+                              <ul>
+                                <li *ngFor="let work of actualProfile.workPlaces">{{work.name}} {{work.fromYear}} - {{work.toYear}}</li>
+                              </ul>
+                          </div>
+                    </div>
+    </div>
+
+      <button class="btn btn-primary" *ngIf="!modify && isActual()" (click)="downloadCV()">CV Készitése</button>
+      <button class="btn btn-primary" *ngIf="!modify && isActual()" (click)="onModify()">Módosítás</button>
+  <!-- </div> -->
+</div>
