@@ -1,48 +1,20 @@
-<!-- <div class="container">
-  <div class="card card-container">
-        <form>
-          <div id="user-data">
-              <div class="form-group">
-                  <label for="username">Username</label>
-                  <input>
-                </div>
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input>
-                  <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email!</span>
-                </div>
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  <input>
-                </div>
-                <button class="btn btn-primary" type="submit">Update</button>
-          </div>
-        </form>
-  </div>
-</div>
- -->
 
- <!-- <div class="col-md-9"> -->
-  <div class="card center">
-    <div class="card-header">
+   <div class="card center">
+    <!--<div class="card-header">
         <h1>Profilom</h1>
     </div>
     <div class="card-body" *ngIf=modify>
-          <!-- <form (ngSubmit)="onUpdate()" #f="ngForm"> -->
         <div class="row">
           <div class="col">
               <div class="row">
                   <div class="col-md-12">
-                      <!-- <h4 class="text-lg-center">Your Profile</h4> -->
                       <hr>
                   </div>
               </div>
               <div class="row">
-                  <!-- <form (ngSubmit)="onUpdate()" #f="ngForm"> -->
                   <div class="col-md-12">
                       <div class="form-group row">
                           <div class="useravatar offset-4">
-                              <!-- <img alt="" src="https://t4.ftcdn.net/jpg/02/15/84/43/240_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"> -->
                               <img [src]="imageUrl">
                               <div class="col-8">
                                 <input
@@ -50,18 +22,12 @@
                                   type="file"
                                   accept="image/*"
                                   (change)="processFile(imageInput)"
-                                ><!-- </button> -->
+                                >
                               </div>
                           </div>
                         </div>
                       <form (ngSubmit)="onUpdate()" #f="ngForm">
                         <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
-                             <!--  <div class="form-group row">
-                                <label for="username" class="col-4 col-form-label">Username</label>
-                                <div class="col-8">
-                                  <input id="username" name="username" placeholder="Username" class="form-control here" type="text" ngModel>
-                                </div>
-                              </div> -->
                               <div class="form-group row">
                                 <label for="firstname" class="col-4 col-form-label">Keresztnév</label>
                                 <div class="col-8">
@@ -86,15 +52,6 @@
                                   <input id="newpass" name="newpass" placeholder="New Password" class="form-control here" type="password" ngModel>
                                 </div>
                               </div>
-                              <!-- <div class="radio" *ngFor="let cat of categories">
-                                <label>
-                                  <input
-                                    type="radio"
-                                    name="gender"
-                                    ngModel>
-                                    {{cat}}
-                                </label>
-                              </div> -->
                               <div class="form-group row">
                                 <div class="offset-4 col-8">
                                   <button name="submit" type="submit" class="btn btn-primary">Profilom frissítése</button>
@@ -103,11 +60,10 @@
                         </div>
                       </form>
                   </div>
-                <!-- </form> -->
               </div>
 
 
-          </div> <!-- div col -->
+          </div>
           <div class="col">
             <div class="row">
               <form (ngSubmit)="onUpdate()" #f="ngForm">
@@ -161,13 +117,12 @@
           </div>
 
 
-        </div> <!-- dvik row -->
-      <!-- </form> -->
-      </div>
+        </div>
+      </div> -->
 
 
 
-    <div class="card-body" *ngIf=!modify>
+    <div class="card-body">
         <!-- <div class="col-md-12"> -->
             <div class="useravatar">
               <!-- <img alt="" src="https://t4.ftcdn.net/jpg/02/15/84/43/240_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"> -->
@@ -230,8 +185,8 @@
                     </div>
     </div>
 
-      <button class="btn btn-primary" *ngIf="!modify && isActual()" (click)="downloadCV()">CV Készitése</button>
-      <button class="btn btn-primary" *ngIf="!modify && isActual()" (click)="onModify()">Módosítás</button>
-      <button class="btn btn-primary" *ngIf=modify (click)="onModify()">Vissza</button>
+      <button class="btn btn-primary" *ngIf="isActual()" (click)="downloadCV()">CV Készitése</button>
+      <button class="btn btn-primary" *ngIf="isActual()" (click)="onModify()">Módosítás</button>
+      <!-- <button class="btn btn-primary" *ngIf=modify (click)="onModify()">Vissza</button> -->
   <!-- </div> -->
 </div>

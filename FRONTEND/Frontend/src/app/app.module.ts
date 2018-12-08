@@ -26,6 +26,8 @@ import { GetProfileService } from './profiles/getProfile.service';
 import { ImageService } from './profiles/image.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoggedInService } from './shared/loggedin.service';
+import { EditProfileComponent } from './profiles/edit-profile/edit-profile.component';
+import { GetPagedProfilesService } from './search/search-profiles/search-profiles.service';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { LoggedInService } from './shared/loggedin.service';
     HeaderComponent,
     HomeComponent,
     ProfilesComponent,
+    EditProfileComponent,
     SearchProfilesComponent,
     SearchWorkplacesComponent
   ],
@@ -50,7 +53,7 @@ import { LoggedInService } from './shared/loggedin.service';
     LoginService, LogoutService, RegistrationService,
     CookieService, SessionService, AuthGuardService,
     ProfileUpdateService, ActualService, GetProfileService,
-    ImageService, LoggedInService
+    ImageService, LoggedInService, GetPagedProfilesService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,12 +1,39 @@
 <div class="col-md-9">
   <div class="card">
       <div class="card-body">
-        <ul>
+        <!-- <ul>
           <li><a [routerLink]="['/profile', 3]">Profil1</a></li>
           <li><a [routerLink]="['/profile', 4]">Profil2</a></li>
           <li><a href="#">Profil3</a></li>
-        </ul>
-        <button class="btn btn-primary" (click)="asd()">asdasdasd</button>
+        </ul> -->
+        <!-- <ul>
+          <li *ngFor="let profile of profiles">
+             {{profile.firstName}}
+          </li>
+      </ul> -->
+      <!-- </div> -->
+<!--   </div>
+</div> -->
+
+<div class="row">
+  <div class="col-xs-12 col-sm-offset-3 col-sm-6">
+      <div class="panel panel-default">
+
+          <ul class="list-group" id="contact-list">
+              <li class="list-group-item" *ngFor="let profile of profiles; let i = index">
+                  <div class="col-xs-12 col-sm-3">
+                      <img src="http://api.randomuser.me/portraits/men/49.jpg" [routerLink]="['/profile', IDs[i]]"/>
+                  </div>
+                  <div class="col-xs-12 col-sm-9">
+                      <span>{{profile.lastName}} {{profile.firstName}}</span><br/>
+                      <span> <span>{{profile.username}}</span><br/></span>
+                      <span> <span>{{profile.aboutMe}}</span><br/></span>
+                  </div>
+              </li>
+          </ul>
       </div>
   </div>
+</div>
+</div>
+</div>
 </div>

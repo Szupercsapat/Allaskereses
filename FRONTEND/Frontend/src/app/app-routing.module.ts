@@ -7,12 +7,18 @@ import { HomeComponent } from './home/home.component';
 import { ProfilesComponent } from './profiles/profiles.component';
 import { SearchProfilesComponent } from './search/search-profiles/search-profiles.component';
 import { SearchWorkplacesComponent } from './search/search-workplaces/search-workplaces.component';
+import { EditProfileComponent } from './profiles/edit-profile/edit-profile.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
-  { path: 'profile/:id', component: ProfilesComponent, canActivate: [AuthGuardService] },
+  { path: 'profile/:id', component: ProfilesComponent, canActivate: [AuthGuardService]/*,
+    children: [
+      { path: 'edit', component: EditProfileComponent }
+    ]*/
+  },
+  { path: 'profile/:id/edit', component: EditProfileComponent, canActivate: [AuthGuardService] },
   // { path: 'profile', component: ProfilesComponent },
   { path: 'search-profiles', component: SearchProfilesComponent, canActivate: [AuthGuardService] },
   { path: 'search-workplaces', component: SearchWorkplacesComponent, canActivate: [AuthGuardService] },

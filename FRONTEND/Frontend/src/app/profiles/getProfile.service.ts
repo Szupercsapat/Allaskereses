@@ -29,6 +29,7 @@ export class GetProfileService {
   }
 
   public getSchools(data: {asd: [], length: number}) {
+    this.schools.splice(0, this.schools.length);
     console.log(data);
     const length = data.length;
     for (let i = 0; i < length; i++) {
@@ -43,6 +44,7 @@ export class GetProfileService {
   }
 
   public getWork(data: {asd: [], length: number}) {
+    this.works.splice(0, this.works.length);
     console.log(data);
     const length = data.length;
     for (let i = 0; i < length; i++) {

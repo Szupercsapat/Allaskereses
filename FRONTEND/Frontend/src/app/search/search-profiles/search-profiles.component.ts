@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Http } from '@angular/http';
 import { Subscription } from 'rxjs';
 import { Profile } from 'src/app/entity/profile.model';
+import { GetPagedProfilesService } from './search-profiles.service';
 
 @Component({
   selector: 'app-search-profiles',
@@ -14,29 +14,31 @@ export class SearchProfilesComponent implements OnInit, OnDestroy {
 
   private page = 0;
 
-  private profiles: Profile[] = [];
+  public profiles: Profile[] = [new Profile('', '', '', '', '', [], [])];
+
+  public IDs: number[] = [];
 
   constructor(
-    private http: Http
-  ) { }
+    public getPagedService: GetPagedProfilesService,
+  ) {}
 
   ngOnInit() {
     this.sub = new Subscription();
-  }
-
-  asd() {
-    const url = 'http://localhost:8080/rft/seeker/seekers/page/' + this.page + '/size/5';
-    this.http.get(url).subscribe(
+    this.sub = this.getPagedService.getPagedProfiles(this.page).subscribe(
       (response) => {
         console.log(response);
         const obj = JSON.stringify(response);
         const obj2 = JSON.parse(obj);
         const obj3: any[] = Array.of(JSON.parse(obj2[Object.keys(obj2)[0]]));
         const obj4 = obj3[0];
-        console.log(obj4[0]);
-
+        this.getPagedService.getData(obj4);
       },
-      error => console.log(error)
+      error => console.log(error),
+      () => {
+        this.profiles = this.getPagedService.profiles;
+        this.IDs = this.getPagedService.IDs;
+        console.log(this.IDs);
+      }
     );
   }
 

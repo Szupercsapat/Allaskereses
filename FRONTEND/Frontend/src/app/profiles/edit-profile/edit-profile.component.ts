@@ -1,22 +1,22 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { ProfileUpdateService } from './update.service';
-import { NgForm } from '@angular/forms';
+import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
+import { ImageSnippet } from 'src/app/entity/image.model';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { Profile } from '../entity/profile.model';
-import { School } from '../entity/schools.model';
-import { Workplace } from '../entity/workplaces.model';
-import { GetProfileService } from './getProfile.service';
+import { ProfileUpdateService } from '../update.service';
+import { GetProfileService } from '../getProfile.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ImageSnippet } from '../entity/image.model';
-import { ImageService } from './image.service';
+import { ImageService } from '../image.service';
+import { Profile } from 'src/app/entity/profile.model';
+import { NgForm } from '@angular/forms';
+import { School } from 'src/app/entity/schools.model';
+import { Workplace } from 'src/app/entity/workplaces.model';
 
 @Component({
-  selector: 'app-profiles',
-  templateUrl: './profiles.component.html',
-  styleUrls: ['./profiles.component.css']
+  selector: 'app-edit-profile',
+  templateUrl: './edit-profile.component.html',
+  styleUrls: ['./edit-profile.component.css']
 })
-export class ProfilesComponent implements OnInit, OnDestroy {
+export class EditProfileComponent implements OnInit, OnDestroy {
 
   @ViewChild('f') signupForm: NgForm;
   @ViewChild('s') signupForm2: NgForm;
@@ -54,11 +54,7 @@ export class ProfilesComponent implements OnInit, OnDestroy {
     private imageService: ImageService,
     private router: Router
   ) {
-   /*  this.subscription = new Subscription();
-    this.paramsSubscription = new Subscription();
-    this.profileSubscription = new Subscription();
-    this.imageSubscription = new Subscription();
-    this.user = {
+    /* this.user = {
       id: this.route.snapshot.params['id'],
       username: ''
     };
@@ -88,7 +84,6 @@ export class ProfilesComponent implements OnInit, OnDestroy {
         );
         this.user.username = this.getProfileService.username;
         this.imageUrl = 'http://localhost:8080/rft/seeker/getProfileImage/username/' + this.user.username;
-        this.CVUrl = 'http://localhost:8080/rft/seeker/getCV/username/' + this.user.username;
       }
       );
 
@@ -144,13 +139,21 @@ export class ProfilesComponent implements OnInit, OnDestroy {
       id: this.route.snapshot.params['id'],
       username: ''
     };
+    const num: number = parseInt(this.cookieService.get('ID'), 10);
+
+    if (+this.user.id === +num ) {
+    } else {
+      this.router.navigate(['/profile/' + this.user.id]);
+    }
+
     this.paramsSubscription = this.route.params
       .subscribe(
         (params: Params) => {
           this.user.id = params['id'];
         }
       );
-      this.profileSubscription = this.getProfileService.getProfileSeeker(this.user.id).subscribe(
+
+    this.profileSubscription = this.getProfileService.getProfileSeeker(this.user.id).subscribe(
       response => {
         const data = JSON.stringify(response);
         const obj = JSON.parse(data);
@@ -170,7 +173,6 @@ export class ProfilesComponent implements OnInit, OnDestroy {
         );
         this.user.username = this.getProfileService.username;
         this.imageUrl = 'http://localhost:8080/rft/seeker/getProfileImage/username/' + this.user.username;
-        this.CVUrl = 'http://localhost:8080/rft/seeker/getCV/username/' + this.user.username;
       }
       );
 
@@ -217,12 +219,12 @@ export class ProfilesComponent implements OnInit, OnDestroy {
       );
   }
 
-  onModify() {
-    // this.modify = !this.modify;
-    this.router.navigate(['profile/' + this.user.id + '/edit']);
+  onBack() {
+    this.modify = !this.modify;
+    this.router.navigate(['profile/' + this.user.id]);
   }
 
-  /*onChangePassword() {
+  onChangePassword() {
     const body = {
       'username': this.cookieService.get('USERNAME'),
       'password': this.signupForm.value.userData.pass,
@@ -274,13 +276,22 @@ export class ProfilesComponent implements OnInit, OnDestroy {
     this.actualProfile.workPlaces.splice(index, 1);
   }
 
+  isActual() {
+    const num: number = parseInt(this.cookieService.get('ID'), 10);
+    if (+this.user.id === +num ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   processFile(imageInput: any) {
     const file: File = imageInput.files[0];
     const reader = new FileReader();
 
     reader.addEventListener('load', (event: any) => {
 
-      this.selectedFile = new ImageSnippet(event.target.result, file);
+    this.selectedFile = new ImageSnippet(event.target.result, file);
 
      this.imageSubscription = this.imageService.uploadImage(this.selectedFile.file, this.user.username).subscribe(
         (res) => {
@@ -293,20 +304,6 @@ export class ProfilesComponent implements OnInit, OnDestroy {
     });
 
     reader.readAsDataURL(file);
-  }*/
-
-  isActual() {
-    const num: number = parseInt(this.cookieService.get('ID'), 10);
-    if (+this.user.id === +num ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-
-  downloadCV() {
-    window.open(this.CVUrl);
   }
 
   ngOnDestroy() {
@@ -315,5 +312,4 @@ export class ProfilesComponent implements OnInit, OnDestroy {
     this.profileSubscription.unsubscribe();
     this.imageSubscription.unsubscribe();
   }
-
 }

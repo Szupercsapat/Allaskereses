@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { SessionService } from './session.service';
+import { ActualService } from '../shared/actual.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
 
   constructor(
-    public session: SessionService,
-    public router: Router
+    private session: SessionService,
+    private router: Router,
+    private actual: ActualService,
+    private cookieService: CookieService
   ) {}
 
   canActivate(): boolean {
