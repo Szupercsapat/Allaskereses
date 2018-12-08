@@ -19,5 +19,6 @@ public interface UserService {
 	void changePassword(UserDTO userDTO);
 	List<SafeUserDTO> getSafeUserDTOs(Integer page, Integer size);
 	SafeUserDTO getSafeUserDTO(Integer userId);
+	Integer getAllUsersCount();
 }
 

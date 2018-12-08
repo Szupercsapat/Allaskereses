@@ -239,4 +239,10 @@ public class JobServiceImpl implements JobService {
 
 		return pagedDtos;
 	}
+
+	@Override
+	public Integer getAllJobsCount() {
+		return (int) jobRepository.count();
+	}
+
 }

@@ -68,6 +68,12 @@ public class JobController {
 		jobService.updateJob(jobId,jobDTO);
 	}
 	
+	@GetMapping("/getAllCount")
+	public Integer getAllJobsCount()
+	{
+		return jobService.getAllJobsCount();
+	}
+	
 	
 	@GetMapping("/getByCategories")
 	public @ResponseBody List<JobDTO> getJobsByCategories(@RequestBody JobCategoryDTO categoryDTO)

@@ -23,4 +23,5 @@ public interface JobService {
 	 * @return
 	 */
 	List<JobDTO> getJobsByCategoriesWithPaging(JobCategoryDTO categoryDTO, Integer page, Integer size);
+	Integer getAllJobsCount();
 }

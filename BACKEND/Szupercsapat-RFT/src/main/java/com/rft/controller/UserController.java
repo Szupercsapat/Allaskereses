@@ -101,6 +101,12 @@ public class UserController {
 		return new ResponseEntity<>("Password changed", HttpStatus.CREATED);
 	}
 	
+	@GetMapping("/getAllCount")
+	public Integer getAllUsersCount()
+	{
+		return userService.getAllUsersCount();
+	}
+	
 	@GetMapping("/users/page/{page}/size/{size}")
 	public List<SafeUserDTO> getUserDTOs(@PathVariable("page") Integer page,@PathVariable("size") Integer size)
 	{

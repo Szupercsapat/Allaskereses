@@ -338,4 +338,9 @@ public class UserServiceImpl implements UserService {
 		
 		return userDTO;
 	}
+
+	@Override
+	public Integer getAllUsersCount() {
+		return (int) userRepository.count();
+	}
 }
