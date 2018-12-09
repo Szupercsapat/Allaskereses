@@ -63,6 +63,8 @@
 
  body, html {
   height: 100%;
+  background-image:url('./images/wordcloud2.jpg');
+  background-attachment:fixed;
   background-repeat: no-repeat;
   background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
 }
@@ -213,6 +215,7 @@ input.ng-invalid.ng-touched {
   width:auto;
   /*background-image:url('https://www.planwallpaper.com/static/images/8ccb4ec4225b290726ae9be975220ff4.jpg');*/
   background-image:url('./images/wordcloud2.jpg');
+  background-attachment:fixed;
   /*background-position:50% 50%;*/
   /*background: url('images/yourimage.jpg') no-repeat center center fixed; */
 }
