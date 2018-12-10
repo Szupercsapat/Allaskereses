@@ -2,12 +2,12 @@ import { Component, ViewChild, OnDestroy, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
 import { NgForm } from '@angular/forms';
 import { User } from '../../entity/user.model';
-import { CookieService } from 'ngx-cookie-service';
 // import { SessionService } from '../session.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { ActualService } from 'src/app/shared/actual.service';
 import { LoggedInService } from 'src/app/shared/loggedin.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -19,8 +19,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   @ViewChild('f') signupForm: NgForm;
 
   private user: User;
-  private subscription: Subscription;
+
   private sub: Subscription;
+  private subscription: Subscription;
+
+  private expire;
 
   constructor(
     private loginService: LoginService,
@@ -59,7 +62,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.signupForm.value.userData.password,
       ''
     );
-    this.subscription =
+    /*this.subscription =
       this.loginService.onSendLogin(this.user).subscribe(
         response  => {
           const data = JSON.stringify(response);
@@ -72,34 +75,78 @@ export class LoginComponent implements OnInit, OnDestroy {
           // console.log('token: ' + access_token);
           const refresh_token = obj3[Object.keys(obj3)[2]];
           // console.log('refresh_token: ' + refresh_token);
-          const expire = obj3[Object.keys(obj3)[3]];
+          this.expire = obj3[Object.keys(obj3)[3]];
           // console.log('expire: ' + expire);
           this.cookieService.delete('access_token');
           this.cookieService.delete('refresh_token');
-          this.cookieService.set('access_token', access_token, expire);
-          this.cookieService.set('refresh_token', refresh_token);
+          this.cookieService.delete('ID');
+          this.cookieService.delete('USERNAME');
+          this.cookieService.deleteAll();
+          //this.cookieService.set('access_token', access_token, this.expire);
+          //this.cookieService.set('refresh_token', refresh_token);
           // this.getID(this.signupForm.value.userData.username);
           this.loggedInService.logIn();
-          console.log(this.loggedInService.isLoggedIn);
+          // console.log(this.loggedInService.isLoggedIn);
           this.router.navigate(['home']);
         },
         err => console.log(err)
-      );
-      this.sub = this.loginService.getID(this.signupForm.value.userData.username).subscribe(
+      );*/
+       this.sub = this.loginService.getID(this.signupForm.value.userData.username).subscribe(
         response => {
+          this.cookieService.set('ID', 'sgfgdfgdfg');
+
             const data = JSON.stringify(response);
             const obj = JSON.parse(data);
+            //this.cookieService.set('ID', obj[Object.keys(obj)[0]], this.expire);
+           // this.cookieService.set('USERNAME', this.signupForm.value.userData.username, this.expire);
             console.log('ID: ' + obj[Object.keys(obj)[0]]);
             this.actual.setActual(this.signupForm.value.userData.username, obj[Object.keys(obj)[0]]);
-            this.cookieService.set('ID', this.actual.getID());
-            this.cookieService.set('USERNAME', this.actual.getUsername());
+            this.cookieService.delete('ID');
+            this.cookieService.delete('USERNAME');
+            this.cookieService.deleteAll();
+            console.log('álitsd be a kruva id-t: ' + this.actual.getID());
+            //this.cookieService.set('ID', 'sgfgdfgdfg');
+
+            this.cookieService.set('ID', this.actual.getID(), this.expire);
+            this.cookieService.set('USERNAME', this.actual.getUsername(), this.expire);
+            console.log('álitsd be a kruva id-t: ' + this.actual.getID());
         },
         err => { console.log(err); }
+      );
+      this.subscription =
+      this.loginService.onSendLogin(this.user).subscribe(
+        response  => {
+          const data = JSON.stringify(response);
+          const obj = JSON.parse(data);
+          const obj2 = obj[Object.keys(obj)[0]];
+          // console.log('obj2: ' + obj2);
+          const obj3 = JSON.parse(obj2);
+          // console.log('obj3: ' + obj3);
+          const access_token = obj3[Object.keys(obj3)[0]];
+          // console.log('token: ' + access_token);
+          const refresh_token = obj3[Object.keys(obj3)[2]];
+          // console.log('refresh_token: ' + refresh_token);
+          this.expire = obj3[Object.keys(obj3)[3]];
+          // console.log('expire: ' + expire);
+          this.cookieService.delete('access_token');
+          this.cookieService.delete('refresh_token');
+          //this.cookieService.delete('ID');
+         // this.cookieService.delete('USERNAME');
+          //this.cookieService.deleteAll();
+          this.cookieService.set('access_token', access_token, this.expire);
+          this.cookieService.set('refresh_token', refresh_token);
+          // this.getID(this.signupForm.value.userData.username);
+          this.loggedInService.logIn();
+          // console.log(this.loggedInService.isLoggedIn);
+          this.router.navigate(['home']);
+        },
+        err => console.log(err)
       );
     delete this.user;
   }
 
   ngOnDestroy() {
+    console.log('DESTORY');
     this.sub.unsubscribe();
     this.subscription.unsubscribe();
   }

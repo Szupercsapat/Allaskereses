@@ -8,22 +8,22 @@
               <!-- <img alt="" src="https://t4.ftcdn.net/jpg/02/15/84/43/240_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"> -->
               <img [src]="imageUrl" class="center">
             </div>
-              <p class="dolt">{{actualProfile.username}}</p>
-              <p class="dolt">{{actualProfile.firstName}}</p>
-              <p class="dolt">{{actualProfile.lastName}}</p>
-              <p class="dolt">{{actualProfile.email}}</p>
-              <p class="dolt">{{actualProfile.aboutMe}}</p>
-              <p>Iskolák:</p>
-                  <ul>
-                    <li *ngFor="let school of actualProfile.schools">{{school.name}} {{school.fromYear}} - {{school.toYear}}</li>
-                  </ul>
-              <p>Munkahelyek:</p>
-                  <ul>
-                    <li *ngFor="let work of actualProfile.workPlaces">{{work.name}} {{work.fromYear}} - {{work.toYear}}</li>
-                  </ul>
+            <p class="dolt">{{actualProfile.username}}</p>
+            <p class="dolt">{{actualProfile.firstName}}</p>
+            <p class="dolt">{{actualProfile.lastName}}</p>
+            <p class="dolt">{{actualProfile.email}}</p>
+            <p class="dolt">{{actualProfile.aboutMe}}</p>
+            <p>Iskolák:</p>
+                <ul>
+                  <li *ngFor="let school of actualProfile.schools">{{school.name}} {{school.fromYear}} - {{school.toYear}}</li>
+                </ul>
+            <p>Munkahelyek:</p>
+                <ul>
+                  <li *ngFor="let work of actualProfile.workPlaces">{{work.name}} {{work.fromYear}} - {{work.toYear}}</li>
+                </ul>
+
     </div>
 
       <button class="btn btn-primary" *ngIf="isActual()" (click)="downloadCV()">CV Készitése</button>
       <button class="btn btn-primary" *ngIf="isActual()" (click)="onModify()">Módosítás</button>
-
 </div>

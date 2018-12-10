@@ -3,7 +3,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { LogoutService } from '../auth/logout.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { LoggedInService } from '../shared/loggedin.service';
 
 
 @Component({
@@ -18,8 +17,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private cookieService: CookieService,
     private logoutService: LogoutService,
-    private router: Router,
-    private loggedInService: LoggedInService
+    private router: Router
     // private profilesService: CVService
   ) {}
 
@@ -36,9 +34,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
       this.logoutService.destroyToken(this.cookieService.get('access_token'));
       this.cookieService.delete('access_token');
+      this.logoutService.destroyToken(this.cookieService.get('refresh_token'));
       this.cookieService.delete('refresh_token');
       this.cookieService.delete('ID');
       this.cookieService.delete('USERNAME');
+      this.cookieService.deleteAll();
       this.router.navigate(['login']);
   }
 

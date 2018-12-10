@@ -8,9 +8,13 @@ export class LoginService {
 
   private userUrl = 'http://localhost:8080/rft/oauth/token';
 
-  private data;
-
   constructor(private http: Http) {}
+
+
+  public getID(username: string): Observable<Response> {
+    const url = 'http://localhost:8080/rft/user/userIdByUsername/' + username;
+    return this.http.get(url);
+  }
 
   public onSendLogin(user: User): Observable<Response> {
 
@@ -24,11 +28,6 @@ export class LoginService {
 
     return this.http.post(this.userUrl, body, {headers: header});
 
-  }
-
-  public getID(username: string): Observable<Response> {
-    const url = 'http://localhost:8080/rft/user/userIdByUsername/' + username;
-    return this.http.get(url);
   }
 
 }

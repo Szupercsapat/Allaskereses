@@ -207,6 +207,7 @@ input.ng-invalid.ng-touched {
 
 
 .image{
+  height:100em;
   background-size:cover;
         -webkit-background-size: cover;
         -moz-background-size: cover;

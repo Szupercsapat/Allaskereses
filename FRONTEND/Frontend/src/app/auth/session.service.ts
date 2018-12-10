@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/internal/Observable';
@@ -55,14 +55,20 @@ export class SessionService {
           const refresh_token = object3[Object.keys(object3)[2]];
           this.cookieService.delete('access_token');
           this.cookieService.delete('refresh_token');
+
+          this.cookieService.delete('access_token');
+          this.cookieService.delete('refresh_token');
+
+          this.cookieService.delete('access_token');
+          this.cookieService.delete('refresh_token');
+          //this.cookieService.deleteAll();
           this.cookieService.set('refresh_token', refresh_token);
           const expire = object3[Object.keys(object3)[3]];
           this.cookieService.set('access_token', access_token, expire);
-          console.log('ittvan');
           // this.getProfileService.getProfileSeeker();
         },
         err => { console.log(err); },
-        () => {  this.sub.unsubscribe(); console.log('lefutott'); }
+        () => {  this.sub.unsubscribe(); }
       );
       // this.sub.unsubscribe();
     return true;
