@@ -61,14 +61,6 @@
  * General styles
  */
 
- body, html {
-  height: 100%;
-  background-image:url('./images/wordcloud2.jpg');
-  background-attachment:fixed;
-  background-repeat: no-repeat;
-  background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
-}
-
 
 
 .card-container.card {
@@ -203,19 +195,6 @@
 
 input.ng-invalid.ng-touched {
   border: 1px solid red;
-}
-
-
-.image{
-  height:100em;
-  background-size:cover;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-  width:auto;
-  /*background-image:url('https://www.planwallpaper.com/static/images/8ccb4ec4225b290726ae9be975220ff4.jpg');*/
-  background-image:url('./images/wordcloud2.jpg');
-  background-attachment:fixed;
 }
 
 .asda { margin: auto; max-width: 600px;}
