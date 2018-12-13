@@ -34,15 +34,17 @@ export class SessionService {
     const token = this.cookieService.get('access_token');
     if (token === '') {
       console.log('not auth');
+      this.cookieService.delete('access_token');
       return false;
     }
     if (token === null) {
       console.log('not auth2');
+      this.cookieService.delete('access_token');
       return false;
     }
     console.log('van auth');
     // const subscription = new Subscription();
-      this.sub = this.refreshSession().subscribe(
+     /*  this.sub = this.refreshSession().subscribe(
         response  => {
           const data = JSON.stringify(response);
           const object = JSON.parse(data);
@@ -69,7 +71,7 @@ export class SessionService {
         },
         err => { console.log(err); },
         () => {  this.sub.unsubscribe(); }
-      );
+      ); */
       // this.sub.unsubscribe();
     return true;
   }
