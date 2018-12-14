@@ -25,7 +25,6 @@ import com.rft.repos.JobOffererRepository;
 import com.rft.repos.JobRepository;
 import com.rft.repos.UserRepository;
 
-
 @Service
 public class JobServiceImpl implements JobService {
 	@Autowired
@@ -218,9 +217,9 @@ public class JobServiceImpl implements JobService {
 	@Override
 	public List<JobDTO> getJobsByCategoriesWithPaging(JobCategoryDTO categoryDTO, Integer page, Integer size) {
 
-		if(page<0 || size < 0)
+		if (page < 0 || size < 0)
 			return new ArrayList<JobDTO>();
-		
+
 		List<JobDTO> dtos = getAllByCategories(categoryDTO);
 		List<JobDTO> pagedDtos = new ArrayList<JobDTO>();
 
@@ -243,6 +242,95 @@ public class JobServiceImpl implements JobService {
 	@Override
 	public Integer getAllJobsCount() {
 		return (int) jobRepository.count();
+	}
+
+	private List<JobDTO> getAll() {
+
+		List<JobDTO> jobDtos = new ArrayList<JobDTO>();
+
+		List<Job> jobs = new ArrayList<Job>();
+
+		for (Job job : jobRepository.findAll()) {
+			jobs.add(job);
+		}
+
+		jobDtos = mapJobsToJobDTO(jobs);
+
+		return jobDtos;
+	}
+
+	@Override
+	public List<JobDTO> getAllWithPaging(Integer page, Integer size) {
+		if (page < 0 || size < 0)
+			return new ArrayList<JobDTO>();
+
+		List<JobDTO> dtos = getAll();
+		List<JobDTO> pagedDtos = new ArrayList<JobDTO>();
+
+		int count = dtos.size();
+		int firstElement = page * size;
+		int endElement = size + page * size;
+
+		if (firstElement > count)
+			return new ArrayList<JobDTO>();
+
+		for (int i = firstElement; i < endElement; i++) {
+			if (i > count - 1)
+				break;
+			pagedDtos.add(dtos.get(i));
+		}
+
+		return pagedDtos;
+	}
+
+	@Override
+	public Integer getByUsernameCount(String username) {
+		
+		User user = userRepository.findByUsername(username);
+		
+		if(user==null)
+			throw new UserDoesNotExistsException("The given user by the username: " + username + " does not exists!");
+
+		return user.getJobOfferer().getJobs().size();
+	}
+
+	private List<JobDTO> getAllByOfferer(JobOfferer offerer)
+	{
+		List<Job> jobs = new ArrayList<Job>();
+		
+		jobs.addAll(offerer.getJobs());
+		
+		return mapJobsToJobDTO(jobs);
+	}
+	
+	@Override
+	public List<JobDTO> getByUsernameWithPaging(String username, Integer page, Integer size) {
+		
+		User user = userRepository.findByUsername(username);
+		
+		if(user==null)
+			throw new UserDoesNotExistsException("The given user by the username: " + username + " does not exists!");
+		
+		if (page < 0 || size < 0)
+			return new ArrayList<JobDTO>();
+
+		List<JobDTO> dtos = getAllByOfferer(user.getJobOfferer());
+		List<JobDTO> pagedDtos = new ArrayList<JobDTO>();
+
+		int count = dtos.size();
+		int firstElement = page * size;
+		int endElement = size + page * size;
+
+		if (firstElement > count)
+			return new ArrayList<JobDTO>();
+
+		for (int i = firstElement; i < endElement; i++) {
+			if (i > count - 1)
+				break;
+			pagedDtos.add(dtos.get(i));
+		}
+
+		return pagedDtos;
 	}
 
 }

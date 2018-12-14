@@ -74,6 +74,29 @@ public class JobController {
 		return jobService.getAllJobsCount();
 	}
 	
+	@GetMapping("/getAll/page/{page}/size/{size}")
+	public List<JobDTO> getAllWithPaging(
+			@PathVariable("page") Integer page
+			,@PathVariable("size") Integer size)
+	{
+		return jobService.getAllWithPaging(page,size);
+	}
+	
+	
+	@GetMapping("/getByUsernameCount/username/{username}")
+	public Integer getByUsernameCount( @PathVariable("username") String username )
+	{
+		return jobService.getByUsernameCount(username);
+	}
+	
+	@GetMapping("/getByUsername/username/{username}/page/{page}/size/{size}")
+	public List<JobDTO> getByUsername(
+			@PathVariable("username") String username,
+			@PathVariable("page") Integer page
+			,@PathVariable("size") Integer size)
+	{
+		return jobService.getByUsernameWithPaging(username,page,size);
+	}
 	
 	@GetMapping("/getByCategories")
 	public @ResponseBody List<JobDTO> getJobsByCategories(@RequestBody JobCategoryDTO categoryDTO)
