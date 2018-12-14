@@ -1,0 +1,36 @@
+<div class="col-md-9">
+  <div class="card">
+      <div class="card-body">
+        <form #f="ngForm">
+          <div ngModelGroup="userData" #userData="ngModelGroup">
+            <div class="input-group form-group">
+              <label>Név</label>
+              <input
+                class="form-control"
+                type="text"
+                id="name"
+                name="name"
+                ngModel
+                #name="ngModel"
+                required
+              >
+              <label>Leírás</label>
+              <textarea
+                class="form-control"
+                cols="30"
+                rows="5"
+                id="desc"
+                name="desc"
+                ngModel
+                #desc="ngModel"
+                required
+              ></textarea>
+              <label>Kategóriák</label>
+              <input type="text">
+              <button class="btn btn-primary" (click)="onUpload()">Feltöltés</button>
+            </div>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>

@@ -26,15 +26,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onClick() {
-     this.router.navigate(['/profile', this.cookieService.get('ID')]);
-     window.location.reload();
+
+      console.log('lefutott');
+      this.router.navigate(['home']);
+      this.router.navigate(['profile/' + this.cookieService.get('ID')]);
+    // this.router.navigate(['/profile', this.cookieService.get('ID')]);
+     //window.location.reload();
   }
 
   onLogout() {
 
       this.logoutService.destroyToken(this.cookieService.get('access_token'));
       this.cookieService.delete('access_token');
-      this.logoutService.destroyToken(this.cookieService.get('refresh_token'));
+      // this.logoutService.destroyToken(this.cookieService.get('refresh_token'));
       this.cookieService.delete('refresh_token');
       this.cookieService.delete('ID');
       this.cookieService.delete('USERNAME');

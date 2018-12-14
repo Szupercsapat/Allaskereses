@@ -28,6 +28,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoggedInService } from './shared/loggedin.service';
 import { EditProfileComponent } from './profiles/edit-profile/edit-profile.component';
 import { GetPagedProfilesService } from './search/search-profiles/search-profiles.service';
+import { JobsComponent } from './jobs/jobs.component';
+import { JobsService } from './jobs/jobs.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { GetPagedProfilesService } from './search/search-profiles/search-profile
     ProfilesComponent,
     EditProfileComponent,
     SearchProfilesComponent,
-    SearchWorkplacesComponent
+    SearchWorkplacesComponent,
+    JobsComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,8 @@ import { GetPagedProfilesService } from './search/search-profiles/search-profile
     LoginService, LogoutService, RegistrationService,
     CookieService, SessionService, AuthGuardService,
     ProfileUpdateService, ActualService, GetProfileService,
-    ImageService, LoggedInService, GetPagedProfilesService
+    ImageService, LoggedInService, GetPagedProfilesService,
+    JobsService
   ],
   bootstrap: [AppComponent]
 })

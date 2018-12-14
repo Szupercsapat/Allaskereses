@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       );*/
        this.sub = this.loginService.getID(this.signupForm.value.userData.username).subscribe(
         response => {
-          this.cookieService.set('ID', 'sgfgdfgdfg');
+          // this.cookieService.set('ID', 'sgfgdfgdfg');
 
             const data = JSON.stringify(response);
             const obj = JSON.parse(data);
@@ -128,11 +128,15 @@ export class LoginComponent implements OnInit, OnDestroy {
           // console.log('refresh_token: ' + refresh_token);
           this.expire = obj3[Object.keys(obj3)[3]];
           // console.log('expire: ' + expire);
+
+
           this.cookieService.delete('access_token');
           this.cookieService.delete('refresh_token');
           //this.cookieService.delete('ID');
          // this.cookieService.delete('USERNAME');
           //this.cookieService.deleteAll();
+
+
           this.cookieService.set('access_token', access_token, this.expire);
           this.cookieService.set('refresh_token', refresh_token);
           // this.getID(this.signupForm.value.userData.username);

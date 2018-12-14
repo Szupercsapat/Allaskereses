@@ -8,6 +8,7 @@ export class GetPagedProfilesService {
 
   public profiles: Profile[] = [];
   public IDs: number[] = [];
+  public imageURLs: string[] = [];
 
   constructor(private http: Http) {}
 
@@ -16,6 +17,7 @@ export class GetPagedProfilesService {
     console.log(data);
     this.profiles = [];
     this.IDs = [];
+    this.imageURLs = [];
 
     for (let i = 0; i < length; i++) {
       const prof = new Profile(
@@ -24,12 +26,17 @@ export class GetPagedProfilesService {
       );
       this.IDs.push(data[i][Object.keys(data[i])[0]]);
       this.profiles.push(prof);
-      console.log(this.profiles[i].aboutMe);
+      this.imageURLs.push('http://localhost:8080/rft/seeker/getProfileImage/username/' + data[i].username);
     }
   }
 
   getPagedProfiles(page: number) {
     const url = 'http://localhost:8080/rft/seeker/seekers/page/' + page + '/size/5';
+    return this.http.get(url);
+  }
+
+  getProfilesCount() {
+    const url = 'http://localhost:8080/rft/user/getAllCount';
     return this.http.get(url);
   }
 }

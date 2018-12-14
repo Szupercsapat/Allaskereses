@@ -52,7 +52,8 @@ export class ProfilesComponent implements OnInit, OnDestroy {
     private cookieService: CookieService,
     private route: ActivatedRoute,
     private imageService: ImageService,
-    private router: Router
+    private router: Router,
+   // private actual: ActualService
   ) {
    /*  this.subscription = new Subscription();
     this.paramsSubscription = new Subscription();
@@ -297,6 +298,7 @@ export class ProfilesComponent implements OnInit, OnDestroy {
 
   isActual() {
     const num: number = parseInt(this.cookieService.get('ID'), 10);
+    // const num: number = +this.actual.getID();
     if (+this.user.id === +num ) {
       return true;
     } else {

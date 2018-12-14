@@ -21,6 +21,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   @ViewChild('f') signupForm: NgForm;
   @ViewChild('s') signupForm2: NgForm;
   @ViewChild('z') signupForm3: NgForm;
+  @ViewChild('w') signupForm4: NgForm;
 
   // private categories: number[] = [1, 2, 3, 4];
 
@@ -171,6 +172,9 @@ export class EditProfileComponent implements OnInit, OnDestroy {
           [], []
 
         );
+        this.signupForm.value.userData.firstname = this.getProfileService.firstName;
+        this.signupForm.value.userData.lastname = this.getProfileService.lastName;
+        this.signupForm4.value.userData.aboutMe = this.getProfileService.aboutMe;
         this.user.username = this.getProfileService.username;
         this.imageUrl = 'http://localhost:8080/rft/seeker/getProfileImage/username/' + this.user.username;
       }
@@ -239,7 +243,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     const profile = new Profile(
       this.cookieService.get('USERNAME'), this.signupForm.value.userData.email,
       this.signupForm.value.userData.firstname, this.signupForm.value.userData.lastname,
-      this.signupForm.value.userData.about,
+      this.signupForm4.value.userData.aboutMe,
       this.actualProfile.schools, this.actualProfile.workPlaces
     );
     this.subscription = this.updateService.sendUpdate(profile).subscribe(
@@ -296,7 +300,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
      this.imageSubscription = this.imageService.uploadImage(this.selectedFile.file, this.user.username).subscribe(
         (res) => {
           console.log(res);
-          window.location.reload();
+          // window.location.reload();
         },
         (err) => {
           console.log(err);

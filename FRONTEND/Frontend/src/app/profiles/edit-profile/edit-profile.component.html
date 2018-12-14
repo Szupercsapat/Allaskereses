@@ -65,10 +65,10 @@
     </div>
     <div class="col">
       <div class="row">
-        <form (ngSubmit)="onUpdate()" #f="ngForm">
+        <form (ngSubmit)="onUpdate()" #w="ngForm">
             <div class="col-md-12"  ngModelGroup="userData" #userData="ngModelGroup">
                 <label>Rólam</label>
-                <textarea name="about" id="about" cols="30" rows="5"  class="form-control here" placeholder={{actualProfile.aboutMe}} ngModel></textarea>
+                <textarea name="aboutMe" id="aboutMe" cols="30" rows="5"  class="form-control here" placeholder={{actualProfile.aboutMe}} ngModel></textarea>
             </div>
         </form>
         <div class="col-md-12">
