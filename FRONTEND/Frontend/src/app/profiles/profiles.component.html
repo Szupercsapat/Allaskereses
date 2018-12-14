@@ -12,7 +12,8 @@
             <p class="dolt">{{actualProfile.firstName}}</p>
             <p class="dolt">{{actualProfile.lastName}}</p>
             <p class="dolt">{{actualProfile.email}}</p>
-            <p class="dolt">{{actualProfile.aboutMe}}</p>
+            <p>Rólam:</p>
+                <ul>{{actualProfile.aboutMe}}</ul>
             <p>Iskolák:</p>
                 <ul>
                   <li *ngFor="let school of actualProfile.schools">{{school.name}} {{school.fromYear}} - {{school.toYear}}</li>

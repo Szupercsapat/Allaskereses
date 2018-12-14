@@ -1,24 +1,36 @@
-.card-container.card {
-  max-width: 1050px;
-  padding: 40px 40px;
-}
 .card {
   background-color: rgba(0,0,0,0.75);
   color: white;
   margin-top: 5%;
-  margin-bottom: auto;
+  margin-bottom: 5%;
   width: 800px;
 }
+
+.card-container.card {
+  max-width: 1050px;
+  padding: 40px 40px;
+}
+
 .card-header h1{
   font-variant:small-caps;
   color: white;
   font-weight:bold;
   text-align: center;
 }
+
 .center {
   margin-left: auto;
   margin-right: auto;
 }
+
+.textcenter{
+  text-align: center;
+}
+
+.marginbottom{
+  margin-bottom: 7%;
+}
+
 img{
   display: block;
   height: 200px;
@@ -26,6 +38,7 @@ img{
   border-radius: 50%;
   border: 5px solid white;
 }
+
 .btn-primary{
   font-variant:small-caps;
   color: white;
@@ -33,46 +46,21 @@ img{
   background-color: #247B;
   border:0;
 }
+
 .btn-primary:hover{
   color: black;
   background-color: white;
 }
-.card-container.card {
-  max-width: 1050px;
-  padding: 40px 40px;
-}
-.card {
-  background-color: rgba(0,0,0,0.75);
-  color: white;
-  margin-top: 5%;
-  margin-bottom: auto;
-  width: 800px;
-}
-.card-header h1{
-  font-variant:small-caps;
-  color: white;
+
+label{
   font-weight:bold;
-  text-align: center;
+  text-align: left;
 }
-.center {
-  margin-left: auto;
-  margin-right: auto;
+
+.paddingright{
+padding-right: 5em;
 }
-img{
-  display: block;
-  height: 200px;
-  width: 200px;
-  border-radius: 50%;
-  border: 5px solid white;
-}
-.btn-primary{
-  font-variant:small-caps;
-  color: white;
-  font-weight:bold;
-  background-color: #247B;
-  border:0;
-}
-.btn-primary:hover{
-  color: black;
-  background-color: white;
-}
+
+.paddingright{
+  padding-left: 5em;
+  }
