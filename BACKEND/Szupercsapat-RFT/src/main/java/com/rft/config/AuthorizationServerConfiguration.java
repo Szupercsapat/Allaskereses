@@ -62,7 +62,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory().withClient(clientName).authorizedGrantTypes("password", "refresh_token")
-				.scopes("read", "write").accessTokenValiditySeconds(60*2)
+				.scopes("read", "write")
+				//.accessTokenValiditySeconds(60*2)
+				.accessTokenValiditySeconds(Integer.MAX_VALUE)
 				.refreshTokenValiditySeconds(Integer.MAX_VALUE)
 				.secret(bCryptPasswordEncoder().encode(clientSecret)) // https://stackoverflow.com/a/49683857
 				.resourceIds(RESOURCE_ID);

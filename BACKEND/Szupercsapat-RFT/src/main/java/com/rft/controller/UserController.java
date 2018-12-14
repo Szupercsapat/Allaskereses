@@ -89,7 +89,7 @@ public class UserController {
 			//https://stackoverflow.com/a/47411493
 		}
 		//TODO redirect to login page
-		headers.setLocation(URI.create("https://en.m.wikipedia.org/wiki/Success"));
+		headers.setLocation(URI.create("http://localhost:4200/home"));
 		return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
 	}
 	

@@ -148,11 +148,35 @@ CREATE TABLE `job_job_category` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-insert into job_category(job_name,parent_id,about,active) values('IT',null,'Információ technológia.',0);
-insert into job_category(job_name,parent_id,about,active) values('Könnyű-Fizikai',null,'Ülő/álló munka, komoly fizikai megterhelés nélkül.',0);
-insert into job_category(job_name,parent_id,about,active) values('Programozó',3,'Számítógép-programozás (vagy egyszerűen programozás) egy vagy több absztrakt algoritmus megvalósítását jelenti egy bizonyos programozási nyelven.',0);
-insert into job_category(job_name,parent_id,about,active) values('C-sharp programozó',5,'Információ technológia.',1);
+insert into job_category(job_name,parent_id,about,active) values('Vendéglátás',null,'Vendéglátás munka',0);
+insert into job_category(job_name,parent_id,about,active) values('Hotel',3,'Hotel munka',1);
 
+insert into job_category(job_name,parent_id,about,active) values('Ügyfélszolgálat',null,'Ügyfélszolgálati munka',0);
+insert into job_category(job_name,parent_id,about,active) values('Vevőszolgálat',5,'Vevőszolgálat munka',1);
+
+insert into job_category(job_name,parent_id,about,active) values('IT üzemeltetés',null,'IT üzemeltetés munka',0);
+insert into job_category(job_name,parent_id,about,active) values('Telekommunikáció',7,'Telekommunikáció munka',1);
+
+insert into job_category(job_name,parent_id,about,active) values('IT programozás',null,'IT programozási munka',0);
+insert into job_category(job_name,parent_id,about,active) values('Fejlesztés',9,'Fejlesztés munka',1);
+
+insert into job_category(job_name,parent_id,about,active) values('Szállítás',null,'Szállítási munka',0);
+insert into job_category(job_name,parent_id,about,active) values('Beszerzés',11,'Beszerzési munka',1);
+
+insert into job_category(job_name,parent_id,about,active) values('HR',null,'HR',0);
+insert into job_category(job_name,parent_id,about,active) values('Munkaügy',13,'Munkaügyi munka',1);
+
+insert into job_category(job_name,parent_id,about,active) values('Fizikai',null,'Fizikai munka',0);
+insert into job_category(job_name,parent_id,about,active) values('Segéd',15,'Segéd munka',1);
+
+insert into job_category(job_name,parent_id,about,active) values('Gyártás',null,'Gyártás munka',0);
+insert into job_category(job_name,parent_id,about,active) values('Termelés',17,'Termelési munka',1);
+
+insert into job_category(job_name,parent_id,about,active) values('Értékesítés',null,'Értékesítési munka',0);
+insert into job_category(job_name,parent_id,about,active) values('Kereskedelem',19,'Kereskedelemi munka',1);
+
+insert into job_category(job_name,parent_id,about,active) values('Oktatás',null,'Oktatási munka',0);
+insert into job_category(job_name,parent_id,about,active) values('Kutatás',21,'Kutatási munka',1);
 
 insert into role(name) values('ROLE_ADMIN');
 insert into role(name) values('ROLE_USER');
@@ -175,21 +199,23 @@ use rft;
 
 drop table job_offerer_job_category;
 drop table job_seeker_job_category;
-drop table job_offerer;
-drop table job_seeker;
-drop table job_category;
-drop table user_role;
-drop table user_activation;
-drop table school;
-drop table work_place;
 drop table job_job_category;
 drop table job;
+drop table job_category;
+drop table job_offerer;
+drop table school;
+drop table work_place;
+drop table job_seeker;
+drop table user_role;
+drop table user_activation;
+drop table role;
 drop table user;
 
 select * from job_category;
 
 
-
+select j.* from job j inner join job_job_category jc on jc.job_id = j.id inner join job_category c on c.id = jc.category_id
+where c.id in (3,5);
 
 
 
