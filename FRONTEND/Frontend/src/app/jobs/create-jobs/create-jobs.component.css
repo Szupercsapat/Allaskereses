@@ -1,0 +1,48 @@
+
+.card {
+  background-color: rgba(0,0,0,0.75);
+  color: white;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 800px;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-primary{
+  font-variant:small-caps;
+  color: white;
+  font-weight:bold;
+  background-color: #247B;
+  border:0px;
+  padding:0px;
+  margin:0px;
+  width: 400px;
+  height: 40px;
+}
+
+.btn-primary:hover{
+  color: black;
+  background-color: white;
+}
+
+.keret{
+  margin:0px;
+  padding:0px;
+  border:0px;
+}
+
+.padding{
+  padding-right: 5em;
+  padding-left: 5em;
+  }
+
+  label{
+    font-variant:small-caps;
+    font-weight:bold;
+    font-size: larger;
+    padding-left: 1em;
+  }

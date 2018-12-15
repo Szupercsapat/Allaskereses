@@ -24,6 +24,8 @@
 img{
   display: block;
   border-radius: 50%;
+  height: 200px;
+  width: 200px;
   border: 5px solid white;
 }
 
@@ -43,4 +45,10 @@ img{
 .btn-primary:hover{
   color: black;
   background-color: white;
+}
+
+.keret{
+  margin:0px;
+  padding:0px;
+  border:0px;
 }
