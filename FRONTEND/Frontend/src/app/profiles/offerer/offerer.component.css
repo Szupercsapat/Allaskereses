@@ -7,13 +7,16 @@
   background-color: rgba(0,0,0,0.75);
   color: white;
   margin-top: 5%;
-  margin-bottom: auto;
+  margin-bottom: 5%;
   width: 500px;
 }
 
 .dolt{
-  font-weight:bold;
   text-align: center;
+}
+
+p{
+  font-weight:bold;
 }
 
 .card-header h1{

@@ -1,7 +1,7 @@
 
    <div class="card center">
     <div class="card-header">
-      <h1>Profilom</h1>
+      <h1>Kereső</h1>
     </div>
     <div class="card-body">
             <div class="useravatar">
@@ -9,8 +9,7 @@
               <img [src]="imageUrl" class="center">
             </div>
             <p class="dolt">{{actualProfile.username}}</p>
-            <p class="dolt">{{actualProfile.firstName}}</p>
-            <p class="dolt">{{actualProfile.lastName}}</p>
+            <p class="dolt">{{actualProfile.lastName}} {{actualProfile.firstName}}</p>
             <p class="dolt">{{actualProfile.email}}</p>
             <p>Rólam:</p>
                 <ul>{{actualProfile.aboutMe}}</ul>

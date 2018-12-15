@@ -1,18 +1,6 @@
 <div class="card center">
     <div class="card-header">
-      <h1>Profilom</h1>
-          <style>
-              ::placeholder {
-                color: black;
-              }
-              input[type=file]{
-                font-variant:small-caps;
-                color: white;
-                font-weight:bold;
-                background-color: #247B;
-                border:0;
-              }
-          </style>
+      <h1>Kereső</h1>
     </div>
     <div class="card-body">
 
@@ -22,38 +10,45 @@
                             <input class="center textcenter" #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
                           </div>
                   </div>
-                    <form (ngSubmit)="onUpdate()" #f="ngForm" class="marginbottom">
-                      <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
-                            <div class="form-group row paddingright">
+                <div  class="marginbottom  paddingright">
+                    <form (ngSubmit)="onUpdate()" #f="ngForm">
+                            <div class="form-group row" id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
                               <label for="firstname" class="col-4 col-form-label">Keresztnév</label>
                               <div class="col-8">
                                 <input id="firstname" name="firstname" placeholder={{actualProfile.firstName}} class="form-control here" type="text" ngModel>
                               </div>
                             </div>
-                            <div class="form-group row paddingright">
+                    </form>
+
+                    <form (ngSubmit)="onUpdate()" #f="ngForm">
+                            <div class="form-group row" id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
                               <label for="lastname" class="col-4 col-form-label">Vezetéknév</label>
                               <div class="col-8">
                                 <input id="lastname" name="lastname" placeholder={{actualProfile.lastName}} class="form-control here" type="text" ngModel>
                               </div>
                             </div>
-                            <div class="form-group row paddingright">
+                    </form>
+
+                    <form (ngSubmit)="onUpdate()" #f="ngForm">
+                            <div class="form-group row" id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
                               <label for="pass" class="col-4 col-form-label">Jelszó</label>
                               <div class="col-8">
                                 <input id="pass" name="pass" placeholder="Password" class="form-control here" type="password" ngModel>
                               </div>
                             </div>
-                            <div class="form-group row paddingright">
+                            <div class="form-group row">
                               <label for="newpass" class="col-4 col-form-label">Új jelszó</label>
                               <div class="col-8">
-                                <input id="newpass" name="newpass" placeholder="New Password" class="form-control here" type="password" ngModel>
+                                <input id="newpass" name="newpass" placeholder="New Password" class="form-control here marginbottom" type="password" ngModel>
+                                <button class="btn btn-primary center" style="display:block;">Jelszó változtatás</button>
                               </div>
                             </div>
-                      </div>
                     </form>
+                </div>
 
 
             <form (ngSubmit)="onUpdate()" #w="ngForm">
-                <div class=" marginbottom"  ngModelGroup="userData" #userData="ngModelGroup">
+                <div class="marginbottom"  ngModelGroup="userData" #userData="ngModelGroup">
                     <label>Rólam</label>
                     <textarea name="aboutMe" id="aboutMe" cols="30" rows="5"  class="form-control here" placeholder={{actualProfile.aboutMe}} ngModel></textarea>
                 </div>

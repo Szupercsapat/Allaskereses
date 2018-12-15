@@ -3,76 +3,55 @@
     <h1>Kínáló</h1>
   </div>
   <div class="card-body">
-    <div class="row">
-      <div class="col">
-          <div class="row">
-              <div class="col-md-12">
-                  <hr>
-              </div>
-          </div>
-          <div class="row">
-              <div class="col-md-12">
-                  <div class="form-group row">
-                      <div class="useravatar offset-4">
-                          <img [src]="imageUrl">
-                          <div class="col-8">
-                            <input
-                              #imageInput
-                              type="file"
-                              accept="image/*"
-                              (change)="processFile(imageInput)"
-                            >
-                          </div>
-                      </div>
-                    </div>
-                  <form (ngSubmit)="onUpdate()" #f="ngForm">
-                    <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
-                          <div class="form-group row">
-                            <label for="firstname" class="col-4 col-form-label">Keresztnév</label>
-                            <div class="col-8">
-                              <input id="firstname" name="firstname" value="this.actualOfferer.firstName" class="form-control here" type="text" ngModel>
-                            </div>
-                          </div>
-                          <div class="form-group row">
-                            <label for="lastname" class="col-4 col-form-label">Vezetéknév</label>
-                            <div class="col-8">
-                              <input id="lastname" name="lastname" value="actualOfferer.lastName" class="form-control here" type="text" ngModel>
-                            </div>
-                          </div>
-                          <div class="form-group row">
-                            <label for="pass" class="col-4 col-form-label">Jelszó</label>
-                            <div class="col-8">
-                              <input id="pass" name="pass" placeholder="Password" class="form-control here" type="password" ngModel>
-                            </div>
-                          </div>
-                          <div class="form-group row">
-                            <label for="newpass" class="col-4 col-form-label">Új jelszó</label>
-                            <div class="col-8">
-                              <input id="newpass" name="newpass" placeholder="New Password" class="form-control here" type="password" ngModel>
-                            </div>
-                          </div>
-                          <div class="form-group row">
-                            <div class="offset-4 col-8">
-                              <button name="submit" type="submit" class="btn btn-primary">Profilom frissítése</button>
-                            </div>
-                          </div>
-                    </div>
-                  </form>
-              </div>
-          </div>
+
+    <div class="marginbottom center textcenter useravatar">
+          <img [src]="imageUrl" class="center">
+            <div>
+              <input class="center textcenter" #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
+            </div>
+    </div>
+
+               <form (ngSubmit)="onUpdate()" #f="ngForm">
+                 <div class="marginbottom  paddingright" id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
+                       <div class="form-group row">
+                         <label for="firstname" class="col-4 col-form-label">Keresztnév</label>
+                         <div class="col-8">
+                           <input id="firstname" name="firstname" value="this.actualOfferer.firstName" class="form-control here" type="text" ngModel>
+                         </div>
+                       </div>
+                       <div class="form-group row">
+                         <label for="lastname" class="col-4 col-form-label">Vezetéknév</label>
+                         <div class="col-8">
+                           <input id="lastname" name="lastname" value="actualOfferer.lastName" class="form-control here" type="text" ngModel>
+                         </div>
+                       </div>
+                       <div class="form-group row">
+                         <label for="pass" class="col-4 col-form-label">Jelszó</label>
+                         <div class="col-8">
+                           <input id="pass" name="pass" placeholder="Password" class="form-control here" type="password" ngModel>
+                         </div>
+                       </div>
+                       <div class="form-group row">
+                         <label for="newpass" class="col-4 col-form-label">Új jelszó</label>
+                         <div class="col-8">
+                           <input id="newpass" name="newpass" placeholder="New Password" class="form-control here marginbottom" type="password" ngModel>
+                           <button class="btn btn-primary center" style="display:block;">Jelszó változtatás</button>
+                         </div>
+                       </div>
+                 </div>
+               </form>
 
 
-      </div>
-      <div class="col">
-        <div class="row">
+
           <form (ngSubmit)="onUpdate()" #w="ngForm">
-              <div class="col-md-12"  ngModelGroup="userData" #userData="ngModelGroup">
+              <div  class="marginbottom" ngModelGroup="userData" #userData="ngModelGroup">
                   <label>Rólam</label>
-                  <textarea name="aboutMe" id="aboutMe" cols="30" rows="5"  class="form-control here" placeholder={{actualOfferer.aboutMe}} ngModel></textarea>
+                  <textarea name="aboutMe" id="aboutMe" rows="5"  class="form-control here" placeholder={{actualOfferer.aboutMe}} ngModel></textarea>
               </div>
           </form>
-        </div>
-        <div class="nav navbar-header dropdown" ngbDropdown>
+
+      <div class="row">
+        <div class="nav navbar-header dropdown col-sm-6" ngbDropdown>
             <a style="cursor: pointer;" class="dropdown-toggle" role="button" ngbDropdownToggle>Kategória <span class="caret"></span></a>
             <ul class="dropdown-menu" ngbDropdownMenu>
               <li class="dropdown-item" *ngFor="let category of categories; let i = index">
@@ -81,13 +60,20 @@
               </li>
               <!-- <li class="dropdown-item"><a style="cursor: pointer;" >Állásajánlatok</a></li> -->
             </ul>
-      </div>
-        <p *ngIf="selected == true">{{category.name}}</p>
-        <button class="btn btn-primary" (click)="onDeselect()" *ngIf="selected == true">Törlés</button>
+        </div>
+        <div class="col-sm-6">
+          <p *ngIf="selected == true">{{category.name}}
+          <button class="btn btn-primary" (click)="onDeselect()" style="float: right;display:block;" *ngIf="selected == true">Törlés</button>
+          </p>
+        </div>
       </div>
 
 
-    </div>
   </div>
-  <button class="btn btn-primary" (click)="onBack()">Vissza</button>
+  <form (ngSubmit)="onUpdate()" #f="ngForm" style="margin:0px;padding:0px;border:0px;">
+      <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
+        <button name="submit" type="submit" class="btn btn-primary" style="width: 800px">Profilom frissítése</button>
+        <button class="btn btn-primary" (click)="onBack()" style="width: 800px">Vissza</button>
+      </div>
+  </form>
   </div>

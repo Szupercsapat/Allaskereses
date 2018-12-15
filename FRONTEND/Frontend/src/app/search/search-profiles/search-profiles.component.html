@@ -1,29 +1,31 @@
-<div class="col-md-9">
-  <div class="card">
-      <div class="card-body">
+<div class="card center">
 
-<div class="row">
-  <div class="col-xs-12 col-sm-offset-3 col-sm-6">
-      <div class="panel panel-default">
-          <p>Oldal: {{this.page+1}}/{{this.maxPages}}</p>
-          <ul class="list-group" id="contact-list">
-              <li class="list-group-item" *ngFor="let profile of profiles; let i = index;">
-                  <div class="col-xs-12 col-sm-3">
-                      <!-- <img [src]="" [routerLink]="['/profile', IDs[i]]"/> -->
-                      <img [src]="imageURL[i]" [routerLink]="['/profile', IDs[i]]"/>
-                  </div>
-                  <div class="col-xs-12 col-sm-9">
-                      <span>{{profile.lastName}} {{profile.firstName}}</span><br/>
-                      <span> <span>{{profile.username}}</span><br/></span>
-                      <span> <span>{{profile.aboutMe}}</span><br/></span>
-                  </div>
-              </li>
-          </ul>
-          <button class="btn btn-primary" (click)="previousPage()" *ngIf="this.page > 0">Előző</button>
-          <button class="btn btn-primary" (click)="nextPage()" *ngIf="this.page < (this.maxPages - 1)">Következő</button>
+  <div class="card-body">
+    <div class="row">
+        <p>Oldal: {{this.page+1}}/{{this.maxPages}}</p>
+      <div class="center">
+          <div class="panel panel-default">
+              <ul class="list-group" id="contact-list">
+                  <li class="list-group-item valami" *ngFor="let profile of profiles; let i = index;">
+                      <div class="center">
+                          <!-- <img [src]="" [routerLink]="['/profile', IDs[i]]"/> -->
+                          <img [src]="imageURL[i]" [routerLink]="['/profile', IDs[i]]"/>
+                      </div>
+                      <div class="center">
+                          <span>{{profile.lastName}} {{profile.firstName}}</span><br/>
+                          <span> <span>{{profile.username}}</span><br/></span>
+                          <span> <span>{{profile.aboutMe}}</span><br/></span>
+                      </div>
+                  </li>
+              </ul>
+          </div>
       </div>
+    </div>
   </div>
-</div>
-</div>
-</div>
+
+  <div class="row" style="margin:0px;padding:0px;border:0px;">
+      <button class="btn btn-primary col-sm-6" (click)="previousPage()" [disabled]="(this.page > 0)">Előző</button>
+      <button class="btn btn-primary col-sm-6" (click)="nextPage()" [disabled]="(this.page < (this.maxPages - 1))">Következő</button>
+  </div>
+
 </div>
