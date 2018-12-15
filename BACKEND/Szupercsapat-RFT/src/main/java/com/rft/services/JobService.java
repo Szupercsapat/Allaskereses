@@ -27,4 +27,6 @@ public interface JobService {
 	List<JobDTO> getAllWithPaging(Integer page, Integer size);
 	Integer getByUsernameCount(String username);
 	List<JobDTO> getByUsernameWithPaging(String username, Integer page, Integer size);
+	Integer getByOffererIdCount(Integer offererId);
+	List<JobDTO> getByOffererIdWithPaging(Integer offererId, Integer page, Integer size);
 }

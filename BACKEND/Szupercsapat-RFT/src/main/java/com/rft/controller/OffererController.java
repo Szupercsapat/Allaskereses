@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.rft.entities.DTOs.JobCategoryDTO;
 import com.rft.entities.DTOs.JobOffererDTO;
 import com.rft.entities.DTOs.JobOffererDTOCollectionless;
+import com.rft.entities.DTOs.JobOffererDTOMin;
 import com.rft.entities.DTOs.JobSeekerDTOCollectionless;
 import com.rft.services.JobOffererService;
 
@@ -52,13 +53,13 @@ public class OffererController {
 	}
 	
 	@GetMapping("/offerers/page/{page}/size/{size}")
-	public List<JobOffererDTOCollectionless> getOffererDTOs(@PathVariable("page") Integer page,@PathVariable("size") Integer size)
+	public List<JobOffererDTOMin> getOffererDTOs(@PathVariable("page") Integer page,@PathVariable("size") Integer size)
 	{
 		return offererService.getOffererDTOs(page,size);
 	}
 	
 	@GetMapping("/offerer/{offererId}")
-	public JobOffererDTOCollectionless getOffererDTO(@PathVariable("offererId") Integer offererId)
+	public JobOffererDTOMin getOffererDTO(@PathVariable("offererId") Integer offererId)
 	{
 		return offererService.getOffererDTO(offererId);
 	}

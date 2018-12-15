@@ -20,6 +20,7 @@ import com.rft.entities.WorkPlace;
 import com.rft.entities.DTOs.JobCategoryDTO;
 import com.rft.entities.DTOs.JobSeekerDTO;
 import com.rft.entities.DTOs.JobSeekerDTOCollectionless;
+import com.rft.entities.DTOs.JobSeekerDTOMin;
 import com.rft.entities.DTOs.SafeUserDTO;
 import com.rft.entities.DTOs.SchoolDTO;
 import com.rft.entities.DTOs.WorkPlaceDTO;
@@ -199,20 +200,20 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 	}
 
 	@Override
-	public List<JobSeekerDTOCollectionless> getSeekerDTOs(Integer page, Integer size) {
+	public List<JobSeekerDTOMin> getSeekerDTOs(Integer page, Integer size) {
 
 		if (page < 0 || size < 0)
-			return new ArrayList<JobSeekerDTOCollectionless>();
+			return new ArrayList<JobSeekerDTOMin>();
 
-		List<JobSeekerDTOCollectionless> dtos = getAllSeekerDTOs();
-		List<JobSeekerDTOCollectionless> pagedDtos = new ArrayList<JobSeekerDTOCollectionless>();
+		List<JobSeekerDTOMin> dtos = getAllSeekerDTOs();
+		List<JobSeekerDTOMin> pagedDtos = new ArrayList<JobSeekerDTOMin>();
 
 		int count = dtos.size();
 		int firstElement = page * size;
 		int endElement = size + page * size;
 
 		if (firstElement > count)
-			return new ArrayList<JobSeekerDTOCollectionless>();
+			return new ArrayList<JobSeekerDTOMin>();
 
 		for (int i = firstElement; i < endElement; i++) {
 			if (i > count - 1)
@@ -223,17 +224,18 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 		return pagedDtos;
 	}
 
-	private List<JobSeekerDTOCollectionless> getAllSeekerDTOs() {
-		List<JobSeekerDTOCollectionless> dtos = new ArrayList<JobSeekerDTOCollectionless>();
+	private List<JobSeekerDTOMin> getAllSeekerDTOs() {
+		List<JobSeekerDTOMin> dtos = new ArrayList<JobSeekerDTOMin>();
 
 		seekerRepository.findAll().stream().forEach(seeker -> {
-			JobSeekerDTOCollectionless seekerDTO = new JobSeekerDTOCollectionless();
+			JobSeekerDTOMin seekerDTO = new JobSeekerDTOMin();
 
 			seekerDTO.setAboutMe(seeker.getAboutMe());
 			seekerDTO.setFirstName(seeker.getFirstName());
 			seekerDTO.setLastName(seeker.getLastName());
 			seekerDTO.setUsername(seeker.getUser().getUsername());
 			seekerDTO.setId(seeker.getId());
+			seekerDTO.setCategories(seeker.getCategories().stream().mapToInt(s->s.getId()).boxed().collect(Collectors.toList()));
 
 			dtos.add(seekerDTO);
 		});
@@ -242,20 +244,21 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 	}
 
 	@Override
-	public JobSeekerDTOCollectionless getSeekerDTO(Integer seekerId) {
+	public JobSeekerDTOMin getSeekerDTO(Integer seekerId) {
 
 		JobSeeker seeker = seekerRepository.findById(seekerId);
 		if(seeker == null)
 			throw new ProfileDoesNotExistsException("The profile does not exists!");
 		
-		JobSeekerDTOCollectionless dto = new JobSeekerDTOCollectionless();
+		JobSeekerDTOMin dto = new JobSeekerDTOMin();
 
 		dto.setAboutMe(seeker.getAboutMe());
 		dto.setFirstName(seeker.getFirstName());
 		dto.setLastName(seeker.getLastName());
 		dto.setUsername(seeker.getUser().getUsername());
 		dto.setId(seeker.getId());
-
+		dto.setCategories(seeker.getCategories().stream().mapToInt(s->s.getId()).boxed().collect(Collectors.toList()));
+		
 		return dto;
 	}
 

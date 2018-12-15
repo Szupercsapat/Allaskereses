@@ -117,5 +117,20 @@ public class JobController {
 	{
 		return jobService.getJobsByCategoriesWithPaging(categoryDTO,page,size);
 	}
+
+	@GetMapping("/getByOffererIdCount/offererId/{offererId}")
+	public Integer getByOffererIdCount( @PathVariable("offererId") Integer offererId )
+	{
+		return jobService.getByOffererIdCount(offererId);
+	}
+	
+	@GetMapping("/getByOffererId/offererId/{offererId}/page/{page}/size/{size}")
+	public List<JobDTO> getByOffererId(
+			@PathVariable("offererId") Integer offererId,
+			@PathVariable("page") Integer page
+			,@PathVariable("size") Integer size)
+	{
+		return jobService.getByOffererIdWithPaging(offererId,page,size);
+	}
 	
 }

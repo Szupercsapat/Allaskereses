@@ -4,10 +4,9 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.rft.entities.School;
 import com.rft.entities.DTOs.JobCategoryDTO;
 import com.rft.entities.DTOs.JobSeekerDTO;
-import com.rft.entities.DTOs.JobSeekerDTOCollectionless;
+import com.rft.entities.DTOs.JobSeekerDTOMin;
 import com.rft.entities.DTOs.SchoolDTO;
 import com.rft.entities.DTOs.WorkPlaceDTO;
 
@@ -37,9 +36,9 @@ public interface JobSeekerService {
 	
 	byte[] getProfileImage(String username);
 
-	List<JobSeekerDTOCollectionless> getSeekerDTOs(Integer page, Integer size);
+	List<JobSeekerDTOMin> getSeekerDTOs(Integer page, Integer size);
 
-	JobSeekerDTOCollectionless getSeekerDTO(Integer seekerId);
+	JobSeekerDTOMin getSeekerDTO(Integer seekerId);
 
 	List<SchoolDTO> getSchools(Integer seekerId);
 

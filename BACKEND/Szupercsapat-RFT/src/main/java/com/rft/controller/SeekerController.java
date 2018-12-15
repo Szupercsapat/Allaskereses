@@ -22,6 +22,7 @@ import com.rft.entities.School;
 import com.rft.entities.DTOs.JobCategoryDTO;
 import com.rft.entities.DTOs.JobSeekerDTO;
 import com.rft.entities.DTOs.JobSeekerDTOCollectionless;
+import com.rft.entities.DTOs.JobSeekerDTOMin;
 import com.rft.entities.DTOs.SchoolDTO;
 import com.rft.entities.DTOs.WorkPlaceDTO;
 import com.rft.services.JobSeekerService;
@@ -79,13 +80,13 @@ public class SeekerController {
 	}
 	
 	@GetMapping("/seekers/page/{page}/size/{size}")
-	public List<JobSeekerDTOCollectionless> getSeekerDTOs(@PathVariable("page") Integer page,@PathVariable("size") Integer size)
+	public List<JobSeekerDTOMin> getSeekerDTOs(@PathVariable("page") Integer page,@PathVariable("size") Integer size)
 	{
 		return seekerService.getSeekerDTOs(page,size);
 	}
 	
 	@GetMapping("/seeker/{seekerId}")
-	public JobSeekerDTOCollectionless getSeekerDTO(@PathVariable("seekerId") Integer seekerId)
+	public JobSeekerDTOMin getSeekerDTO(@PathVariable("seekerId") Integer seekerId)
 	{
 		return seekerService.getSeekerDTO(seekerId);
 	}

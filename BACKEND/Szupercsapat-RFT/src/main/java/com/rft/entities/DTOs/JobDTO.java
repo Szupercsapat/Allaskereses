@@ -7,6 +7,15 @@ public class JobDTO {
 	String username;
 	String name;
 	String description;
+	Integer offererId;
+	
+	
+	public Integer getOffererId() {
+		return offererId;
+	}
+	public void setOffererId(Integer offererId) {
+		this.offererId = offererId;
+	}
 	List<Integer> categories;
 	public String getUsername() {
 		return username;

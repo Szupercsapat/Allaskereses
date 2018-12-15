@@ -156,6 +156,7 @@ public class JobServiceImpl implements JobService {
 		dto.setDescription(job.getDescription());
 		dto.setName(job.getName());
 		dto.setJobId(job.getId());
+		dto.setOffererId(job.getOfferer().getId());
 
 		List<Integer> catIds = new ArrayList<Integer>();
 
@@ -315,6 +316,47 @@ public class JobServiceImpl implements JobService {
 			return new ArrayList<JobDTO>();
 
 		List<JobDTO> dtos = getAllByOfferer(user.getJobOfferer());
+		List<JobDTO> pagedDtos = new ArrayList<JobDTO>();
+
+		int count = dtos.size();
+		int firstElement = page * size;
+		int endElement = size + page * size;
+
+		if (firstElement > count)
+			return new ArrayList<JobDTO>();
+
+		for (int i = firstElement; i < endElement; i++) {
+			if (i > count - 1)
+				break;
+			pagedDtos.add(dtos.get(i));
+		}
+
+		return pagedDtos;
+	}
+
+	@Override
+	public Integer getByOffererIdCount(Integer offererId) {
+		
+		JobOfferer offerer=offererRepository.findById(offererId);
+		
+		if(offerer==null)
+			throw new UserDoesNotExistsException("User with this profile does not exists");
+		
+		return offerer.getJobs().size();
+	}
+
+	@Override
+	public List<JobDTO> getByOffererIdWithPaging(Integer offererId, Integer page, Integer size) {
+		
+		JobOfferer offerer=offererRepository.findById(offererId);
+		
+		if(offerer==null)
+			throw new UserDoesNotExistsException("User with this profile does not exists");
+		
+		if (page < 0 || size < 0)
+			return new ArrayList<JobDTO>();
+
+		List<JobDTO> dtos = getAllByOfferer(offerer);
 		List<JobDTO> pagedDtos = new ArrayList<JobDTO>();
 
 		int count = dtos.size();

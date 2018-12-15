@@ -17,6 +17,7 @@ import com.rft.entities.User;
 import com.rft.entities.DTOs.JobCategoryDTO;
 import com.rft.entities.DTOs.JobOffererDTO;
 import com.rft.entities.DTOs.JobOffererDTOCollectionless;
+import com.rft.entities.DTOs.JobOffererDTOMin;
 import com.rft.entities.DTOs.JobSeekerDTOCollectionless;
 import com.rft.exceptions.BadProfileTypeException;
 import com.rft.exceptions.ImageSizeIsTooBigException;
@@ -147,34 +148,36 @@ public class JobOffererServiceImpl implements JobOffererService {
 	}
 
 	@Override
-	public JobOffererDTOCollectionless getOffererDTO(Integer offererId) {
+	public JobOffererDTOMin getOffererDTO(Integer offererId) {
 		JobOfferer offerer = offererRepository.findById(offererId);
 		if(offerer == null)
 			throw new ProfileDoesNotExistsException("The profile does not exists!");
 		
-		JobOffererDTOCollectionless dto = new JobOffererDTOCollectionless();
+		JobOffererDTOMin dto = new JobOffererDTOMin();
 
 		dto.setAboutMe(offerer.getAboutMe());
 		dto.setFirstName(offerer.getFirstName());
 		dto.setLastName(offerer.getLastName());
 		dto.setUsername(offerer.getUser().getUsername());
 		dto.setId(offerer.getId());
+		dto.setCategories(offerer.getCategories().stream().mapToInt(o->o.getId()).boxed().collect(Collectors.toList()));
 
 		return dto;
 	}
 
 	@Override
-	public List<JobOffererDTOCollectionless> getOffererDTOs(Integer page, Integer size) {
-		List<JobOffererDTOCollectionless> dtos = new ArrayList<JobOffererDTOCollectionless>();
+	public List<JobOffererDTOMin> getOffererDTOs(Integer page, Integer size) {
+		List<JobOffererDTOMin> dtos = new ArrayList<JobOffererDTOMin>();
 
 		offererRepository.findAll().stream().forEach(offerer -> {
-			JobOffererDTOCollectionless offererDTO = new JobOffererDTOCollectionless();
+			JobOffererDTOMin offererDTO = new JobOffererDTOMin();
 
 			offererDTO.setAboutMe(offerer.getAboutMe());
 			offererDTO.setFirstName(offerer.getFirstName());
 			offererDTO.setLastName(offerer.getLastName());
 			offererDTO.setUsername(offerer.getUser().getUsername());
 			offererDTO.setId(offerer.getId());
+			offererDTO.setCategories(offerer.getCategories().stream().mapToInt(o->o.getId()).boxed().collect(Collectors.toList()));
 
 			dtos.add(offererDTO);
 		});
