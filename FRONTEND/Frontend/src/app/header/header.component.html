@@ -1,9 +1,14 @@
 <nav class="navbar navbar-dark bg-dark">
   <div class="container-fluid">
     <div class="vl"></div>
-    <div class="nav navbar-header">
-        <a [routerLink]="['/profile', cookieService.get('ID')]">Profil</a>
+    <div class="nav navbar-header dropdown" ngbDropdown>
+        <!-- <a [routerLink]="['/profile', cookieService.get('ID')]">Profil</a> -->
         <!-- <a class="header-link" (click)="onClick()">Profil</a> -->
+        <a style="cursor: pointer;" class="dropdown-toggle" role="button" ngbDropdownToggle>Profil <span class="caret"></span></a>
+            <ul class="dropdown-menu" ngbDropdownMenu>
+              <li class="dropdown-item"><a style="cursor: pointer;" [routerLink]="['/profile', cookieService.get('ID')]">Kereső</a></li>
+              <li class="dropdown-item"><a style="cursor: pointer;" [routerLink]="['/offerer', cookieService.get('ID')]">Kínáló</a></li>
+            </ul>
     </div>
     <div class="vl"></div>
     <div class="nav navbar-header dropdown" ngbDropdown>

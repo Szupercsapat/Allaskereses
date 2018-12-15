@@ -20,6 +20,7 @@ export class GetProfileService {
   public works: Workplace[] = [];
 
   public getJobSeekerData(data: {}) {
+    console.log(data);
     this.id = data[Object.keys(data)[0]];
     this.username = data[Object.keys(data)[1]];
     this.firstName = data[Object.keys(data)[2]];

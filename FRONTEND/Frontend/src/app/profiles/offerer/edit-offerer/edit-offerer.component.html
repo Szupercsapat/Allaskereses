@@ -1,0 +1,93 @@
+<div class="card center">
+  <div class="card-header">
+    <h1>Kínáló</h1>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+          <div class="row">
+              <div class="col-md-12">
+                  <hr>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="form-group row">
+                      <div class="useravatar offset-4">
+                          <img [src]="imageUrl">
+                          <div class="col-8">
+                            <input
+                              #imageInput
+                              type="file"
+                              accept="image/*"
+                              (change)="processFile(imageInput)"
+                            >
+                          </div>
+                      </div>
+                    </div>
+                  <form (ngSubmit)="onUpdate()" #f="ngForm">
+                    <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
+                          <div class="form-group row">
+                            <label for="firstname" class="col-4 col-form-label">Keresztnév</label>
+                            <div class="col-8">
+                              <input id="firstname" name="firstname" value="this.actualOfferer.firstName" class="form-control here" type="text" ngModel>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="lastname" class="col-4 col-form-label">Vezetéknév</label>
+                            <div class="col-8">
+                              <input id="lastname" name="lastname" value="actualOfferer.lastName" class="form-control here" type="text" ngModel>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="pass" class="col-4 col-form-label">Jelszó</label>
+                            <div class="col-8">
+                              <input id="pass" name="pass" placeholder="Password" class="form-control here" type="password" ngModel>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="newpass" class="col-4 col-form-label">Új jelszó</label>
+                            <div class="col-8">
+                              <input id="newpass" name="newpass" placeholder="New Password" class="form-control here" type="password" ngModel>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <div class="offset-4 col-8">
+                              <button name="submit" type="submit" class="btn btn-primary">Profilom frissítése</button>
+                            </div>
+                          </div>
+                    </div>
+                  </form>
+              </div>
+          </div>
+
+
+      </div>
+      <div class="col">
+        <div class="row">
+          <form (ngSubmit)="onUpdate()" #w="ngForm">
+              <div class="col-md-12"  ngModelGroup="userData" #userData="ngModelGroup">
+                  <label>Rólam</label>
+                  <textarea name="aboutMe" id="aboutMe" cols="30" rows="5"  class="form-control here" placeholder={{actualOfferer.aboutMe}} ngModel></textarea>
+              </div>
+          </form>
+        </div>
+        <div class="nav navbar-header dropdown" ngbDropdown>
+            <a style="cursor: pointer;" class="dropdown-toggle" role="button" ngbDropdownToggle>Kategória <span class="caret"></span></a>
+            <ul class="dropdown-menu" ngbDropdownMenu>
+              <li class="dropdown-item" *ngFor="let category of categories; let i = index">
+                <p (click)="onSelect(i)">{{category.name}}</p>
+                <!-- {{category.name}} -->
+              </li>
+              <!-- <li class="dropdown-item"><a style="cursor: pointer;" >Állásajánlatok</a></li> -->
+            </ul>
+      </div>
+        <p *ngIf="selected == true">{{category.name}}</p>
+        <button class="btn btn-primary" (click)="onDeselect()" *ngIf="selected == true">Törlés</button>
+      </div>
+
+
+    </div>
+  </div>
+  <button class="btn btn-primary" (click)="onBack()">Vissza</button>
+  </div>

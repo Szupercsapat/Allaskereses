@@ -9,6 +9,9 @@ import { SearchProfilesComponent } from './search/search-profiles/search-profile
 import { SearchWorkplacesComponent } from './search/search-workplaces/search-workplaces.component';
 import { EditProfileComponent } from './profiles/edit-profile/edit-profile.component';
 import { JobsComponent } from './jobs/jobs.component';
+import { OffererComponent } from './profiles/offerer/offerer.component';
+import { EditOffererComponent } from './profiles/offerer/edit-offerer/edit-offerer.component';
+import { CreateJobsComponent } from './jobs/create-jobs/create-jobs.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -20,11 +23,15 @@ const appRoutes: Routes = [
     ]*/
   },
   { path: 'profile/:id/edit', component: EditProfileComponent, canActivate: [AuthGuardService] },
+  { path: 'offerer/:id', component: OffererComponent, canActivate: [AuthGuardService] },
+  { path: 'offerer/:id/edit', component: EditOffererComponent, canActivate: [AuthGuardService] },
+  // { path: 'offerer/:id/edit', component: EditProfileComponent, canActivate: [AuthGuardService] },
   // { path: 'profile', component: ProfilesComponent },
   { path: 'search-profiles', component: SearchProfilesComponent, canActivate: [AuthGuardService] },
   { path: 'search-workplaces', component: SearchWorkplacesComponent, canActivate: [AuthGuardService] },
   { path: 'register', component: RegistrationComponent },
-  { path: 'job/upload', component: JobsComponent },
+  { path: 'job/upload', component: CreateJobsComponent, canActivate: [AuthGuardService] },
+  { path: 'job/:id', component: JobsComponent },
   { path: 'logout', redirectTo: '/login', canActivate: [AuthGuardService]}
   /*{
     path: 'servers',

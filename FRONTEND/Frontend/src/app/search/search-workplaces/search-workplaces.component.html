@@ -1,3 +1,30 @@
-<p>
-  search-workplaces works!
-</p>
+<div class="col-md-9">
+  <div class="card">
+      <div class="card-body">
+
+<div class="row">
+  <div class="col-xs-12 col-sm-offset-3 col-sm-6">
+      <div class="panel panel-default">
+          <p>Oldal: {{this.page+1}}/{{this.maxPages}}</p>
+          <ul class="list-group" id="contact-list">
+              <li class="list-group-item" *ngFor="let job of jobs; let i = index;">
+                  <div class="col-xs-12 col-sm-3">
+                      <!-- <img [src]="" [routerLink]="['/profile', IDs[i]]"/> -->
+                      <!-- <img [src]="imageURL[i]" [routerLink]="['/profile', IDs[i]]"/> -->
+                  </div>
+                  <div class="col-xs-12 col-sm-9">
+                      <span> <span [routerLink]="['/offerer', IDs[i]]">{{job.username}}</span><br/></span>
+                      <span> <span>{{job.name}}</span><br/></span>
+                      <span> <span>{{job.description}}</span><br/></span>
+                      <span> <span>{{job.categories[0]}}</span><br/></span>
+                  </div>
+              </li>
+          </ul>
+          <button class="btn btn-primary" (click)="previousPage()" *ngIf="this.page > 0">Előző</button>
+          <button class="btn btn-primary" (click)="nextPage()" *ngIf="this.page < (this.maxPages - 1)">Következő</button>
+      </div>
+  </div>
+</div>
+</div>
+</div>
+</div>

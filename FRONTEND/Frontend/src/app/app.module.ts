@@ -29,7 +29,14 @@ import { LoggedInService } from './shared/loggedin.service';
 import { EditProfileComponent } from './profiles/edit-profile/edit-profile.component';
 import { GetPagedProfilesService } from './search/search-profiles/search-profiles.service';
 import { JobsComponent } from './jobs/jobs.component';
-import { JobsService } from './jobs/jobs.service';
+import { CreateJobsService } from './jobs/create-jobs/create-jobs.service';
+import { OffererComponent } from './profiles/offerer/offerer.component';
+import { GetOffererService } from './profiles/offerer/getOfferer.service';
+import { EditOffererComponent } from './profiles/offerer/edit-offerer/edit-offerer.component';
+import { OffererUpdateService } from './profiles/offerer/edit-offerer/update-offerer.service';
+import { CreateJobsComponent } from './jobs/create-jobs/create-jobs.component';
+import { GetJobService } from './jobs/get-job.service';
+import { GetPagedJobsService } from './search/search-workplaces/search-jobs.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +49,10 @@ import { JobsService } from './jobs/jobs.service';
     EditProfileComponent,
     SearchProfilesComponent,
     SearchWorkplacesComponent,
-    JobsComponent
+    JobsComponent,
+    OffererComponent,
+    EditOffererComponent,
+    CreateJobsComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +67,8 @@ import { JobsService } from './jobs/jobs.service';
     CookieService, SessionService, AuthGuardService,
     ProfileUpdateService, ActualService, GetProfileService,
     ImageService, LoggedInService, GetPagedProfilesService,
-    JobsService
+    CreateJobsService, GetOffererService, OffererUpdateService,
+    GetJobService, GetPagedJobsService
   ],
   bootstrap: [AppComponent]
 })

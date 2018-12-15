@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Job } from '../entity/job.model';
 
 @Injectable()
-export class JobsService {
+export class GetJobService {
 
   constructor(
     private http: Http
