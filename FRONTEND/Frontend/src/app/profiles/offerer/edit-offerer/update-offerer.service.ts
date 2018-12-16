@@ -17,12 +17,6 @@ export class OffererUpdateService {
     return this.http.post('http://localhost:8080/rft/user/changePassword', body, {headers: header});
   }
 
-  getAllCategories() {
-    const url = 'http://localhost:8080/rft/jobCategories';
-
-    return this.http.get(url);
-  }
-
   sendUpdate(offerer: Offerer): Observable<Response> {
     const header = new Headers();
     // header.append('Authorization', 'Basic ' + /*btoa('myclientapp:9999')*/'bXljbGllbnRhcHA6OTk5OQ==');

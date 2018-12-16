@@ -12,7 +12,7 @@ export class ImageService {
   ) {}
 
 
-  public uploadImage(image: File, username: string): Observable<Response> {
+  public uploadImageSeeker(image: File, username: string): Observable<Response> {
     const formData = new FormData();
 
     formData.append('image', image);
@@ -22,5 +22,17 @@ export class ImageService {
     header.append('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
 
     return this.http.post('http://localhost:8080/rft/seeker/uploadProfileImage', formData, {headers: header});
+  }
+
+  public uploadImageOfferer(image: File, username: string): Observable<Response> {
+    const formData = new FormData();
+
+    formData.append('image', image);
+    formData.append('username', username);
+
+    const header = new Headers();
+    header.append('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
+
+    return this.http.post('http://localhost:8080/rft/offerer/uploadProfileImage', formData, {headers: header});
   }
 }

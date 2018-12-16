@@ -38,6 +38,9 @@ export class ProfilesComponent implements OnInit, OnDestroy {
   private paramsSubscription: Subscription;
   private profileSubscription: Subscription;
   private imageSubscription: Subscription;
+  private emailSubscription: Subscription;
+  private schoolSub: Subscription;
+  private workSub: Subscription;
 
   selectedFile: ImageSnippet;
 
@@ -65,30 +68,29 @@ export class ProfilesComponent implements OnInit, OnDestroy {
         }
       );
       this.profileSubscription = this.getProfileService.getProfileSeeker(this.user.id).subscribe(
-      response => {
-        const data = JSON.stringify(response);
-        const obj = JSON.parse(data);
-        const obj2 = obj[Object.keys(obj)[0]];
-        const obj3 = JSON.parse(obj2);
-        this.getProfileService.getJobSeekerData(obj3);
-      },
-      err => { console.log(err); },
-      () => {
-        this.actualProfile = new Profile(
-          this.getProfileService.username,
-          '',
-          this.getProfileService.firstName, this.getProfileService.lastName,
-          this.getProfileService.aboutMe,
-          [], []
-
-        );
-        this.user.username = this.getProfileService.username;
-        this.imageUrl = 'http://localhost:8080/rft/seeker/getProfileImage/username/' + this.user.username;
-        this.CVUrl = 'http://localhost:8080/rft/seeker/getCV/username/' + this.user.username;
-      }
+        response => {
+          const data = JSON.stringify(response);
+          const obj = JSON.parse(data);
+          const obj2 = obj[Object.keys(obj)[0]];
+          const obj3 = JSON.parse(obj2);
+          this.getProfileService.getJobSeekerData(obj3);
+        },
+        err => { console.log(err); },
+        () => {
+          this.actualProfile = new Profile(
+            this.getProfileService.username,
+            '',
+            this.getProfileService.firstName, this.getProfileService.lastName,
+            this.getProfileService.aboutMe,
+            [], []
+          );
+          this.user.username = this.getProfileService.username;
+          this.imageUrl = 'http://localhost:8080/rft/seeker/getProfileImage/username/' + this.user.username;
+          this.CVUrl = 'http://localhost:8080/rft/seeker/getCV/username/' + this.user.username;
+        }
       );
 
-      this.getProfileService.getProfileUser(this.user.id).subscribe(
+      this.emailSubscription = this.getProfileService.getProfileUser(this.user.id).subscribe(
         response => {
           const data = JSON.stringify(response);
           const obj = JSON.parse(data);
@@ -102,7 +104,7 @@ export class ProfilesComponent implements OnInit, OnDestroy {
         }
         );
 
-      this.getProfileService.getProfileSchools(this.user.id).subscribe(
+      this.schoolSub = this.getProfileService.getProfileSchools(this.user.id).subscribe(
         response => {
           const data = JSON.stringify(response);
           const obj = JSON.parse(data);
@@ -113,10 +115,11 @@ export class ProfilesComponent implements OnInit, OnDestroy {
         error => console.log(error),
         () => {
           this.actualProfile.schools = this.getProfileService.schools;
+          this.actualProfile.email = this.getProfileService.email;
         }
       );
 
-      this.getProfileService.getProfileWork(this.user.id).subscribe(
+      this.workSub = this.getProfileService.getProfileWork(this.user.id).subscribe(
         response => {
           const data = JSON.stringify(response);
           const obj = JSON.parse(data);
@@ -127,6 +130,8 @@ export class ProfilesComponent implements OnInit, OnDestroy {
         error => console.log(error),
         () => {
           this.actualProfile.workPlaces = this.getProfileService.works;
+          this.actualProfile.schools = this.getProfileService.schools;
+          this.actualProfile.email = this.getProfileService.email;
         }
       );
   }
@@ -156,6 +161,9 @@ export class ProfilesComponent implements OnInit, OnDestroy {
     this.paramsSubscription.unsubscribe();
     this.profileSubscription.unsubscribe();
     this.imageSubscription.unsubscribe();
+    this.emailSubscription.unsubscribe();
+    this.schoolSub.unsubscribe();
+    this.workSub.unsubscribe();
   }
 
 }

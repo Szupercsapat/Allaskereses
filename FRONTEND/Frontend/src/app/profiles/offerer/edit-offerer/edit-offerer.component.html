@@ -11,7 +11,7 @@
             </div>
     </div>
 
-               <form (ngSubmit)="onUpdate()" #f="ngForm">
+               <form #kereszt="ngForm">
                  <div class="marginbottom  paddingright" id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
                        <div class="form-group row">
                          <label for="firstname" class="col-4 col-form-label">Keresztnév</label>
@@ -19,12 +19,20 @@
                            <input id="firstname" name="firstname" value="this.actualOfferer.firstName" class="form-control here" type="text" ngModel>
                          </div>
                        </div>
+                  </div>
+                </form>
+                <form #vezetek="ngForm">
+                    <div class="marginbottom  paddingright" id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
                        <div class="form-group row">
                          <label for="lastname" class="col-4 col-form-label">Vezetéknév</label>
                          <div class="col-8">
                            <input id="lastname" name="lastname" value="actualOfferer.lastName" class="form-control here" type="text" ngModel>
                          </div>
                        </div>
+                    </div>
+                  </form>
+                <form #jelszo="ngForm">
+                    <div class="marginbottom  paddingright" id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
                        <div class="form-group row">
                          <label for="pass" class="col-4 col-form-label">Jelszó</label>
                          <div class="col-8">
@@ -35,7 +43,7 @@
                          <label for="newpass" class="col-4 col-form-label">Új jelszó</label>
                          <div class="col-8">
                            <input id="newpass" name="newpass" placeholder="New Password" class="form-control here marginbottom" type="password" ngModel>
-                           <button class="btn btn-primary center" style="display:block;">Jelszó változtatás</button>
+                           <button class="btn btn-primary center" style="display:block;" (click)="onChangePassword()">Jelszó változtatás</button>
                          </div>
                        </div>
                  </div>
@@ -43,7 +51,7 @@
 
 
 
-          <form (ngSubmit)="onUpdate()" #w="ngForm">
+          <form #about="ngForm">
               <div  class="marginbottom" ngModelGroup="userData" #userData="ngModelGroup">
                   <label>Rólam</label>
                   <textarea name="aboutMe" id="aboutMe" rows="5"  class="form-control here" placeholder={{actualOfferer.aboutMe}} ngModel></textarea>
@@ -70,10 +78,10 @@
 
 
   </div>
-  <form (ngSubmit)="onUpdate()" #f="ngForm" style="margin:0px;padding:0px;border:0px;">
-      <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
-        <button name="submit" type="submit" class="btn btn-primary" style="width: 800px">Profilom frissítése</button>
+  <!-- <form (ngSubmit)="onUpdate()" #f="ngForm" style="margin:0px;padding:0px;border:0px;"> -->
+      <!-- <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup"> -->
+        <button class="btn btn-primary" style="width: 800px" (click)="onUpdate()">Profilom frissítése</button>
         <button class="btn btn-primary" (click)="onBack()" style="width: 800px">Vissza</button>
-      </div>
-  </form>
+      <!-- </div> -->
+  <!-- </form> -->
   </div>

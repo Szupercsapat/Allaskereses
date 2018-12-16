@@ -14,18 +14,22 @@ export class GetOffererService {
   public email: string;
   public activated: string;
   public id: string;
+  public categories: number[] = [];
 
   public getJobOffererData(data: {}) {
     console.log(data);
-    this.username = data[Object.keys(data)[0]];
+    this.id = data[Object.keys(data)[0]];
 
-    this.firstName = data[Object.keys(data)[1]];
+    this.username = data[Object.keys(data)[1]];
 
-    this.lastName = data[Object.keys(data)[2]];
+    this.firstName = data[Object.keys(data)[2]];
 
-    this.aboutMe = data[Object.keys(data)[3]];
+    this.lastName = data[Object.keys(data)[3]];
 
-    this.id = data[Object.keys(data)[4]];
+    this.aboutMe = data[Object.keys(data)[4]];
+
+    this.categories = data[Object.keys(data)[5]];
+
   }
 
   /*public getWork(data: {asd: [], length: number}) {
@@ -47,7 +51,20 @@ export class GetOffererService {
     this.email = data[Object.keys(data)[3]];
   }
 
-  public getCategoriesData(data: {}) {
+  getAllCategories() {
+    const url = 'http://localhost:8080/rft/jobCategories';
+
+    return this.http.get(url);
+  }
+
+  getCategoryNames(data: number[]) {
+    const length = data.length;
+    let url = 'http://localhost:8080/rft/jobCategories/search/findByIdIn?ids=' + data[0];
+    for (let i = 1; i < length; i++) {
+      url = url + ',' + data[i];
+    }
+    console.log(url);
+    return this.http.get(url);
   }
 
   public getProfileOfferer(id: number): Observable<Response> {

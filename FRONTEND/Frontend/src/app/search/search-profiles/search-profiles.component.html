@@ -1,7 +1,7 @@
-<div class="card center">
+﻿<div class="card center">
 
   <div class="card-body">
-      <p>Oldal: {{this.page+1}}/{{this.maxPages}}</p>
+    <p>Oldal: {{this.page+1}}/{{this.maxPages}}</p>
     <div class="row">
       <div class="center">
           <div class="panel panel-default">
@@ -23,9 +23,9 @@
     </div>
   </div>
 
-  <div class="row keret">
-      <button class="btn btn-primary col-sm-6" (click)="previousPage()" [disabled]="!(this.page > 0)">Előző</button>
-      <button class="btn btn-primary col-sm-6" (click)="nextPage()" [disabled]="!(this.page < (this.maxPages - 1))">Következő</button>
+  <div class="row keret" style="margin:0px;padding:0px;border:0px;">
+      <button class="btn btn-primary col-sm-6" (click)="previousPage()" [disabled]="(this.page == 0)">Előző</button>
+      <button class="btn btn-primary col-sm-6" (click)="nextPage()" [disabled]="(this.page >= (this.maxPages - 1))">Következő</button>
   </div>
 
 </div>

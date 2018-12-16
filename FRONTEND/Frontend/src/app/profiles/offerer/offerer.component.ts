@@ -112,6 +112,8 @@ export class OffererComponent implements OnInit, OnDestroy {
         error => console.log(error),
         () => {
           // this.actualOfferer.workPlaces = this.getOffererService.works;
+          this.actualOfferer.email = this.getOffererService.email;
+
         }
       );
   }

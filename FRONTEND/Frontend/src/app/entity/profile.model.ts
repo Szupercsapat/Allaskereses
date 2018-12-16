@@ -12,15 +12,15 @@ export class Profile {
   public workPlaces: Workplace[];
 
   constructor(
-    name: string, mail: string,
-    first: string, last: string,
+    username: string, email: string,
+    firstname: string, lastname: string,
     about: string, schools: School[],
     workplaces: Workplace[]
   ) {
-    this.username = name;
-    this.email = mail;
-    this.firstName = first;
-    this.lastName = last;
+    this.username = username;
+    this.email = email;
+    this.firstName = firstname;
+    this.lastName = lastname;
     this.aboutMe = about;
     this.schools = schools;
     this.workPlaces = workplaces;

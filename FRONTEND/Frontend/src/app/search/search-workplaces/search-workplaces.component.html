@@ -12,7 +12,7 @@
                       <!-- <img [src]="imageURL[i]" [routerLink]="['/profile', IDs[i]]"/> -->
                   </div>
                   <div class="center">
-                      <span> <span [routerLink]="['/offerer', IDs[i]]">{{job.username}}</span><br/></span>
+                      <span> <span [routerLink]="['/offerer', offererIds[i]]">{{job.username}}</span><br/></span>
                       <span> <span>{{job.name}}</span><br/></span>
                       <span> <span>{{job.description}}</span><br/></span>
                       <span> <span>{{job.categories[0]}}</span><br/></span>
@@ -25,8 +25,8 @@
 </div>
 
 <div class="row" style="margin:0px;padding:0px;border:0px;">
-    <button class="btn btn-primary col-sm-6" (click)="previousPage()" [disabled]="(this.page > 0)">Előző</button>
-    <button class="btn btn-primary col-sm-6" (click)="nextPage()" [disabled]="(this.page < (this.maxPages - 1))">Következő</button>
+    <button class="btn btn-primary col-sm-6" (click)="previousPage()" [disabled]="(this.page == 0)">Előző</button>
+    <button class="btn btn-primary col-sm-6" (click)="nextPage()" [disabled]="this.page >= (this.maxPages - 1)">Következő</button>
 </div>
 
 </div>

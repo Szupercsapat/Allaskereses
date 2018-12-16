@@ -24,6 +24,8 @@ export class SearchWorkplacesComponent implements OnInit, OnDestroy {
 
   public IDs: number[] = [];
 
+  public offererIds: number[] = [];
+
   constructor(
     public getPagedService: GetPagedJobsService,
   ) {}
@@ -57,13 +59,25 @@ export class SearchWorkplacesComponent implements OnInit, OnDestroy {
       () => {
         this.jobs = this.getPagedService.jobs;
         this.IDs = this.getPagedService.IDs;
+        this.offererIds = this.getPagedService.offererIds;
         // console.log(this.IDs);
       }
     );
     this.sub3 = new Subscription();
-    /*this.sub3 = this.getPagedService.getCategoryName(3).subscribe(
-      response => console.log(response)
-    );*/
+    this.sub3 = this.getPagedService.getCategoryName(3).subscribe(
+      response => {
+        console.log(response);
+        const obj = JSON.stringify(response);
+        const obj2 = JSON.parse(obj);
+        // console.log(obj2);
+        const obj3 = JSON.parse(obj2[Object.keys(obj2)[0]]);
+        const obj4 = obj3._embedded;
+        console.log(obj4);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   previousPage() {

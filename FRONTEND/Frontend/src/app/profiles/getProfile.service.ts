@@ -60,6 +60,7 @@ export class GetProfileService {
   }
 
   public getEmail(data: {}) {
+    console.log(data[Object.keys(data)[3]]);
     this.email = data[Object.keys(data)[3]];
   }
 

@@ -18,10 +18,12 @@ import { Workplace } from 'src/app/entity/workplaces.model';
 })
 export class EditProfileComponent implements OnInit, OnDestroy {
 
-  @ViewChild('f') signupForm: NgForm;
-  @ViewChild('s') signupForm2: NgForm;
-  @ViewChild('z') signupForm3: NgForm;
-  @ViewChild('w') signupForm4: NgForm;
+  @ViewChild('vezetek') vezetek: NgForm;
+  @ViewChild('kereszt') kereszt: NgForm;
+  @ViewChild('jelszo') jelszo: NgForm;
+  @ViewChild('about') about: NgForm;
+  @ViewChild('school') school: NgForm;
+  @ViewChild('work') work: NgForm;
 
   // private categories: number[] = [1, 2, 3, 4];
 
@@ -38,12 +40,12 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   };
 
   private imageUrl: string;
-  private CVUrl: string;
 
   private subscription: Subscription;
   private paramsSubscription: Subscription;
   private profileSubscription: Subscription;
   private imageSubscription: Subscription;
+  private passwordSubscription: Subscription;
 
   selectedFile: ImageSnippet;
 
@@ -61,6 +63,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     this.paramsSubscription = new Subscription();
     this.profileSubscription = new Subscription();
     this.imageSubscription = new Subscription();
+    this.passwordSubscription = new Subscription();
     this.user = {
       id: this.route.snapshot.params['id'],
       username: ''
@@ -97,9 +100,9 @@ export class EditProfileComponent implements OnInit, OnDestroy {
           [], []
 
         );
-        this.signupForm.value.userData.firstname = this.getProfileService.firstName;
-        this.signupForm.value.userData.lastname = this.getProfileService.lastName;
-        this.signupForm4.value.userData.aboutMe = this.getProfileService.aboutMe;
+        this.kereszt.value.userData.firstname = this.getProfileService.firstName;
+        this.vezetek.value.userData.lastname = this.getProfileService.lastName;
+        this.about.value.userData.aboutMe = this.getProfileService.aboutMe;
         this.user.username = this.getProfileService.username;
         this.imageUrl = 'http://localhost:8080/rft/seeker/getProfileImage/username/' + this.user.username;
       }
@@ -156,19 +159,22 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   onChangePassword() {
     const body = {
       'username': this.cookieService.get('USERNAME'),
-      'password': this.signupForm.value.userData.pass,
-      'newPassword': this.signupForm.value.userData.newpass
+      'password': this.jelszo.value.userData.pass,
+      'newPassword': this.jelszo.value.userData.newpass
     };
-    this.updateService.sendChangePassword(body);
+    this.passwordSubscription = this.updateService.sendChangePassword(body).subscribe(
+      response => console.log(response),
+      error => console.log(error)
+    );
   }
 
   onUpdate() {
 
-    this.onChangePassword();
+   // this.onChangePassword();
     const profile = new Profile(
-      this.cookieService.get('USERNAME'), this.signupForm.value.userData.email,
-      this.signupForm.value.userData.firstname, this.signupForm.value.userData.lastname,
-      this.signupForm4.value.userData.aboutMe,
+      this.cookieService.get('USERNAME'), '',
+      this.kereszt.value.userData.firstname, this.vezetek.value.userData.lastname,
+      this.about.value.userData.aboutMe,
       this.actualProfile.schools, this.actualProfile.workPlaces
     );
     this.subscription = this.updateService.sendUpdate(profile).subscribe(
@@ -181,12 +187,12 @@ export class EditProfileComponent implements OnInit, OnDestroy {
 
   onAddSchool() {
       this.actualProfile.schools.push(new School(
-        this.signupForm2.value.userData.schoolFromYear,
-        this.signupForm2.value.userData.schoolToYear,
-        this.signupForm2.value.userData.schoolName
+        this.school.value.userData.schoolFromYear,
+        this.school.value.userData.schoolToYear,
+        this.school.value.userData.schoolName
       ));
-      console.log(this.signupForm2.value.userData.schoolFromYear);
-      console.log(this.signupForm2.value.userData.schoolName);
+      console.log(this.school.value.userData.schoolFromYear);
+      console.log(this.school.value.userData.schoolName);
   }
 
   onDeleteSchool(index: number) {
@@ -195,9 +201,9 @@ export class EditProfileComponent implements OnInit, OnDestroy {
 
   onAddWork() {
     this.actualProfile.workPlaces.push(new Workplace(
-      this.signupForm3.value.userData.workFromYear,
-      this.signupForm3.value.userData.workToYear,
-      this.signupForm3.value.userData.workName
+      this.work.value.userData.workFromYear,
+      this.work.value.userData.workToYear,
+      this.work.value.userData.workName
     ));
   }
 
@@ -222,7 +228,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
 
     this.selectedFile = new ImageSnippet(event.target.result, file);
 
-     this.imageSubscription = this.imageService.uploadImage(this.selectedFile.file, this.user.username).subscribe(
+     this.imageSubscription = this.imageService.uploadImageSeeker(this.selectedFile.file, this.user.username).subscribe(
         (res) => {
           console.log(res);
           // window.location.reload();
@@ -240,5 +246,6 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     this.paramsSubscription.unsubscribe();
     this.profileSubscription.unsubscribe();
     this.imageSubscription.unsubscribe();
+    this.paramsSubscription.unsubscribe();
   }
 }

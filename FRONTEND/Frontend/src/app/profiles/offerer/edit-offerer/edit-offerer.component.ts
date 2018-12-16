@@ -17,10 +17,10 @@ import { Category } from 'src/app/entity/category.model';
 })
 export class EditOffererComponent implements OnInit, OnDestroy {
 
-  @ViewChild('f') signupForm: NgForm;
-  @ViewChild('s') signupForm2: NgForm;
-  @ViewChild('z') signupForm3: NgForm;
-  @ViewChild('w') signupForm4: NgForm;
+  @ViewChild('kereszt') kereszt: NgForm;
+  @ViewChild('vezetek') vezetek: NgForm;
+  @ViewChild('jelszo') jelszo: NgForm;
+  @ViewChild('about') about: NgForm;
 
   // private categories: number[] = [1, 2, 3, 4];
 
@@ -46,6 +46,7 @@ export class EditOffererComponent implements OnInit, OnDestroy {
 
   private categories: Category[] = [];
   private category: Category;
+  private selectedCategory: number[] = [];
   private selected = false;
 
   selectedFile: ImageSnippet;
@@ -101,11 +102,12 @@ export class EditOffererComponent implements OnInit, OnDestroy {
           this.getOffererService.aboutMe,
           []
         );
-        this.signupForm.value.userData.firstname = this.getOffererService.firstName;
-        this.signupForm.value.userData.lastname = this.getOffererService.lastName;
-        this.signupForm4.value.userData.aboutMe = this.getOffererService.aboutMe;
-
-
+        this.kereszt.value.userData.firstname = this.getOffererService.firstName;
+        this.vezetek.value.userData.lastname = this.getOffererService.lastName;
+        this.about.value.userData.aboutMe = this.getOffererService.aboutMe;
+        this.selectedCategory = this.getOffererService.categories;
+        console.log(this.selectedCategory);
+        console.log(this.category);
         this.user.username = this.getOffererService.username;
         this.imageUrl = 'http://localhost:8080/rft/offerer/getProfileImage/username/' + this.user.username;
       }
@@ -139,7 +141,7 @@ export class EditOffererComponent implements OnInit, OnDestroy {
         }
       );
 
-      this.sub = this.updateService.getAllCategories().subscribe(
+      this.sub = this.getOffererService.getAllCategories().subscribe(
         response => {
           this.categories = [];
           console.log(response);
@@ -162,7 +164,7 @@ export class EditOffererComponent implements OnInit, OnDestroy {
             if (category.parentid != null) {
               this.categories.push(category);
             }
-            console.log(obj5[Object.keys(obj5)[i]]);
+            // console.log(obj5[Object.keys(obj5)[i]]);
           }
         },
         error => console.log(error)
@@ -170,15 +172,15 @@ export class EditOffererComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this.modify = !this.modify;
+   // this.modify = !this.modify;
     this.router.navigate(['offerer/' + this.user.id]);
   }
 
   onChangePassword() {
     const body = {
       'username': this.cookieService.get('USERNAME'),
-      'password': this.signupForm.value.userData.pass,
-      'newPassword': this.signupForm.value.userData.newpass
+      'password': this.jelszo.value.userData.pass,
+      'newPassword': this.jelszo.value.userData.newpass
     };
     this.passwordSub = this.updateService.sendChangePassword(body).subscribe(
       response => console.log(response),
@@ -199,13 +201,22 @@ export class EditOffererComponent implements OnInit, OnDestroy {
 
   onUpdate() {
 
-    this.onChangePassword();
-    const offerer = new Offerer(
-      this.cookieService.get('USERNAME'), this.signupForm.value.userData.email,
-      this.signupForm.value.userData.firstname, this.signupForm.value.userData.lastname,
-      this.signupForm4.value.userData.aboutMe, [+this.category.id, +this.category.parentid]
+   // this.onChangePassword();
+   let offerer: Offerer;
+   if (this.category == null || this.category === undefined) {
+    offerer = new Offerer(
+      this.cookieService.get('USERNAME'), '',
+      this.kereszt.value.userData.firstname, this.vezetek.value.userData.lastname,
+      this.about.value.userData.aboutMe, []
     );
-    console.log('kurva firstname: ' + this.signupForm.value.userData.firstname);
+   } else {
+      offerer = new Offerer(
+        this.cookieService.get('USERNAME'), '',
+        this.kereszt.value.userData.firstname, this.vezetek.value.userData.lastname,
+        this.about.value.userData.aboutMe, [+this.selectedCategory[0], +this.selectedCategory[1]]
+      );
+   }
+
     this.subscription = this.updateService.sendUpdate(offerer).subscribe(
       response => console.log(response),
       error => console.log(error)
@@ -231,7 +242,7 @@ export class EditOffererComponent implements OnInit, OnDestroy {
 
     this.selectedFile = new ImageSnippet(event.target.result, file);
 
-     this.imageSubscription = this.imageService.uploadImage(this.selectedFile.file, this.user.username).subscribe(
+     this.imageSubscription = this.imageService.uploadImageOfferer(this.selectedFile.file, this.user.username).subscribe(
         (res) => {
           console.log(res);
           // window.location.reload();
