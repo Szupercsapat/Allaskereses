@@ -25,7 +25,7 @@ export class EditOffererComponent implements OnInit, OnDestroy {
   // private categories: number[] = [1, 2, 3, 4];
 
   private actualOfferer:  Offerer = new Offerer ('Nevem', 'Email', 'Kereszt', 'Vezeték',
-    'fjfghghjtfrjfrtjfrtjgfjfgjtrjtrjgfjfgjfjtrj', []
+    'Mondjon el valamit magáról!', []
   );
 
   private modify = false;

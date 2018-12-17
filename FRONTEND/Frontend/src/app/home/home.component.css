@@ -1,0 +1,32 @@
+.card {
+  background-color: rgba(0,0,0,0.75);
+  color: white;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 90%;
+}
+
+.card-header h1{
+  font-variant:small-caps;
+  color: white;
+  font-weight:bold;
+  text-align: center;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.paddingright{
+  padding-right: 5em;
+  padding-left: 5em;
+  }
+
+.marginleft{
+  margin-left: 7%;
+  }
+
+h5{
+  margin-bottom: 3%;
+}

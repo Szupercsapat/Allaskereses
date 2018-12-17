@@ -62,7 +62,7 @@
 
                 <form (ngSubmit)="onUpdate()" #school="ngForm" class="row" >
                 <ul class="col-sm-6">
-                    <li *ngFor="let school of actualProfile.schools; let i = index" style="margin-bottom: 1em; margin-left: 1em;">{{school.name}} {{school.fromYear}} - {{school.toYear}}
+                    <li *ngFor="let school of actualProfile.schools; let i = index" style="margin-bottom: 1em; margin-left: 2em;">{{school.name}} {{school.fromYear}} - {{school.toYear}}
                       <button class="btn btn-primary" (click)='onDeleteSchool(i)' style="float: right;display:block;">Törlés</button>
                     </li>
                 </ul>
@@ -73,7 +73,7 @@
                           <input name="schoolFromYear" id="schoolFromYear" type="number" class="form-control here" ngModel>
                           <label for="">Végzés éve</label>
                           <input name="schoolToYear" id="schoolToYear" type="number" class="form-control here" ngModel>
-                          <button class="btn btn-primary center" (click)="onAddSchool()" style="display:block;">Add</button>
+                          <button class="btn btn-primary center" (click)="onAddSchool()" style="display:block;margin-top: 1em;">Add</button>
                         </div>
                   </form>
             </div>
@@ -84,7 +84,7 @@
                 <label style="margin-bottom: 1em;">Munkahelyek:</label>
                 <div class="row">
                 <ul class="col-sm-6">
-                    <li *ngFor="let work of actualProfile.workPlaces; let j = index" style="margin-bottom: 1em; margin-left: 1em;">{{work.name}} {{work.fromYear}} - {{work.toYear}}
+                    <li *ngFor="let work of actualProfile.workPlaces; let j = index" style="margin-bottom: 1em; margin-left: 2em;">{{work.name}} {{work.fromYear}} - {{work.toYear}}
                       <button class="btn btn-primary" (click)='onDeleteWork(j)' style="display:block; float: right;">Törlés</button>
                     </li>
                   </ul>
@@ -97,7 +97,7 @@
                           <label for="">Végzés éve</label>
                           <input name="workToYear" id="workToYear" type="number" class="form-control here" ngModel>
                       </div>
-                      <button class="btn btn-primary center" (click)="onAddWork()" style="display:block;">Add</button>
+                      <button class="btn btn-primary center" (click)="onAddWork()" style="display:block;margin-top: 1em;">Add</button>
                   </form>
                 </div>
 

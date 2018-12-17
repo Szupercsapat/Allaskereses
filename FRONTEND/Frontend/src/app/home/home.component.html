@@ -1,3 +1,29 @@
-<p>
-  home works!
-</p>
+<div class="card center">
+    <div class="card-header">
+      <h1>Üdvözlünk álláskereső, munkaadó!</h1>
+    </div>
+    <div class="card-body paddingright">
+      <h5>Akár munkavállalóként, vagy munkaadó szerepében kerested fel ezt az oldalt, jó helyen jársz!</h5>
+      <p>Készítsd el profilod abban a szerepkörben amit szánsz magadnak, illetve, ha hírdetőként és keresőként is el tudod magad képzelni,
+        akkor töltsd ki mind két profilod adatait, ezután pedig el is kezdhetsz böngészni az állások és áláskeresők között!
+      </p>
+      <h5>Ízelítőül néhány kategória amikkel találkozhatsz a hírdetésekben:</h5>
+      <div class="row marginleft">
+        <ul  class="col-sm-4">
+            <li  *ngFor="let category of categoriesf; let i = index">
+                <p>{{category.name}}</p>
+            </li>
+        </ul>
+        <ul  class="col-sm-4">
+            <li  *ngFor="let category of categoriesm; let i = index">
+                <p>{{category.name}}</p>
+            </li>
+        </ul>
+        <ul  class="col-sm-4">
+            <li  *ngFor="let category of categoriesl; let i = index">
+                <p>{{category.name}}</p>
+            </li>
+        </ul>
+      </div>
+    </div>
+</div>

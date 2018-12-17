@@ -37,6 +37,7 @@ import { OffererUpdateService } from './profiles/offerer/edit-offerer/update-off
 import { CreateJobsComponent } from './jobs/create-jobs/create-jobs.component';
 import { GetJobService } from './jobs/get-job.service';
 import { GetPagedJobsService } from './search/search-workplaces/search-jobs.service';
+import { HomeService } from './home/home.service';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,7 @@ import { GetPagedJobsService } from './search/search-workplaces/search-jobs.serv
     ProfileUpdateService, ActualService, GetProfileService,
     ImageService, LoggedInService, GetPagedProfilesService,
     CreateJobsService, GetOffererService, OffererUpdateService,
-    GetJobService, GetPagedJobsService
+    GetJobService, GetPagedJobsService, HomeService
   ],
   bootstrap: [AppComponent]
 })
