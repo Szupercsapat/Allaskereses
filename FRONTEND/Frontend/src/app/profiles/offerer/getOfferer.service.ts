@@ -32,20 +32,6 @@ export class GetOffererService {
 
   }
 
-  /*public getWork(data: {asd: [], length: number}) {
-    this.works.splice(0, this.works.length);
-    console.log(data);
-    const length = data.length;
-    for (let i = 0; i < length; i++) {
-      const name = data[Object.keys(data)[i]].name;
-      console.log(name);
-      const toYear = data[Object.keys(data)[i]].toYear;
-      console.log(toYear);
-      const fromYear = data[Object.keys(data)[i]].fromYear;
-      console.log(fromYear);
-      this.works.push(new School(fromYear, toYear, name));
-   }
-  }*/
 
   public getEmail(data: {}) {
     this.email = data[Object.keys(data)[3]];

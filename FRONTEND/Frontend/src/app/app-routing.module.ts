@@ -17,34 +17,16 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
-  { path: 'profile/:id', component: ProfilesComponent, canActivate: [AuthGuardService]/*,
-    children: [
-      { path: 'edit', component: EditProfileComponent }
-    ]*/
-  },
+  { path: 'profile/:id', component: ProfilesComponent, canActivate: [AuthGuardService] },
   { path: 'profile/:id/edit', component: EditProfileComponent, canActivate: [AuthGuardService] },
   { path: 'offerer/:id', component: OffererComponent, canActivate: [AuthGuardService] },
   { path: 'offerer/:id/edit', component: EditOffererComponent, canActivate: [AuthGuardService] },
-  // { path: 'offerer/:id/edit', component: EditProfileComponent, canActivate: [AuthGuardService] },
-  // { path: 'profile', component: ProfilesComponent },
   { path: 'search-profiles', component: SearchProfilesComponent, canActivate: [AuthGuardService] },
   { path: 'search-workplaces', component: SearchWorkplacesComponent, canActivate: [AuthGuardService] },
   { path: 'register', component: RegistrationComponent },
   { path: 'job/upload', component: CreateJobsComponent, canActivate: [AuthGuardService] },
   { path: 'job/:id', component: JobsComponent },
   { path: 'logout', redirectTo: '/login', canActivate: [AuthGuardService]}
-  /*{
-    path: 'servers',
-    //canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
-    component: ServersComponent,
-    children: [
-    { path: ':id', component: ServerComponent, resolve: {server: ServerResolver} },
-    { path: ':id/edit', component: EditServerComponent, canDeactivate: [CanDeactivateGuard] }
-  ] },
-  //{ path: 'not-found', component: PageNotFoundComponent },
-  { path: 'not-found', component: ErrorPageComponent, data: {message: 'Page not found!'} },
-  { path: '**', redirectTo: '/not-found'}*/
 ];
 
 @NgModule({

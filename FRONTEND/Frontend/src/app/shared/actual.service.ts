@@ -12,7 +12,7 @@ export class ActualService {
   public setActual(username: string, id: number) {
     this.username = username;
     this.id = id.toString();
-    console.log('ezakurvasdfhdf: ' + this.id);
+    console.log(this.id);
   }
 
   public getID(): string {

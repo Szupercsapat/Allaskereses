@@ -45,16 +45,4 @@ export class JobsComponent implements OnInit {
       );
   }
 
-  /*onUpload() {
-    const job = new Job(
-      this.cookieService.get('USERNAME'),
-      this.signupForm.value.userData.name,
-      this.signupForm.value.userData.desc
-    );
-    this.sub = this.jobService.sendUpload(job).subscribe(
-      response => { console.log(response); },
-      error => { console.log(error); }
-    );
-  }*/
-
 }

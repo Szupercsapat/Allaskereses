@@ -3,7 +3,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
-// import { GetProfileService } from '../profiles/getProfile.service';
 
 @Injectable()
 export class SessionService {
@@ -14,8 +13,7 @@ export class SessionService {
   public sub: Subscription;
   constructor(
     private cookieService: CookieService,
-    private http: Http,
-   // private getProfileService: GetProfileService
+    private http: Http
   ) {}
 
   refreshSession(): Observable<Response> {
@@ -43,36 +41,7 @@ export class SessionService {
       return false;
     }
     console.log('van auth');
-    // const subscription = new Subscription();
-     /*  this.sub = this.refreshSession().subscribe(
-        response  => {
-          const data = JSON.stringify(response);
-          const object = JSON.parse(data);
-          // console.log(object);
-          const object2 = object[Object.keys(object)[0]];
-          // console.log(object2);
-          const object3 = JSON.parse(object2);
-          // console.log(object3);
-          const access_token = object3[Object.keys(object3)[0]];
-          const refresh_token = object3[Object.keys(object3)[2]];
-          this.cookieService.delete('access_token');
-          this.cookieService.delete('refresh_token');
 
-          this.cookieService.delete('access_token');
-          this.cookieService.delete('refresh_token');
-
-          this.cookieService.delete('access_token');
-          this.cookieService.delete('refresh_token');
-          //this.cookieService.deleteAll();
-          this.cookieService.set('refresh_token', refresh_token);
-          const expire = object3[Object.keys(object3)[3]];
-          this.cookieService.set('access_token', access_token, expire);
-          // this.getProfileService.getProfileSeeker();
-        },
-        err => { console.log(err); },
-        () => {  this.sub.unsubscribe(); }
-      ); */
-      // this.sub.unsubscribe();
     return true;
   }
 }
